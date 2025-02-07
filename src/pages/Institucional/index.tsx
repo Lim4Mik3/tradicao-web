@@ -1,17 +1,25 @@
+import Diretor1 from '@/assets/Diretores/diretor1.jpg';
+import Diretor2 from '@/assets/Diretores/diretor2.jpg';
+import Diretor3 from '@/assets/Diretores/diretor3.jpg';
+import Diretor4 from '@/assets/Diretores/diretor4.png';
+import Diretor5 from '@/assets/Diretores/diretor5.jpg';
+import Diretor6 from '@/assets/Diretores/diretor6.jpg';
 import Banner from '@/assets/Institucional/BannerInstitucional.jpg';
+import { Carousel } from '@/components/Carousel';
+import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { AppLayout } from '@/Layouts/app';
 
 export function InstitucionalPage() {
   return (
     <AppLayout>
-      <section className='max-w-[1200px] gap-24 m-auto justify-center flex items-center flex-col'>
+      <section className='max-w-[1200px] p-6 md:p-0 gap-24 m-auto justify-center flex items-center flex-col'>
         <div className='flex w-full flex-col items-start mt-24 justify-start '>
-          <h1 className='font-bold text-[#313131] text-start text-7xl'>Facilitando o seu dia!</h1>
+          <h1 className='font-bold text-[#313131] text-4xl text-start md:text-7xl'>Facilitando o teu dia!</h1>
         </div>
 
         <div className='flex w-full'>
-          <img src={Banner} alt="logo" className=' object-top w-full' />
+          <img src={Banner} alt="logo" className='object-top w-full' />
         </div>
         <div className='flex flex-col gap-6'>
           <h2 className='font-bold text-start text-7xl text-[#B00000]'>A Rede Tradição</h2>
@@ -30,21 +38,67 @@ export function InstitucionalPage() {
           </p>
           <Separator />
         </div>
-        <div className='flex gap-24 mb-24'>
+        <div className='flex flex-col md:flex-row gap-24 mb-24'>
+          <div className='flex flex-col items-center gap-2'>
+            <span className='uppercase font-light text-[#979797] text-[64px] leading-[89px]'>Anos</span>
+            <span className='font-normal text-7xl'>7</span>
+          </div>
           <div className='flex flex-col items-center gap-2'>
             <span className='uppercase font-light text-[#979797] text-[64px] leading-[89px]'>Postos</span>
             <span className='font-normal text-7xl'>70+</span>
-          </div>
-          <div className='flex flex-col items-center gap-2'>
-            <span className='uppercase font-light text-[#979797] text-[64px] leading-[89px]'>Anos</span>
-            <span className='font-normal text-7xl'>7+</span>
           </div>
           <div className='flex flex-col items-center gap-2'>
             <span className='uppercase font-light text-[#979797] text-[64px] leading-[89px]'>Clientes</span>
             <span className='font-normal text-7xl'>200mil+</span>
           </div>
         </div>
+
       </section>
+      <Carousel className='w-[1200px] m-auto p-6 md:p-0 mb-20' infinite dots speed={1500} slidesToShow={4} slidesToScroll={1} autoplay >
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
+            <img src={Diretor1} alt="logo" className='h-[400px] w-[400px]' />
+            <span className='text-2xl'>Elui Seiffert</span>
+            <span>Diretor de Expansão</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
+            <img src={Diretor2} alt="logo" className='h-[400px] w-[400px]' />
+            <span className='text-2xl'>claudia</span>
+            <span>Diretor de Expansão</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
+            <img src={Diretor3} alt="logo" className='h-[400px] w-[400px]' />
+            <span className='text-2xl'>milena</span>
+            <span>Diretor de Expansão</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
+            <img src={Diretor4} alt="logo" className='h-[400px] w-[400px]' />
+            <span className='text-2xl'>marcio</span>
+            <span>Diretor de Expansão</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
+            <img src={Diretor5} alt="logo" className='h-[400px] w-[400px]' />
+            <span className='text-2xl'>fabio</span>
+            <span>Diretor de Expansão</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
+            <img src={Diretor6} alt="logo" className='h-[400px] w-[400px]' />
+            <span className='text-2xl'>matheus</span>
+            <span>Diretor de Expansão</span>
+          </Card>
+        </div>
+
+      </Carousel>
     </AppLayout>
   );
 }

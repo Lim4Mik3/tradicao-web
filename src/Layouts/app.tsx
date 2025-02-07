@@ -9,7 +9,7 @@ type Props = {
 
 export function AppLayout({ children, className }: Props) {
   return (
-    <main className={cn("antialiased snap-none h-screen", className)}>
+    <main className={cn(" antialiased snap-none h-screen", className)}>
       <Header />
       {children}
       <Footer />

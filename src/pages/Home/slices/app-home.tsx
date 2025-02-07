@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 
 export function AppHomeSection() {
   return (
-    <section className="flex h-[860px] items-center justify-center gap-[80px]">
-      <div className='flex flex-col max-w-[500px] gap-3'>
+    <section className="flex p-6 md:p-0 flex-col md:flex-row md:h-[860px] items-center justify-center gap-[80px]">
+      <div className='flex flex-col md:max-w-[500px] gap-3'>
         <div className='bg-[#C1C1C166]/40 rounded-full py-[6px] px-[38px] '>
           <p className='uppercase text-sm text-black font-bold'>Aplicativo rede tradição</p>
         </div>

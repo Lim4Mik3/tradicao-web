@@ -5,7 +5,7 @@ import { Separator } from '../ui/separator';
 
 export function Header() {
   return (
-    <header className="flex bg-white flex-col z-40 w-full items-center justify-center">
+    <header className="flex  bg-white flex-col z-40 w-full items-center justify-center">
       <div className="flex h-24 max-w-[1200px] items-center justify-between gap-[480px]">
         <div className="flex">
           <img src={LogoPosto} alt="logo" width={200} height={50} />

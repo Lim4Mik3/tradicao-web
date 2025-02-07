@@ -1,3 +1,4 @@
+import { Maps } from '@/components/Maps';
 import { AppLayout } from '@/Layouts/app';
 import { AppHomeSection } from './slices/app-home';
 import { BannerHomeSection } from './slices/banner-home';
@@ -11,6 +12,7 @@ export function HomePage() {
     <AppLayout>
       <BannerHomeSection />
       <MultipleItems />
+      <Maps />
       <ParceirosHomeSection />
       <AppHomeSection />
       <TrajetoriaHomeSection />

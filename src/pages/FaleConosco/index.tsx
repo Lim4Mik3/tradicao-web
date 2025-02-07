@@ -7,16 +7,16 @@ import { Mail, MapPin, PhoneCall } from "lucide-react";
 export function FaleConoscoPage() {
   return (
     <AppLayout className="bg-white">
-      <section className='max-w-[1200px]  gap-24 m-auto justify-center flex items-center flex-col'>
+      <section className='max-w-[1200px] p-6 md:p-0 gap-24 m-auto justify-center flex items-center flex-col'>
         <div className="flex flex-col gap-4 w-full items-center mt-24">
-          <h1 className="font-bold text-black text-6xl">Contate nosso time</h1>
+          <h1 className="font-bold text-black text-center md:text-start text-6xl">Contate nosso time</h1>
           <p className="text-xl text-gray-800 text-center">
             Deixe-nos ajudar você com qualquer necessidade.
           </p>
           <Separator />
         </div>
 
-        <div className="flex gap-[170px] mb-[230px]">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-[170px] mb-[230px]">
           <Card className="border border-gray-300 w-[284px] h-[300px] p-6 flex flex-col gap-20">
             <Mail color="black" size={32} />
             <h2 className="text-black">Mande um e-mail</h2>
