@@ -4,7 +4,6 @@ import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MakeLogin } from "@/services/MakeLogin";
 
 const schema = z.object({
   email: z.string().email("E-mail inválido").nonempty("O E-mail é obrigatório")
@@ -18,9 +17,9 @@ export function Login() {
     resolver: zodResolver(schema)
   });
 
-  const handleLogin = async (params: LoginFormValues) => {
+  const handleLogin = async () => {
     try {
-      const result = await MakeLogin({ email: params.email });
+      // const result = await MakeLogin({ email: params.email });
       
     } catch (error) {
       

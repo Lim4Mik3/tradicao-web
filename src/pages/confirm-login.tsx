@@ -3,7 +3,6 @@ import { RootLayout } from "../Layouts/root";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MakeLogin } from "@/services/MakeLogin";
 import { OTPInput } from "input-otp";
 import { Slot } from "@/components/Slot";
 import { FakeDash } from "@/components/FakeDash";
@@ -15,11 +14,11 @@ const schema = z.object({
 type LoginFormValues = z.infer<typeof schema>;
 
 export function ConfirmLogin() {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
+  const { handleSubmit } = useForm<LoginFormValues>({
     resolver: zodResolver(schema)
   });
 
-  const handleLogin = async (params: LoginFormValues) => {
+  const handleLogin = async () => {
   }
 
   return (
