@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BlogPage } from "./pages/Blog";
 import { ConfirmLogin } from "./pages/confirm-login";
 import { FaleConoscoPage } from "./pages/FaleConosco";
 import { HomePage } from "./pages/Home";
@@ -17,9 +18,10 @@ export function router() {
 
           <Route path="*" Component={NotFound} />
 
-          <Route path="institucional" element={<InstitucionalPage />} />
-          <Route path="fale-conosco" element={<FaleConoscoPage />} />
-          <Route path="" element={<HomePage />} />
+          <Route path="/institucional" element={<InstitucionalPage />} />
+          <Route path="/fale-conosco" element={<FaleConoscoPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/blog" element={<BlogPage />} />
 
 
         </Routes>

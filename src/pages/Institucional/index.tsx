@@ -1,9 +1,9 @@
-import Diretor1 from '@/assets/Diretores/diretor1.jpg';
-import Diretor2 from '@/assets/Diretores/diretor2.jpg';
-import Diretor3 from '@/assets/Diretores/diretor3.jpg';
-import Diretor4 from '@/assets/Diretores/diretor4.png';
-import Diretor5 from '@/assets/Diretores/diretor5.jpg';
-import Diretor6 from '@/assets/Diretores/diretor6.jpg';
+import Claudia from '@/assets/Diretores/Claudia.png';
+import Eluir from '@/assets/Diretores/Eluir.png';
+import Fabio from '@/assets/Diretores/Fabio.png';
+import Marcio from '@/assets/Diretores/Marcio.png';
+import Matheus from '@/assets/Diretores/Matheus.png';
+import Milena from '@/assets/Diretores/Milena.png';
 import Banner from '@/assets/Institucional/BannerInstitucional.jpg';
 import { Carousel } from '@/components/Carousel';
 import { Card } from '@/components/ui/card';
@@ -56,48 +56,47 @@ export function InstitucionalPage() {
       </section>
       <Carousel className='w-[1200px] m-auto p-6 md:p-0 mb-20' infinite dots speed={1500} slidesToShow={4} slidesToScroll={1} autoplay >
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
-            <img src={Diretor1} alt="logo" className='h-[400px] w-[400px]' />
-            <span className='text-2xl'>Elui Seiffert</span>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Marcio} alt="logo" />
+            <span className='text-lg'>Marcio Andre Pagnussat</span>
+            <span>CEO</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Eluir} alt="logo" />
+            <span className='text-lg'>Elui Seiffert</span>
             <span>Diretor de Expansão</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
-            <img src={Diretor2} alt="logo" className='h-[400px] w-[400px]' />
-            <span className='text-2xl'>claudia</span>
-            <span>Diretor de Expansão</span>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Claudia} alt="logo" />
+            <span className='text-lg'>Cláudia Pereto Pagnussat</span>
+            <span> Diretora Administrativa</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
-            <img src={Diretor3} alt="logo" className='h-[400px] w-[400px]' />
-            <span className='text-2xl'>milena</span>
-            <span>Diretor de Expansão</span>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Milena} alt="logo" />
+            <span className='text-lg'>Milena Pereto Pagnussat</span>
+            <span>Diretora Administrativa</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
-            <img src={Diretor4} alt="logo" className='h-[400px] w-[400px]' />
-            <span className='text-2xl'>marcio</span>
-            <span>Diretor de Expansão</span>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Fabio} alt="logo" />
+            <span className='text-lg'>Fábio Remedi Trindade</span>
+            <span>Diretor Operacional</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
-            <img src={Diretor5} alt="logo" className='h-[400px] w-[400px]' />
-            <span className='text-2xl'>fabio</span>
-            <span>Diretor de Expansão</span>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Matheus} alt="logo" />
+            <span className='text-lg'>Matheus Brugnera</span>
+            <span>Diretor Comercial</span>
           </Card>
         </div>
-        <div>
-          <Card className="border items-center border-gray-300 w-[284px] h-[450px] p-6 flex flex-col">
-            <img src={Diretor6} alt="logo" className='h-[400px] w-[400px]' />
-            <span className='text-2xl'>matheus</span>
-            <span>Diretor de Expansão</span>
-          </Card>
-        </div>
-
       </Carousel>
     </AppLayout>
   );
