@@ -1,4 +1,4 @@
-
+import AMPM from '@/assets/Logos-Parceiros/AmPm.png';
 import Ipiranga from '@/assets/Logos-Parceiros/Ipiranga.png';
 import IpirangaJetOil from '@/assets/Logos-Parceiros/Ipiranga_JetOil.png';
 import RodOil from '@/assets/Logos-Parceiros/RodOil.png';
@@ -17,7 +17,10 @@ export function ParceirosHomeSection() {
         </div>
       </section>
 
-      <Carousel className='w-[1200px] m-auto mb-20' infinite responsive={[{ breakpoint: 780, settings: { slidesToShow: 1 } }]} speed={1500} cssEase='linear' slidesToShow={4} slidesToScroll={1} autoplay autoplaySpeed={2000}>
+      <Carousel className='md:max-w-[1200px] max-w-[320px] m-auto mb-20' infinite responsive={[{ breakpoint: 780, settings: { slidesToShow: 1 } }]} speed={1500} cssEase='linear' slidesToShow={4} slidesToScroll={1} autoplay autoplaySpeed={2000}>
+        <div>
+          <img src={AMPM} alt="AMPM" width={120} height={120} />
+        </div>
         <div>
           <img src={brMania} alt="brMania" width={120} height={120} />
         </div>

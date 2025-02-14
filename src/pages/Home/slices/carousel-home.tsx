@@ -7,18 +7,18 @@ import { Carousel } from '@/components/Carousel';
 function MultipleItems() {
 
   return (
-    <Carousel className='w-[1200px] m-auto mt-14 flex gap-3 mb-20' dots infinite speed={500} slidesToShow={2} slidesToScroll={1} autoplay>
+    <Carousel className='md:max-w-[1200px] max-w-[320px] m-auto mt-14 flex gap-3 mb-20' dots infinite speed={500} slidesToShow={2} responsive={[{ breakpoint: 768, settings: { slidesToShow: 1, slidesToScroll: 1, } }]} slidesToScroll={1} autoplay>
       <div>
-        <img className='rounded-4xl w-[550px] h-[300px]' src={Banner1} alt="Banner 1" />
+        <img className='rounded-4xl md:w-[550px] md:h-[300px]' src={Banner1} alt="Banner 1" />
       </div>
       <div>
-        <img className='rounded-4xl w-[550px] h-[300px]' src={Banner2} alt="Banner 2" />
+        <img className='rounded-4xl md:w-[550px] md:h-[300px]' src={Banner2} alt="Banner 2" />
       </div>
       <div>
-        <img className='rounded-4xl w-[550px] h-[300px]' src={Banner3} alt="Banner 3" />
+        <img className='rounded-4xl md:w-[550px] md:h-[300px]' src={Banner3} alt="Banner 3" />
       </div>
       <div>
-        <img className='rounded-4xl w-[550px] h-[300px]' src={Banner4} alt="Banner 4" />
+        <img className='rounded-4xl md:w-[550px] md:h-[300px]' src={Banner4} alt="Banner 4" />
       </div>
 
     </Carousel>

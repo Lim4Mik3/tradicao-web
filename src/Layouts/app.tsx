@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import MobileMenu from "@/components/Header/Mobile";
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
@@ -9,8 +10,9 @@ type Props = {
 
 export function AppLayout({ children, className }: Props) {
   return (
-    <main className={cn(" antialiased snap-none h-screen", className)}>
+    <main className={cn(" antialiased h-screen", className)}>
       <Header />
+      <MobileMenu />
       {children}
       <Footer />
     </main>
