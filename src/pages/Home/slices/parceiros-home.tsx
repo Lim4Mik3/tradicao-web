@@ -10,8 +10,8 @@ export function ParceirosHomeSection() {
   return (
     <>
       <section className='p-6 md:p-0 max-w-[1200px] mt-10 m-auto justify-center flex items-center flex-col'>
-        <div className='flex mb-6 mt-6' >
-          <h3 className="text-3xl font-bold text-[#850B10]">
+        <div className='flex mb-16 mt-6' >
+          <h3 className="md:text-5xl text-3xl font-bold text-[#850B10]">
             Os melhores estão ao nosso lado
           </h3>
         </div>

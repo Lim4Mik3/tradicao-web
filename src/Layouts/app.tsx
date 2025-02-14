@@ -10,7 +10,7 @@ type Props = {
 
 export function AppLayout({ children, className }: Props) {
   return (
-    <main className={cn(" antialiased h-screen", className)}>
+    <main className={cn("antialiased h-screen", className)}>
       <Header />
       <MobileMenu />
       {children}

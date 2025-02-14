@@ -11,9 +11,11 @@ export function Footer() {
           <img src={LogoPosto} alt="logo" className='w-[200px] h-[50px]' />
         </div>
         <div className="flex items-start justify-center">
-          <div className="flex flex-col ">
+          <div className="flex">
             <NavLink className="p-2 text-[#D24248] rounded-md transition" to="/institucional">Institucional</NavLink>
-            <NavLink className="p-2 text-[#D24248] rounded-md transition" to="/fale-conosco">Fale Conosco</NavLink>
+            <NavLink className="p-2 text-[#D24248] rounded-md transition" to="/">Postos</NavLink>
+            <NavLink className="p-2 text-[#D24248] rounded-md transition" to="/blog">Blog</NavLink>
+            <NavLink className="p-2 text-[#D24248] rounded-md transition" to="/fale-conosco">Contato</NavLink>
           </div>
         </div>
       </div>

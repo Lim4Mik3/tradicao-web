@@ -24,7 +24,7 @@ export function InstitucionalPage() {
         <div className='flex flex-col gap-6'>
           <h2 className='font-bold text-start text-7xl text-[#B00000]'>A Rede Tradição</h2>
           <p className='text-xl leading-8'>
-            A Rede Tradição começou sua trajetória em setembro de 2015, no norte do Rio Grande do Sul, com o propósito de oferecer produtos e serviços de qualidade que realmente fizessem a diferença no dia a dia das pessoas. Inicialmente, marcamos presença nas cidades de Sananduva e Novo Barreiro, em parceria com a Cia Shell, consolidando nosso compromisso com excelência e proximidade
+            A Rede Tradição começou sua trajetória em setembro de 2015, no norte do Rio Grande do Sul, com o propósito de oferecer produtos e serviços de qualidade que realmente fizessem a diferença no dia a dia das pessoas. Inicialmente, marcamos presença nas cidades de Sananduva e Novo Barreiro, em parceria com a Cia Shell, consolidando nosso compromisso com excelência e proximidade.
           </p>
           <p className='text-xl leading-8'>Em janeiro de 2016, demos um passo importante rumo à expansão com a aquisição de uma unidade na BR-386, em Soledade, um dos principais corredores logísticos do estado. Poucos meses depois, em abril, ampliamos ainda mais nossa atuação com uma nova unidade na RS-126, em Sananduva.
           </p>
