@@ -1,5 +1,5 @@
 import BannerBlog from '@/assets/Banners/banner-blog.jpeg';
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/button";
 
 export function BannerBlogSection() {
   return (

@@ -2,7 +2,7 @@
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 const mapContainerStyle = {
-  width: '1200px',
+  width: '600px',
   height: '500px',
   borderRadius: '20px',
   boxShadow: '0px 8px 8px rgba(0, 0, 0, 0.25)',
@@ -22,17 +22,13 @@ const Maps = () => {
   if (!isLoaded) return <div>Carregando o mapa...</div>;
 
   return (
-    <div className='p-6 md:p-0 m-auto mt-16 h-[600px] flex justify-center items-center '>
-
-
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={12}
-        center={center}
-      >
-        <Marker position={center} />
-      </GoogleMap>
-    </div>
+    <GoogleMap
+      mapContainerStyle={mapContainerStyle}
+      zoom={12}
+      center={center}
+    >
+      <Marker position={center} />
+    </GoogleMap>
   );
 };
 

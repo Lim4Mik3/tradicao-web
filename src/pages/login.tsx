@@ -1,9 +1,9 @@
-import { Button } from "@/components/Button";
-import { RootLayout } from "../Layouts/root";
 import { Input } from "@/components/Input";
-import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { RootLayout } from "../Layouts/root";
 
 const schema = z.object({
   email: z.string().email("E-mail inválido").nonempty("O E-mail é obrigatório")
@@ -20,9 +20,9 @@ export function Login() {
   const handleLogin = async () => {
     try {
       // const result = await MakeLogin({ email: params.email });
-      
+
     } catch (error) {
-      
+
     }
   }
 
@@ -35,10 +35,10 @@ export function Login() {
         onSubmit={handleSubmit(handleLogin)}
         className="flex items-center flex-col bg-white w-[420px] rounded-md p-4"
       >
-        <img 
+        <img
           className="h-16"
-          src="/logo.png" 
-          alt="Rede Tradicao" 
+          src="/logo.png"
+          alt="Rede Tradicao"
         />
 
         <h1
@@ -48,13 +48,13 @@ export function Login() {
         </h1>
 
         <Input
-          {...register('email')} 
+          {...register('email')}
           hasError={!!errors.email}
           autoComplete="off"
-          placeholder="seu-email@redetradicao.com.br" 
+          placeholder="seu-email@redetradicao.com.br"
           className="w-full"
         />
-        { errors.email && (
+        {errors.email && (
           <p className="text-xs text-red-400 font-semibold mt-1 self-start">{errors.email.message}</p>
         )}
 

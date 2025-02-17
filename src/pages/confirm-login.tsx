@@ -1,11 +1,11 @@
-import { Button } from "@/components/Button";
-import { RootLayout } from "../Layouts/root";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { OTPInput } from "input-otp";
-import { Slot } from "@/components/Slot";
 import { FakeDash } from "@/components/FakeDash";
+import { Slot } from "@/components/Slot";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { OTPInput } from "input-otp";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { RootLayout } from "../Layouts/root";
 
 const schema = z.object({
   code: z.string().email("E-mail inválido").nonempty("O E-mail é obrigatório")
@@ -30,10 +30,10 @@ export function ConfirmLogin() {
         onSubmit={handleSubmit(handleLogin)}
         className="flex items-center flex-col bg-white w-[420px] rounded-md p-4"
       >
-        <img 
+        <img
           className="h-16"
-          src="/logo.png" 
-          alt="Rede Tradicao" 
+          src="/logo.png"
+          alt="Rede Tradicao"
         />
 
         <h1
@@ -52,9 +52,9 @@ export function ConfirmLogin() {
                   <Slot key={idx} {...slot} />
                 ))}
               </div>
-        
+
               <FakeDash />
-        
+
               <div className="flex">
                 {slots.slice(3).map((slot, idx) => (
                   <Slot key={idx} {...slot} />
