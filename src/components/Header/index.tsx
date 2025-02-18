@@ -17,7 +17,9 @@ export function Header() {
           <NavLink to="/postos">Postos</NavLink>
           <NavLink to="/blog">Blog</NavLink>
           <NavLink to="/fale-conosco">Contato</NavLink>
-          <Button className='bg-[#D24248] text-white uppercase'>Buscar Posto</Button>
+          <Button className="bg-[#D24248] text-white uppercase">
+            Buscar Posto
+          </Button>
         </nav>
       </div>
       <Separator />

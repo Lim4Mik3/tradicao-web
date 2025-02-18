@@ -1,8 +1,8 @@
-import { NavLink } from "@/components/NavLink";
-import { Button } from "@/components/ui/button";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { NavLink } from '@/components/NavLink';
+import { Button } from '@/components/ui/button';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +28,37 @@ const MobileMenu = () => {
             className="flex flex-col w-full bg-[#FE1112] text-white rounded-lg shadow-lg overflow-hidden"
           >
             <nav className="flex flex-col p-2">
-              <NavLink className="p-2 hover:bg-[#FE1112] rounded-md transition" to="/">Início</NavLink>
-              <NavLink className="p-2 hover:bg-[#FE1112] rounded-md transition" to="/institucional">Institucional</NavLink>
-              <NavLink className="p-2 hover:bg-[#FE1112] rounded-md transition" to="/postos">Postos</NavLink>
-              <NavLink className="p-2 hover:bg-[#FE1112] rounded-md transition" to="/blog">Blog</NavLink>
-              <NavLink className="p-2 hover:bg-[#FE1112] rounded-md transition" to="/fale-conosco">Contato</NavLink>
-              <Button className=' text-white uppercase'>Buscar Posto</Button>
+              <NavLink
+                className="p-2 hover:bg-[#FE1112] rounded-md transition"
+                to="/"
+              >
+                Início
+              </NavLink>
+              <NavLink
+                className="p-2 hover:bg-[#FE1112] rounded-md transition"
+                to="/institucional"
+              >
+                Institucional
+              </NavLink>
+              <NavLink
+                className="p-2 hover:bg-[#FE1112] rounded-md transition"
+                to="/postos"
+              >
+                Postos
+              </NavLink>
+              <NavLink
+                className="p-2 hover:bg-[#FE1112] rounded-md transition"
+                to="/blog"
+              >
+                Blog
+              </NavLink>
+              <NavLink
+                className="p-2 hover:bg-[#FE1112] rounded-md transition"
+                to="/fale-conosco"
+              >
+                Contato
+              </NavLink>
+              <Button className=" text-white uppercase">Buscar Posto</Button>
             </nav>
           </motion.div>
         )}

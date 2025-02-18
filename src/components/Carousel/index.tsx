@@ -8,7 +8,7 @@ interface CarouselProps extends Settings {
 }
 
 const Carousel = ({ children, ...settings }: CarouselProps) => {
-  return <Slider {...settings}>{children}</Slider>
+  return <Slider {...settings}>{children}</Slider>;
 };
 
 export { Carousel };

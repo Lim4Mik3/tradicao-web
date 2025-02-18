@@ -15,18 +15,14 @@ const center = {
 
 const Maps = () => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBnkDzNXxlOBOAZ35nOuy3ScjMHqAUVYJE", // Substitua pela sua chave de API
+    googleMapsApiKey: 'AIzaSyBnkDzNXxlOBOAZ35nOuy3ScjMHqAUVYJE', // Substitua pela sua chave de API
   });
 
   if (loadError) return <div>Erro ao carregar o mapa</div>;
   if (!isLoaded) return <div>Carregando o mapa...</div>;
 
   return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      zoom={12}
-      center={center}
-    >
+    <GoogleMap mapContainerStyle={mapContainerStyle} zoom={12} center={center}>
       <Marker position={center} />
     </GoogleMap>
   );

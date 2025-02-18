@@ -1,8 +1,7 @@
-import { AppLayout } from "@/Layouts/app";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { BannerBlogSection } from "./slices/BannerBlog";
-
+import { AppLayout } from '@/Layouts/app';
+import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { BannerBlogSection } from './slices/BannerBlog';
 
 export function BlogPage() {
   return (
@@ -29,5 +28,5 @@ export function BlogPage() {
         </div>
       </section>
     </AppLayout>
-  )
+  );
 }

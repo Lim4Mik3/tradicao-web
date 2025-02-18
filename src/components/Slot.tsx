@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { SlotProps } from "input-otp";
-import { FakeCaret } from "./FakeCarot";
+import { cn } from '@/lib/utils';
+import { SlotProps } from 'input-otp';
+import { FakeCaret } from './FakeCarot';
 
 export function Slot(props: SlotProps) {
   return (
@@ -12,11 +12,11 @@ export function Slot(props: SlotProps) {
         'border-border border-y border-r first:border-l first:rounded-l-md last:rounded-r-md',
         'group-hover:border-accent-foreground/20 group-focus-within:border-accent-foreground/20',
         'outline outline-accent-foreground/20',
-        { 'outline-4 outline-accent-foreground': props.isActive },
+        { 'outline-4 outline-accent-foreground': props.isActive }
       )}
     >
       {props.char !== null && <div>{props.char}</div>}
       {props.hasFakeCaret && <FakeCaret />}
     </div>
-  )
+  );
 }

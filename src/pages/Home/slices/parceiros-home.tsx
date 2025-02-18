@@ -9,15 +9,25 @@ import { Carousel } from '@/components/Carousel';
 export function ParceirosHomeSection() {
   return (
     <>
-      <section className='p-6 md:p-0 max-w-[1200px] mt-10 m-auto justify-center flex items-center flex-col'>
-        <div className='flex mb-16 mt-6' >
+      <section className="p-6 md:p-0 max-w-[1200px] mt-10 m-auto justify-center flex items-center flex-col">
+        <div className="flex mb-16 mt-6">
           <h3 className="md:text-5xl text-3xl font-bold text-[#850B10]">
             Os melhores estão ao nosso lado
           </h3>
         </div>
       </section>
 
-      <Carousel className='md:max-w-[1200px] max-w-[320px] m-auto mb-20' infinite responsive={[{ breakpoint: 780, settings: { slidesToShow: 1 } }]} speed={1500} cssEase='linear' slidesToShow={4} slidesToScroll={1} autoplay autoplaySpeed={2000}>
+      <Carousel
+        className="md:max-w-[1200px] max-w-[320px] m-auto mb-20"
+        infinite
+        responsive={[{ breakpoint: 780, settings: { slidesToShow: 1 } }]}
+        speed={1500}
+        cssEase="linear"
+        slidesToShow={4}
+        slidesToScroll={1}
+        autoplay
+        autoplaySpeed={2000}
+      >
         <div>
           <img src={AMPM} alt="AMPM" width={120} height={120} />
         </div>
@@ -28,7 +38,12 @@ export function ParceirosHomeSection() {
           <img src={Ipiranga} alt="Ipiranga" width={120} height={120} />
         </div>
         <div>
-          <img src={IpirangaJetOil} alt="IpirangaJetOil" width={120} height={120} />
+          <img
+            src={IpirangaJetOil}
+            alt="IpirangaJetOil"
+            width={120}
+            height={120}
+          />
         </div>
         <div>
           <img src={RodOil} alt="RodOil" width={120} height={120} />
@@ -36,9 +51,7 @@ export function ParceirosHomeSection() {
         <div>
           <img src={ShellHelix} alt="ShellHelix" width={120} height={120} />
         </div>
-
       </Carousel>
     </>
-
   );
 }
