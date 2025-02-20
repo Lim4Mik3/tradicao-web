@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function NotFound() {
+export default function NotFoundPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center">
       <h1 className="text-4xl font-bold text-red-500">404</h1>

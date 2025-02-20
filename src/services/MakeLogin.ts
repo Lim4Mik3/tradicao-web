@@ -14,7 +14,7 @@ export async function MakeLogin(props: MakeLogin.Input): Promise<MakeLogin.Outpu
 
     if (response.status !== 200) throw new Error();
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error("erro", error);
   }

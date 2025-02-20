@@ -5,17 +5,11 @@ import { FakeCaret } from "./FakeCarot";
 export function Slot(props: SlotProps) {
   return (
     <div
-      className={cn(
-        'relative w-10 h-14 text-[2rem]',
-        'flex items-center justify-center',
-        'transition-all duration-300',
-        'border-border border-y border-r first:border-l first:rounded-l-md last:rounded-r-md',
-        'group-hover:border-accent-foreground/20 group-focus-within:border-accent-foreground/20',
-        'outline outline-accent-foreground/20',
-        { 'outline-4 outline-accent-foreground': props.isActive },
+      className={cn("relative w-12 rounded-md h-12 border border-gray-800 flex items-center justify-center text-lg",
+        { '': props.isActive },
       )}
     >
-      {props.char !== null && <div>{props.char}</div>}
+      {props.char !== null && <div className="text-gray-700" >{props.char}</div>}
       {props.hasFakeCaret && <FakeCaret />}
     </div>
   )
