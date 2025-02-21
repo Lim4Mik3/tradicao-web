@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-export const ProtectedRoute = () => {
+export const PrivateRoute = () => {
   const token = JSON.parse(
     localStorage.getItem('@app::session') ?? "{}"
   );

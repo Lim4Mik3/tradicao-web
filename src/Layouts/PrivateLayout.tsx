@@ -1,5 +1,5 @@
 import { Header } from "@/components/Header";
-import { Menu } from "@/components/Menu";
+import { Menu } from "@/components/Menu/Menu";
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 

@@ -2,32 +2,21 @@ import { Button } from "@/components/Button";
 import { RootLayout } from "../Layouts/root";
 import { OTPInput } from 'input-otp'
 import { Slot } from "@/components/Slot";
-import { useLayoutEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import { ConfirmLoginServiceService } from "@/services/ConfirmLogin";
 
 export function ConfirmLoginPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
+  const [email] = useState(() => {
+    const initial = JSON.parse(localStorage.getItem("@app::request-login") || "{}").email
 
-  const isFirstRender = useRef(true);
+    if (!initial) redirect('/login');
 
-  useLayoutEffect(() => {
-    if (!isFirstRender.current) return;
-
-    isFirstRender.current = false;
-
-    const hasPendingLoginRequest = 
-      JSON.parse(localStorage.getItem("@app::request-login") ?? '{}');
-
-    if (Object.keys(hasPendingLoginRequest).length === 0) {
-      navigate('/login');
-    }
-
-    setEmail(hasPendingLoginRequest.email);
+    return initial;
   });
+  const [code, setCode] = useState('');
 
   const handleConfirmLogin = async () => {
     setIsLoading(true);

@@ -24,6 +24,7 @@ html, body {
   @apply w-screen h-screen;
 }
 
+
 .overlay-bg-login {
   background-color: black;
   -webkit-mask-image: linear-gradient(to bottom, black, transparent);
@@ -56,6 +57,15 @@ html, body {
   }
 }
 
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .blinking-caret {
   animation: caret-blink 1.2s ease-out infinite;
 }
@@ -63,8 +73,15 @@ html, body {
 [data-tooltip]:hover::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
-  left: 100%;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
 
-  @apply bg-zinc-900 text-white p-2 rounded-md border border-slate-800 text-sm tracking-wide;
+  animation: fade-in .3s;
+
+  @apply bg-zinc-900 text-white p-2 rounded-md border border-slate-800 text-sm tracking-wide ;
+}
+
+[data-openmodal] + #root * {
+  @apply overflow-hidden;
 }
