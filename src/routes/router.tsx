@@ -1,8 +1,7 @@
 import { ConfirmLoginPage } from "@/pages/confirm-login";
 import { LoginPage } from "@/pages/login";
 import { StrictMode } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NotFoundPage from "@/pages/not-found";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./protected-route";
 import { PublicRoute } from "./public-route";
 import { SecureConfirmLoginRoute } from "./secure-confirm-login-route";
@@ -12,6 +11,9 @@ import { DashboardPage } from "@/pages/backoffice/dashboard";
 import { GasStationsPage } from "@/pages/backoffice/gas-stations";
 import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 import { CreateGasStationPage } from "@/pages/backoffice/create-gas-station";
+import NotFoundPage from "@/pages/not-found";
+
+const NavigateAllNotFoundPageToHome = () => <Navigate to="/login" replace />
 
 export function router() {
   return (
@@ -32,7 +34,7 @@ export function router() {
             <Route path={ROUTES_NAME.CREATE_GAS_STATION} Component={CreateGasStationPage} />
           </Route>
 
-          <Route path="*" Component={NotFoundPage} />
+          <Route path="*" Component={NavigateAllNotFoundPageToHome} />
         </Routes>
       </BrowserRouter>
 

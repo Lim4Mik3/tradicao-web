@@ -1,22 +1,25 @@
 import type React from "react"
 
-import { useFormContext } from "react-hook-form"
 import { Plus } from "lucide-react"
-import { useState } from "react"
+import { ComponentProps, useState } from "react"
 
-export function PhotoInput() {
-  const { register, setValue } = useFormContext()
+type Props = ComponentProps<'input'>;
+
+export function PhotoInput(props: Props) {
   const [preview, setPreview] = useState<string | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+
     if (file) {
-      setValue("cityPhoto", file)
       const reader = new FileReader()
+
       reader.onloadend = () => {
         setPreview(reader.result as string)
       }
+
       reader.readAsDataURL(file)
+      props.onChange && props.onChange(e);
     }
   }
 
@@ -31,8 +34,8 @@ export function PhotoInput() {
           id="cityPhoto"
           className="hidden"
           accept="image/*"
-          {...register("cityPhoto")}
           onChange={handleFileChange}
+          {...props}
         />
         {preview ? (
           <div className="relative">
@@ -41,7 +44,6 @@ export function PhotoInput() {
               type="button"
               onClick={() => {
                 setPreview(null)
-                setValue("cityPhoto", null)
               }}
               className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md"
             >
