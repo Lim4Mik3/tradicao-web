@@ -12,11 +12,11 @@ export function PrivateLayout({ children, className }: Props) {
     <main className={cn("h-screen w-screen bg-zinc-200 flex", className)}>
       <Menu />
       <div
-        className="flex items-stretch flex-col h-full w-full"
+        className="flex items-stretch flex-col max-h-[100vh] h-full w-full"
       >
         <Header />
         <div
-          className="py-16 px-20 overflow-hidden h-full w-full max-w-[90%] mx-auto"
+          className="py-16 pl-20 h-full w-full max-w-[90%] mx-auto overflow-auto"
         >
           {children}
         </div>

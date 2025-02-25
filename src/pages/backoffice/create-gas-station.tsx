@@ -1,29 +1,51 @@
 import { Input } from "@/components/Input";
 import { PhotoInput } from "@/components/PhotoInput";
+import { ServicesInput } from "@/components/ServicesInput";
 import { PrivateLayout } from "@/Layouts/PrivateLayout";
 
 export function CreateGasStationPage() {
-
   return (
     <PrivateLayout>
-      <div>
-        <header>
-          <span>
+      <div
+        className="bg-white rounded-lg overflow-hidden mx-auto max-w-[70%] border border-gray-300"
+      >
+        <header
+          className="py-10 px-16 bg-gradient-to-r from-red-200 to-red-100 flex items-center justify-start gap-8 text-zinc-950"
+        >
+          <span
+            className="flex items-center justify-center w-14 aspect-square rounded-lg border border-zinc-400/20 bg-red-400 text-slate-50 text-xl font-semibold"
+          >
             01
           </span>
 
-          <span>
+        <span
+          className="text-2xl drop-shadow-md"
+        >
             Preencha as informações
           </span>
         </header>
         
-        <form>
-          <section>
-            <span>Dados básicas</span>
+        <form
+          className=" px-12 py-16"
+        >
+          <section
+            className="flex flex-col "
+          >
+            <span
+              className="text-2xl text-zinc-700 font-semibold border-b border-b-gray-300 pb-1 mb-5"
+            >
+              Dados básicas
+            </span>
 
-            <Input />
+            <div
+              className="flex flex-col gap-6"
+            >
+              <Input title="Nome da unidade" />
 
-            <PhotoInput />
+              <PhotoInput title="Imagens da unidade" />
+
+              <ServicesInput title="Serviços da unidade" />
+            </div>
           </section>
 
         </form>
