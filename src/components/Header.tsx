@@ -1,5 +1,7 @@
 import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
+import { ReactNode } from "react";
 import { useLocation } from "react-router-dom"
+import { CreateGasStationHeader } from "./CreateGasStationHeader";
 
 type Values<T extends Record<string, string>> = {
   [K in T[keyof T]]: string;
@@ -13,14 +15,35 @@ type PrivateRoutesPath = Omit<
   | "/backoffice"
 >;
 
-type HeaderTitleMap = Record<keyof PrivateRoutesPath, string>;
+type HeaderTitleMap = Record<keyof PrivateRoutesPath, ReactNode>;
 
 const HEADER_TITLE_MAP: HeaderTitleMap = {
-  '/backoffice/dashboard': 'Dashboard',
-  '/backoffice/gas-stations': 'Postos de Gasolina',
-  '/backoffice/services': 'Serviços',
-  '/backoffice/users': "Usuários",
-  '/backoffice/website': 'Website'
+  '/backoffice/dashboard': (
+    <span className="text-zinc-950 font-medium text-2xl tracking-wide">
+      Dashboard
+    </span>
+  ),
+  '/backoffice/gas-stations': (
+    <span className="text-zinc-950 font-medium text-2xl tracking-wide">
+      Postos de Gasolina
+    </span>
+  ),
+  '/backoffice/services': (
+    <span className="text-zinc-950 font-medium text-2xl tracking-wide">
+      Serviços
+    </span>
+  ),
+  '/backoffice/users': (
+    <span className="text-zinc-950 font-medium text-2xl tracking-wide">
+      Usuários
+    </span>
+  ),
+  '/backoffice/website': (
+    <span className="text-zinc-950 font-medium text-2xl tracking-wide">
+      Website
+    </span>
+  ),
+  '/backoffice/gas-stations/create': <CreateGasStationHeader />
 }
 
 export function Header() {
@@ -30,11 +53,7 @@ export function Header() {
     <header
       className="max-h-[80px] h-full bg-zinc-100 py-4 flex items-center border-b border-zinc-300 px-10"
     >
-      <span
-        className="text-zinc-950 font-medium text-2xl tracking-wide"
-      >
-        {HEADER_TITLE_MAP[pathname]}
-      </span>
+      {HEADER_TITLE_MAP[pathname]}
     </header>
   )
 }

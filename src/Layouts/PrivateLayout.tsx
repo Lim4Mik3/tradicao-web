@@ -15,7 +15,11 @@ export function PrivateLayout({ children, className }: Props) {
         className="flex items-stretch flex-col h-full w-full"
       >
         <Header />
-        {children}
+        <div
+          className="py-16 px-20 overflow-hidden h-full w-full max-w-[90%] mx-auto"
+        >
+          {children}
+        </div>
       </div>
     </main>
   )

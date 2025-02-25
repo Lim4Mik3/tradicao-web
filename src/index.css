@@ -72,16 +72,12 @@ html, body {
 
 [data-tooltip]:hover::after {
   content: attr(data-tooltip);
-  position: absolute;
-  bottom: 105%;
+  position: fixed;
+  bottom: 110%;
   left: 50%;
   transform: translateX(-50%);
 
   animation: fade-in .3s;
 
-  @apply bg-zinc-900 text-white p-2 rounded-md border border-slate-800 text-sm tracking-wide ;
-}
-
-[data-openmodal] + #root * {
-  @apply overflow-hidden;
+  @apply bg-zinc-900 text-white p-2 rounded-md border border-slate-800 text-sm tracking-wide;
 }
