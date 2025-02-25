@@ -5,12 +5,13 @@ import { Slot } from "@/components/Slot";
 import { useState } from "react";
 import { redirect, useNavigate } from "react-router-dom";
 import { ConfirmLoginServiceService } from "@/services/ConfirmLogin";
+import { LOCAL_STORAGE_KEYS } from "@/constants/LOCAL_STORAGE_KEYS";
 
 export function ConfirmLoginPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [email] = useState(() => {
-    const initial = JSON.parse(localStorage.getItem("@app::request-login") || "{}").email
+    const initial = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.REQUEST_LOGIN) || "{}").email
 
     if (!initial) redirect('/login');
 
@@ -28,11 +29,11 @@ export function ConfirmLoginPage() {
       }) as Record<string, any>;
 
       if (result.status === 200) {
-        localStorage.setItem("@app::session", JSON.stringify({
-          token: result.data.token,
+        localStorage.setItem(LOCAL_STORAGE_KEYS.SESSION, JSON.stringify({
+          token: result.data.token, 
         }))
 
-        localStorage.removeItem("@app::request-login");
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.REQUEST_LOGIN);
         
         navigate('/dashboard');
       }

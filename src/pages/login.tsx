@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { MakeLogin } from "@/services/MakeLogin";
 import { useNavigate } from "react-router-dom";
+import { LOCAL_STORAGE_KEYS } from "@/constants/LOCAL_STORAGE_KEYS";
 
 const schema = z.object({
   email: z.string().email("E-mail inválido").nonempty("O E-mail é obrigatório")
@@ -26,7 +27,7 @@ export function LoginPage() {
       const result = await MakeLogin({ email }) as Record<string, unknown>;
 
       if (result.status === 200) {
-        localStorage.setItem("@app::request-login", JSON.stringify({
+        localStorage.setItem(LOCAL_STORAGE_KEYS.SESSION, JSON.stringify({
           email,
         }))
 

@@ -1,3 +1,4 @@
+import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 import { cn } from "@/lib/utils";
 import { Component, Fuel, LayoutDashboard, Monitor, UsersRound } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,10 +11,10 @@ export function Navigation() {
     <nav
       className="flex flex-col justify-center gap-4"
     >
-      <button data-tooltip="Dashboard" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all", {
-        "text-red-500 bg-red-800/10": pathname === '/dashboard'
+      <button data-tooltip="Dashboard" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
+        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.DASHBOARD
       })}
-        onClick={() => navigate('/dashboard')}
+        onClick={() => navigate(ROUTES_NAME.DASHBOARD)}
       >
         <LayoutDashboard 
           size={26}
@@ -21,26 +22,34 @@ export function Navigation() {
         />
       </button>
 
-      <button data-tooltip="Website" className="hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-400 text-gray-900/80 transition-all"
-        onClick={() => navigate('/website')}
+      <button data-tooltip="Website" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
+        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.WEBSITE
+      })}
+        onClick={() => navigate(ROUTES_NAME.WEBSITE)}
       >
         <Monitor size={26} className="hover:brightness-75 text-current" />
       </button>
 
-      <button data-tooltip="Unidades" className="hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-400 text-gray-900/80 transition-all"
-        onClick={() => navigate('/gas-stations')}
+      <button data-tooltip="Unidades" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
+        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.GAS_STATIONS
+      })}
+        onClick={() => navigate(ROUTES_NAME.GAS_STATIONS)}
       >
         <Fuel size={26} className="hover:brightness-75 text-current" />
       </button>
 
-      <button data-tooltip="Serviços" className="hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-400 text-gray-900/80 transition-all"
-        onClick={() => navigate('/services')}
+      <button data-tooltip="Serviços" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-900", {
+        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.SERVICES
+      })}
+        onClick={() => navigate(ROUTES_NAME.SERVICES)}
       >
         <Component size={26} className="hover:brightness-75 text-current" />
       </button>
 
-      <button data-tooltip="Vagas" className="hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-400 text-gray-900/80 transition-all"
-        onClick={() => navigate('/jobs')}
+      <button data-tooltip="Vagas" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-900", {
+        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.USERS
+      })}
+        onClick={() => navigate(ROUTES_NAME.USERS)}
       >
         <UsersRound size={26} className="hover:brightness-75 text-current" />
       </button>
