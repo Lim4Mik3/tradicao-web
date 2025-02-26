@@ -16,11 +16,11 @@ export function GasStationsPage() {
       >
         <Input 
           placeholder="Busque por uma unidade"
-          className="py-3"
+          className="py-4 max-w-[450px]"
         />
 
         <Button
-          className="flex items-center justify-center gap-4 py-3"
+          className="flex items-center justify-center gap-4 max-w-[300px] w-full"
           onClick={() => navigate(ROUTES_NAME.CREATE_GAS_STATION)}
         >
           <Plus />

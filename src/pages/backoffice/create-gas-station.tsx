@@ -1,3 +1,5 @@
+import { AddressAutocompleteInput } from "@/components/AddressAutocompleteInput";
+import { AddressForm } from "@/components/AddressForm";
 import { Input } from "@/components/Input";
 import { PhotoInput } from "@/components/PhotoInput";
 import { ServicesInput } from "@/components/ServicesInput";
@@ -7,7 +9,7 @@ export function CreateGasStationPage() {
   return (
     <PrivateLayout>
       <div
-        className="bg-white rounded-lg overflow-hidden mx-auto max-w-[70%] border border-gray-300"
+        className="bg-white rounded-lg h-full mx-auto max-w-[70%] border border-gray-300 overflow-auto"
       >
         <header
           className="py-10 px-16 bg-gradient-to-r from-red-200 to-red-100 flex items-center justify-start gap-8 text-zinc-950"
@@ -26,7 +28,7 @@ export function CreateGasStationPage() {
         </header>
         
         <form
-          className=" px-12 py-16"
+          className="px-12 py-16"
         >
           <section
             className="flex flex-col "
@@ -40,7 +42,11 @@ export function CreateGasStationPage() {
             <div
               className="flex flex-col gap-6"
             >
-              <Input title="Nome da unidade" />
+              <Input title="Nome da unidade" placeholder="Digite o nome da unidade" />
+
+              {/* <AddressForm /> */}
+
+              <AddressAutocompleteInput title="Endereco da unidade" />
 
               <PhotoInput title="Imagens da unidade" />
 

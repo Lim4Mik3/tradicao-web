@@ -32,11 +32,13 @@ html, body {
 }
 
 .loader {
+  --color: white;
+
   width: 20px;
   padding: 3px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: white;
+  background: var(--color);
   --_m: 
     conic-gradient(#0000 10%,#000),
     linear-gradient(#000 0 0) content-box;
@@ -80,4 +82,47 @@ html, body {
   animation: fade-in .3s;
 
   @apply bg-zinc-900 text-white p-2 rounded-md border border-slate-800 text-sm tracking-wide;
+}
+
+.closed-fade {
+  grid-template-rows: 0fr;
+}
+
+.open-fade {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows .3s;
+}
+
+.react-select__value-container {
+  @apply px-5! py-3!;
+}
+
+.react-select__option {
+  @apply bg-zinc-600! py-2! flex!;
+}
+
+/* Para navegadores baseados em Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Cor de fundo da trilha (cinza claro) */
+  border-radius: 4px; /* Bordas arredondadas */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff0000; /* Cor vermelha para o "polegar" (a parte que você arrasta) */
+  border-radius: 4px; /* Bordas arredondadas */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cc0000; /* Vermelho mais escuro ao passar o mouse */
+}
+
+/* Para Firefox */
+* {
+  scrollbar-width: thin; /* Torna o scrollbar fino */
+  scrollbar-color: #ff0000 #f1f1f1; /* Vermelho para o polegar, cinza claro para a trilha */
 }
