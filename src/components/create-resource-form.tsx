@@ -6,6 +6,9 @@ import { Clock } from "lucide-react"
 import { useState } from "react"
 import { Input } from "./Input"
 import { Button } from "./Button"
+import { cn } from "@/lib/utils"
+import { useCreateResouce } from "@/hooks/useCreateResource"
+import { useNavigate } from "react-router-dom"
 
 export const options = [
   { value: 'SERVICES', label: 'Serviços', color: '#00B8D9' },
@@ -16,30 +19,59 @@ export const options = [
 ] as const;
 
 export default function CreateResourceForm() {
-  const [nomeCategoria, setNomeCategoria] = useState("")
-  const [icone, setIcone] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [category, setCategory] = useState("")
+  const [title, setTitle] = useState('')
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [image, setImage] = useState<{
+    url: string,
+    file: File
+  }>({} as any);
 
-  const handleIconeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const navigate = useNavigate();
+  const createResource = useCreateResouce();
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      setIcone(file)
 
-      // Criar URL para preview
-      const fileUrl = URL.createObjectURL(file)
-      setPreviewUrl(fileUrl)
+      const url = URL.createObjectURL(file)
+      setImage({ url, file });
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Aqui você pode implementar a lógica para enviar os dados
-    console.log("Dados do formulário:", { nomeCategoria, icone })
+
+    let errors = {}
+
+    if (!title) {
+      errors = { ...errors, title: 'O nome do recurso é obrigatório' }
+    }
+
+    if (title.length < 2) {
+      errors = { ...errors, title: 'O nome do recurso deve ter ao menos 2 caracteres.' }
+    }
+
+    if (!category) {
+      errors = { ...errors, category: 'A categoria do recurso é obrigatória' }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return setErrors(errors)
+    } else {
+      setErrors({});
+    }
+
+    await createResource.mutateAsync({
+      title,
+      category,
+    })
+
+    navigate(-1);
   }
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm overflow-hidden">
-      {/* Cabeçalho */}
       <div className="bg-red-50 p-8 border-b">
         <h2 className="text-red-500 font-medium text-xl">Adicione uma recurso</h2>
       </div>
@@ -48,7 +80,6 @@ export default function CreateResourceForm() {
         <div className="mb-6">
           <h3 className="text-gray-800 font-medium mb-4">Dados</h3>
           <div className="border-t border-gray-200 pt-4">
-            {/* Área de upload do ícone */}
             <div className="mb-6">
               
               <label className="text-sm font-semibold text-gray-600 mb-1">Ícone</label>
@@ -56,7 +87,7 @@ export default function CreateResourceForm() {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={handleIconeChange}
+                  onChange={handleImageChange}
                   className="sr-only"
                   id="icone-upload"
                 />
@@ -64,9 +95,9 @@ export default function CreateResourceForm() {
                   htmlFor="icone-upload"
                   className="flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
                 >
-                  {previewUrl ? (
+                  {image.url ? (
                     <img
-                      src={previewUrl || "/placeholder.svg"}
+                      src={image.url || "/placeholder.svg"}
                       alt="Preview"
                       className="w-full h-full object-cover rounded-lg"
                     />
@@ -86,17 +117,32 @@ export default function CreateResourceForm() {
               <Select
                 placeholder="Escolha uma categoria"
                 classNamePrefix="react-select"
+                className={cn({ 
+                  "border-2 border-red-400 has-[:focus]:ring-transparent rounded-md": !!errors.category, 
+                })}
+                onChange={(option) => option?.value ? setCategory(option.value) : undefined}
                 options={options}
               />
+              { errors.category && (
+                <span className="text-xs text-red-400 font-semibold mt-1 self-start">
+                  {errors.category}
+                </span>
+              )}
             </div>
 
             <div className="mb-6">
               <Input 
+                value={title}
+                hasError={!!errors.title}
                 title="Nome do recurso"
                 placeholder="Digite o nome do recurso"
-                value={nomeCategoria}
-                onChange={(e) => setNomeCategoria(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
+              { errors.title && (
+                <span className="text-xs text-red-400 font-semibold mt-1 self-start">
+                  {errors.title}
+                </span>
+              )}
             </div>
 
             <div className="flex items-center text-sm text-gray-500 mb-6">
@@ -105,7 +151,11 @@ export default function CreateResourceForm() {
             </div>
 
             <div className="flex justify-end">
-              <Button>
+              <Button 
+                className="w-20 h-14" 
+                onClick={handleSubmit} 
+                loading={createResource.isPending}
+              >
                 Criar
               </Button>
             </div>

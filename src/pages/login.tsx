@@ -27,7 +27,7 @@ export function LoginPage() {
       const result = await MakeLogin({ email }) as Record<string, unknown>;
 
       if (result.status === 200) {
-        localStorage.setItem(LOCAL_STORAGE_KEYS.SESSION, JSON.stringify({
+        localStorage.setItem(LOCAL_STORAGE_KEYS.REQUEST_LOGIN, JSON.stringify({
           email,
         }))
 
