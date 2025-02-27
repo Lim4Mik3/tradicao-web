@@ -8,4 +8,5 @@ export const ROUTES_NAME = {
   "WEBSITE": "/backoffice/website",
   "SERVICES": "/backoffice/services",
   "USERS": "/backoffice/users",
+  "PROFILE": "/backoffice/profile"
 } as const;

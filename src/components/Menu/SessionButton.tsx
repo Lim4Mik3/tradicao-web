@@ -1,5 +1,7 @@
-import { Power } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { Button } from "../Button";
+import { useNavigate } from "react-router-dom";
+import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 
 const LogoutModal = () => {
   const handleLogout = () => {
@@ -46,7 +48,9 @@ const LogoutModal = () => {
   )
 }
 
-export function LogoutButton() {
+export function SessionButton() {
+  const navigate = useNavigate();
+
   const handleOpenConfirmLogoutModal = () => {
     const event = new CustomEvent("openmodal", {
       detail: {
@@ -58,12 +62,21 @@ export function LogoutButton() {
   }
 
   return (
-    <button  
-      data-tooltip="Sair" 
-      className="hover:brightness-100 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 transition-all" 
-      onClick={handleOpenConfirmLogoutModal}
-    >
-      <Power className="text-gray-900" size={28} />
-    </button>
+    <div className="relative w-14 h-14 rounded-full border border-gray-500/40 group">
+      <img src="https://randomuser.me/api/portraits/men/89.jpg" alt="" className="w-14 h-14 rounded-full" />
+
+      <div className="absolute hidden bg-zinc-200 shadow-md rounded-md group-hover:flex hover:flex flex-col gap-2 min-w-[160px] left-0 overflow-hidden bottom-[100%] text-zinc-950">
+        <button className="flex items-center justify-center gap-4 w-full p-4 hover:cursor-pointer hover:bg-black/40" onClick={() => navigate(ROUTES_NAME.PROFILE)}>
+          Pefil
+          <User size={20} className="ml-auto" />
+        </button>
+
+        <button className="flex items-center justify-center gap-4 w-full p-4 hover:cursor-pointer hover:bg-black/40" onClick={handleOpenConfirmLogoutModal}>
+          Sair
+          <LogOut size={20} className="ml-auto" />
+        </button>
+      </div>
+    </div>
   )
 }
+

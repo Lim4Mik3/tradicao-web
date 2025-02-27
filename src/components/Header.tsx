@@ -43,6 +43,11 @@ const HEADER_TITLE_MAP: HeaderTitleMap = {
       Website
     </span>
   ),
+  '/backoffice/profile': (
+    <span className="text-zinc-950 font-medium text-2xl tracking-wide">
+      Perfil
+    </span>
+  ),
   '/backoffice/gas-stations/create': <CreateGasStationHeader />
 }
 

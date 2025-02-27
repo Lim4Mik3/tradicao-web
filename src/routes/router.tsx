@@ -11,7 +11,7 @@ import { DashboardPage } from "@/pages/backoffice/dashboard";
 import { GasStationsPage } from "@/pages/backoffice/gas-stations";
 import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 import { CreateGasStationPage } from "@/pages/backoffice/create-gas-station";
-import NotFoundPage from "@/pages/not-found";
+import ProfilePage from "@/pages/backoffice/profile";
 
 const NavigateAllNotFoundPageToHome = () => <Navigate to="/login" replace />
 
@@ -32,6 +32,7 @@ export function router() {
             <Route path={ROUTES_NAME.DASHBOARD} Component={DashboardPage} />
             <Route path={ROUTES_NAME.GAS_STATIONS} Component={GasStationsPage} />
             <Route path={ROUTES_NAME.CREATE_GAS_STATION} Component={CreateGasStationPage} />
+            <Route path={ROUTES_NAME.PROFILE} Component={ProfilePage} />
           </Route>
 
           <Route path="*" Component={NavigateAllNotFoundPageToHome} />

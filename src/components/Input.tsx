@@ -5,12 +5,14 @@ type InputProps = ComponentProps<"input"> & {
   hasError?: boolean;
   isLoading?: boolean;
   title?: string;
+  variant?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ 
   className, 
-  hasError, 
   isLoading,
+  hasError, 
+  variant,
   title,
   ...rest 
 }, ref) => {
@@ -18,7 +20,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
     <div className="flex flex-col w-full">
       { title && (
         <span
-          className="text-sm font-semibold text-gray-600 mb-1"
+          className={cn("text-sm font-semibold text-gray-600 mb-1", {
+            "text-zinc-950": variant
+          })}
         >
           {title}
         </span>

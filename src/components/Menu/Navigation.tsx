@@ -12,7 +12,7 @@ export function Navigation() {
       className="flex flex-col justify-center gap-4"
     >
       <button data-tooltip="Dashboard" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
-        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.DASHBOARD
+        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.DASHBOARD)
       })}
         onClick={() => navigate(ROUTES_NAME.DASHBOARD)}
       >
@@ -23,7 +23,7 @@ export function Navigation() {
       </button>
 
       <button data-tooltip="Website" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
-        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.WEBSITE
+        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.WEBSITE)
       })}
         onClick={() => navigate(ROUTES_NAME.WEBSITE)}
       >
@@ -31,7 +31,7 @@ export function Navigation() {
       </button>
 
       <button data-tooltip="Unidades" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
-        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.GAS_STATIONS
+        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.GAS_STATIONS)
       })}
         onClick={() => navigate(ROUTES_NAME.GAS_STATIONS)}
       >
@@ -39,7 +39,7 @@ export function Navigation() {
       </button>
 
       <button data-tooltip="Serviços" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-900", {
-        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.SERVICES
+        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.SERVICES)
       })}
         onClick={() => navigate(ROUTES_NAME.SERVICES)}
       >
@@ -47,7 +47,7 @@ export function Navigation() {
       </button>
 
       <button data-tooltip="Vagas" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-900", {
-        "text-red-500 bg-red-800/10": pathname === ROUTES_NAME.USERS
+        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.USERS)
       })}
         onClick={() => navigate(ROUTES_NAME.USERS)}
       >

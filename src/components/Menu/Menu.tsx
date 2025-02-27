@@ -1,5 +1,5 @@
-import { LogoutButton } from "./LogoutButton";
 import { Navigation } from "./Navigation";
+import { SessionButton } from "./SessionButton";
 
 export function Menu() {
   return (
@@ -15,7 +15,7 @@ export function Menu() {
       <Navigation />
 
 
-      <LogoutButton />
+      <SessionButton />
     </aside>
   )
 }
