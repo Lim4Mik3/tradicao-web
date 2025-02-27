@@ -1,7 +1,7 @@
 import { Bolt, Pencil, Trash2 } from "lucide-react"
 
 const CATEGORY_MAP = {
-  "SERVICES": "Categoria de Serviços",
+  "SERVICES": "Serviços",
   "APPS": "Aplicativos",
   "BRANDS": "Marcas",
   "CONVINIENCES": "Conveniência",
@@ -10,7 +10,7 @@ const CATEGORY_MAP = {
 
 export default function ResourceCard({ resource }: { resource: any }) {
   return (
-    <div className="max-w-xs mx-auto bg-white rounded-3xl shadow-sm h-fit">
+    <div className="max-w-[260px] w-full bg-white rounded-3xl shadow-sm h-fit">
       <div className="p-4 flex items-center justify-end border-b">
         <button className="p-2 rounded-md hover:bg-gray-100 hover:cursor-pointer">
           <Pencil className="w-5 h-5 text-gray-500" />

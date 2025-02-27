@@ -7,6 +7,7 @@ import ResourceCard from "@/components/ResourceCard";
 
 import { PrivateLayout } from "@/Layouts/PrivateLayout";
 import { useGetResources } from "@/hooks/useGetResources";
+import { Fragment } from "react";
 
 export function ResourcesPage() {
   const navigate = useNavigate();
@@ -14,9 +15,12 @@ export function ResourcesPage() {
 
   const resources = getResources.data?.data;
   const isEmpty = resources && resources.length === 0;
-  const resourceList = !getResources.isLoading && !isEmpty && resources;
 
-  console.log(resourceList)
+  const servicesResources = resources?.filter((item) => item.category === 'SERVICES');
+  const appsResources = resources?.filter((item) => item.category === 'APPS');
+  const brandsResources = resources?.filter((item) => item.category === 'BRANDS');
+  const conviniencesResources = resources?.filter((item) => item.category === 'CONVINIENCES');
+  const changeOilsResources = resources?.filter((item) => item.category === 'CHANGE_OIL');
 
   return (
     <PrivateLayout>
@@ -43,15 +47,84 @@ export function ResourcesPage() {
         )
       }
 
-      {
-        resourceList && (
-          <div className="h-[70vh] grid grid-cols-5 gap-y-8 mt-10 overflow-auto">
-            { resources.map((resource) => (
-              <ResourceCard key={resource.id} resource={resource} />
-            )) }
-          </div>
-        )
-      }
+      <div className="h-[70vh] overflow-x-hidden mt-10 w-full pr-1">
+        {
+          servicesResources && servicesResources.length > 0 && (
+            <Fragment>
+              <span className="flex mb-6 text-xl text-zinc-800 font-medium">
+                Categoria de Serviços
+              </span>
+              <div className="flex justify-start items-start w-full overflow-x-auto gap-8 border-b border-gray-400/50 pb-4 whitespace-nowrap">
+                { servicesResources.map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                )) }
+              </div>
+            </Fragment>
+          )
+        }
+
+        {
+          appsResources && appsResources.length > 0 && (
+            <Fragment>
+              <span className="flex mt-10 mb-6 text-xl text-zinc-800 font-medium">
+                Categoria de Aplicativos
+              </span>
+              <div className="flex justify-start items-start overflow-auto gap-8">
+                { appsResources.map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                )) }
+              </div>
+            </Fragment>
+            
+            
+          )
+        }
+
+        {
+          brandsResources && brandsResources.length > 0 && (
+            <Fragment>
+              <span className="flex mt-10 mb-6 text-xl text-zinc-800 font-medium">
+                Categoria de Marcas
+              </span>
+              <div className="flex justify-start items-start overflow-auto gap-8">
+                { brandsResources.map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                )) }
+              </div>
+            </Fragment>
+          )
+        }
+
+        {
+          conviniencesResources && conviniencesResources.length > 0 && (
+            <Fragment>
+              <span className="flex mt-10 mb-6 text-xl text-zinc-800 font-medium">
+                Categoria de Conveniências
+              </span>
+              <div className="flex justify-start items-start overflow-auto gap-8">
+                { conviniencesResources.map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                )) }
+              </div>
+            </Fragment>
+          )
+        }
+
+        {
+          changeOilsResources && changeOilsResources.length > 0 && (
+            <Fragment>
+              <span className="flex mt-10 mb-6 text-xl text-zinc-800 font-medium">
+                Categoria de Troca de Óleo
+              </span>
+              <div className="flex justify-start items-start overflow-auto gap-8">
+                { changeOilsResources.map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                )) }
+              </div>
+            </Fragment>
+          )
+        }
+      </div>
     </PrivateLayout>
   )
 }

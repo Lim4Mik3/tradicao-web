@@ -9,7 +9,7 @@ export function Navigation() {
 
   return (
     <nav
-      className="flex flex-col justify-center gap-4"
+      className="flex flex-col justify-center gap-4 p-6"
     >
       <button data-tooltip="Dashboard" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-700", {
         "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.DASHBOARD)

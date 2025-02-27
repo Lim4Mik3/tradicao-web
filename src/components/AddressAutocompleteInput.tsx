@@ -5,7 +5,9 @@ import AsyncSelect from 'react-select/async';
 
 const GetAddressPredictions = async (inputValue: string) => {
   try {
-    const result = await httpClient.get(`/address/complete?q=${inputValue}`);
+    const result = await httpClient.get(`/geolocation/search-address?q=${inputValue}`, {
+      headers: { 'protected': true }
+    });
 
     if (result.data && Array.isArray(result.data)) {
       return result.data.map(item => ({
