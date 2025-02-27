@@ -2,6 +2,7 @@ import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom"
 import { CreateGasStationHeader } from "./CreateGasStationHeader";
+import { CreateResourceHeader } from "./CreateResourceHeader";
 
 type Values<T extends Record<string, string>> = {
   [K in T[keyof T]]: string;
@@ -28,9 +29,9 @@ const HEADER_TITLE_MAP: HeaderTitleMap = {
       Postos de Gasolina
     </span>
   ),
-  '/backoffice/services': (
+  '/backoffice/resources': (
     <span className="text-zinc-950 font-medium text-2xl tracking-wide">
-      Serviços
+      Recursos
     </span>
   ),
   '/backoffice/users': (
@@ -48,7 +49,8 @@ const HEADER_TITLE_MAP: HeaderTitleMap = {
       Perfil
     </span>
   ),
-  '/backoffice/gas-stations/create': <CreateGasStationHeader />
+  '/backoffice/gas-stations/create': <CreateGasStationHeader />,
+  '/backoffice/resources/create': <CreateResourceHeader />
 }
 
 export function Header() {

@@ -6,7 +6,8 @@ export const ROUTES_NAME = {
   "GAS_STATIONS": "/backoffice/gas-stations",
   "CREATE_GAS_STATION": "/backoffice/gas-stations/create",
   "WEBSITE": "/backoffice/website",
-  "SERVICES": "/backoffice/services",
+  "RESOURCES": "/backoffice/resources",
+  "CREATE_RESOURCE": "/backoffice/resources/create",
   "USERS": "/backoffice/users",
-  "PROFILE": "/backoffice/profile"
+  "PROFILE": "/backoffice/profile",
 } as const;

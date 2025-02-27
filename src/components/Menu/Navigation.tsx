@@ -38,10 +38,10 @@ export function Navigation() {
         <Fuel size={26} className="hover:brightness-75 text-current" />
       </button>
 
-      <button data-tooltip="Serviços" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-900", {
-        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.SERVICES)
+      <button data-tooltip="Recursos" className={cn("hover:brightness-110 hover:cursor-pointer p-4 rounded-full hover:bg-black/20 hover:text-red-600 transition-all text-zinc-900", {
+        "text-red-500 bg-red-800/10": pathname.startsWith(ROUTES_NAME.RESOURCES)
       })}
-        onClick={() => navigate(ROUTES_NAME.SERVICES)}
+        onClick={() => navigate(ROUTES_NAME.RESOURCES)}
       >
         <Component size={26} className="hover:brightness-75 text-current" />
       </button>
