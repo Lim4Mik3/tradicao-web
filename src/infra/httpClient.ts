@@ -25,3 +25,17 @@ httpClient.interceptors.request.use((req) => {
   // Tratamento de erro caso a requisição falhe
   return Promise.reject(error);
 });
+
+httpClient.interceptors.response.use((response) => response, (error) => {
+  if (axios.isAxiosError(error)) {
+    if (error.status === 500) {
+      if (error.response?.data.message && error.response?.data.message === 'jwt expired') {
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.SESSION);
+        window.location.href = "/login"
+      }
+    }
+  }
+
+
+  return Promise.reject(error);
+});

@@ -47,8 +47,8 @@ export default function ModalVariant({ isOpen, onClose, title, children }: Modal
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 bg-opacity-50">
       <div ref={modalRef} className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
         <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="text-lg font-medium">{title}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <h3 className="text-lg text-zinc-800 font-medium">{title}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
             <X size={20} />
           </button>
         </div>

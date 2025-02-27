@@ -37,7 +37,11 @@ export function ResourcesPage() {
 
       {
         isEmpty && (
-          <span>Nao existe nenhum recurso criado ainda.</span>
+          <span
+            className="flex items-center justify-center text-lg text-zinc-900 font-medium my-20"
+          >
+            Nao existe nenhum recurso criado ainda.
+          </span>
         )
       }
 
@@ -51,12 +55,16 @@ export function ResourcesPage() {
         {
           servicesResources && servicesResources.length > 0 && (
             <Fragment>
-              <span className="flex mb-6 text-xl text-zinc-800 font-medium">
+              <span className="flex text-xl text-zinc-800 font-medium">
                 Categoria de Serviços
               </span>
-              <div className="flex justify-start items-start w-full overflow-x-auto gap-8 border-b border-gray-400/50 pb-4 whitespace-nowrap">
+              <div className="flex justify-start items-start w-full overflow-auto gap-8 border-b border-gray-400/50 pb-4 whitespace-nowrap pt-6">
                 { servicesResources.map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} />
+                  <ResourceCard 
+                    key={resource.id} 
+                    resource={resource}
+                    reload={getResources.refetch} 
+                  />
                 )) }
               </div>
             </Fragment>
@@ -71,7 +79,11 @@ export function ResourcesPage() {
               </span>
               <div className="flex justify-start items-start overflow-auto gap-8">
                 { appsResources.map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} />
+                  <ResourceCard 
+                    key={resource.id} 
+                    resource={resource}
+                    reload={getResources.refetch} 
+                  />
                 )) }
               </div>
             </Fragment>
@@ -88,7 +100,11 @@ export function ResourcesPage() {
               </span>
               <div className="flex justify-start items-start overflow-auto gap-8">
                 { brandsResources.map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} />
+                  <ResourceCard 
+                    key={resource.id} 
+                    resource={resource}
+                    reload={getResources.refetch} 
+                  />
                 )) }
               </div>
             </Fragment>
@@ -103,7 +119,11 @@ export function ResourcesPage() {
               </span>
               <div className="flex justify-start items-start overflow-auto gap-8">
                 { conviniencesResources.map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} />
+                  <ResourceCard 
+                    key={resource.id} 
+                    resource={resource}
+                    reload={getResources.refetch} 
+                  />
                 )) }
               </div>
             </Fragment>
@@ -118,7 +138,11 @@ export function ResourcesPage() {
               </span>
               <div className="flex justify-start items-start overflow-auto gap-8">
                 { changeOilsResources.map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} />
+                  <ResourceCard 
+                    key={resource.id} 
+                    resource={resource}
+                    reload={getResources.refetch} 
+                  />
                 )) }
               </div>
             </Fragment>

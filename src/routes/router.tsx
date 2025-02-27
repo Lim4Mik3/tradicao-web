@@ -18,11 +18,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const NavigateAllNotFoundPageToHome = () => <Navigate to="/login" replace />
 
-const client = new QueryClient()
+export const queryClient = new QueryClient()
 
 export function router() {
   return (
-    <QueryClientProvider client={client}>
+    <QueryClientProvider client={queryClient}>
       <StrictMode>
         <BrowserRouter>
           <Routes>

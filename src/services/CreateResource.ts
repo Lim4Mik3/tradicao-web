@@ -17,7 +17,7 @@ export async function CreateResource(input: CreateResource.Input): Promise<{
   const { title, category, image } = input;
 
   try {
-    const response = await httpClient.post('/resources/create', {
+    const response = await httpClient.post('/resource', {
       title,
       category,
       image
