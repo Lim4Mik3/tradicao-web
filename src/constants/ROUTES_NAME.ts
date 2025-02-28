@@ -1,4 +1,5 @@
 export const ROUTES_NAME = {
+  "HOME": "/",
   "BACKOFFICE_PREFIX": "/backoffice",
   "LOGIN": "/login",
   "CONFIRM_LOGIN": "/confirm-login",

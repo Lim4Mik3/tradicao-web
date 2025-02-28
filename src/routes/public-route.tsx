@@ -6,8 +6,9 @@ export const PublicRoute = () => {
   const session = JSON.parse(
     localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION) ?? "{}"
   );
+  const isLogin = window.location.href;
   
-  if (session.token) {
+  if (session.token && isLogin.match('/login')) {
     return <Navigate to={ROUTES_NAME.DASHBOARD} replace />;
   }
 

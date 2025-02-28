@@ -16,6 +16,7 @@ import { ResourcesPage } from "@/pages/backoffice/resources";
 import { CreateResourcePage } from "@/pages/backoffice/create-resource";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { EditResourcePage } from "@/pages/backoffice/edit-resource";
+import { HomePage } from "@/pages/Home";
 
 const NavigateAllNotFoundPageToHome = () => <Navigate to="/login" replace />
 
@@ -29,6 +30,7 @@ export function router() {
           <Routes>
             <Route element={<PublicRoute />}>
               <Route path={ROUTES_NAME.LOGIN} Component={LoginPage} />
+              <Route path={ROUTES_NAME.HOME} Component={HomePage} />
             </Route>
             
             <Route element={<SecureConfirmLoginRoute />}>
