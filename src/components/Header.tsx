@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { useLocation } from "react-router-dom"
 import { CreateGasStationHeader } from "./CreateGasStationHeader";
 import { CreateResourceHeader } from "./CreateResourceHeader";
+import { EditResourceHeader } from "./EditResourceHeader";
 
 type Values<T extends Record<string, string>> = {
   [K in T[keyof T]]: string;
@@ -50,17 +51,31 @@ const HEADER_TITLE_MAP: HeaderTitleMap = {
     </span>
   ),
   '/backoffice/gas-stations/create': <CreateGasStationHeader />,
-  '/backoffice/resources/create': <CreateResourceHeader />
+  '/backoffice/resources/create': <CreateResourceHeader />,
+  '/backoffice/resources/edit/:id': <EditResourceHeader />
 }
 
 export function Header() {
   const pathname = useLocation().pathname as keyof PrivateRoutesPath;
+  let headerChildren: ReactNode = null;
+
+  Object.entries(HEADER_TITLE_MAP).forEach(([key, value]) => {
+    if (key.includes(":")) {
+      if (pathname.startsWith(key.slice(0, key.indexOf(":")))) {
+        headerChildren = value;
+      }
+    } else {
+      if (key === pathname) {
+        headerChildren = value;
+      }
+    }
+  })
 
   return (
     <header
       className="max-h-[80px] h-full bg-zinc-100 py-4 flex items-center border-b border-zinc-300 px-10"
     >
-      {HEADER_TITLE_MAP[pathname]}
+      {headerChildren}
     </header>
   )
 }

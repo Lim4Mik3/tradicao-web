@@ -3,6 +3,8 @@ import ModalVariant from "./modal-variant"
 import { Fragment, useState } from "react"
 import { Button } from "./Button";
 import { useDeleteResource } from "@/hooks/useDeleteResource";
+import { useNavigate } from "react-router-dom";
+import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 
 const CATEGORY_MAP = {
   "SERVICES": "Serviços",
@@ -18,6 +20,8 @@ type Props = {
 }
 
 export default function ResourceCard({ resource, reload }: Props) {
+  const navigate = useNavigate();
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const deleteResource = useDeleteResource()
   
@@ -36,7 +40,10 @@ export default function ResourceCard({ resource, reload }: Props) {
     <Fragment>
       <div className="max-w-[260px] w-full bg-white rounded-3xl shadow-sm h-fit">
         <div className="p-4 flex items-center justify-end border-b">
-          <button className="p-2 rounded-md hover:bg-gray-100 hover:cursor-pointer">
+          <button 
+            onClick={() => navigate(ROUTES_NAME.EDIT_RESOURCE.replace(':id', resource.id))} 
+            className="p-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
+          >
             <Pencil className="w-5 h-5 text-gray-500" />
           </button>
 
@@ -53,7 +60,7 @@ export default function ResourceCard({ resource, reload }: Props) {
             {
               resource.image
                 ? (
-                  <img src={resource.image} alt={resource.title} className="w-10 h-10" />
+                  <img src={resource.image} alt={resource.title} className="w-10 h-10 object-cover" />
                 )
                 : (
                   <Bolt className="w-8 h-8 text-red-500 stroke-2" />
