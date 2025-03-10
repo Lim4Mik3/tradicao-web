@@ -1,6 +1,7 @@
 import { AddressAutocompleteInput } from "@/components/AddressAutocompleteInput";
-import { AddressForm } from "@/components/AddressForm";
+import { AppsInput } from "@/components/AppDiscountInput";
 import { Input } from "@/components/Input";
+import { ManagersInput } from "@/components/ManagersInput";
 import { PhotoInput } from "@/components/PhotoInput";
 import { ServicesInput } from "@/components/ServicesInput";
 import { PrivateLayout } from "@/Layouts/PrivateLayout";
@@ -44,13 +45,23 @@ export function CreateGasStationPage() {
             >
               <Input title="Nome da unidade" placeholder="Digite o nome da unidade" />
 
-              {/* <AddressForm /> */}
-
               <AddressAutocompleteInput title="Endereco da unidade" />
 
               <PhotoInput title="Imagens da unidade" />
 
               <ServicesInput title="Serviços da unidade" />
+
+              <Input title="Telefone da unidade" placeholder="Digite o telefone da unidade" />
+
+              <Input title="Celular da unidade" placeholder="Digite o celular da unidade" />
+
+              <Input title="Whatsapp da unidade" placeholder="Digite o whatsapp da unidade" />
+
+              <Input title="E-mail da unidade" placeholder="Digite o e-mail da unidade" />
+              
+              <AppsInput title="Aplicativos de desconto" onChange={payload => console.log(payload)} />
+
+              <ManagersInput title="Gerente" onChange={(payload) => console.log({ payload })} />
             </div>
           </section>
 

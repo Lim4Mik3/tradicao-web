@@ -14,12 +14,13 @@ export function EditResourcePage() {
   const pathname = useLocation().pathname;
 
   useEffect(() => {
-    const cache = queryClient.getQueryData(['resources'])
-    
-    if (cache) {
+    const [[_, cache]] = queryClient.getQueriesData({ queryKey: ['resources'] }) as any;
+    const resources = cache.data.resources;
+
+    if (resources.length > 0) {
       const resourceID = pathname.split('/').pop();
 
-      const resource = (cache as any).data.find((item: any) => item.id === resourceID);
+      const resource = resources.find((item: any) => item.id === resourceID);
 
       if (resource) {
         setResource(resource)

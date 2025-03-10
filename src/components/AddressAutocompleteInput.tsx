@@ -5,9 +5,7 @@ import AsyncSelect from 'react-select/async';
 
 const GetAddressPredictions = async (inputValue: string) => {
   try {
-    const result = await httpClient.get(`/geolocation/search-address?q=${inputValue}`, {
-      headers: { 'protected': true }
-    });
+    const result = await httpClient.get(`/address/suggestions?q=${inputValue}`);
 
     if (result.data && Array.isArray(result.data)) {
       return result.data.map(item => ({
@@ -32,6 +30,7 @@ type Props = {
 
 export function AddressAutocompleteInput({ title }: { title: string }) {
   const [address, setCurrentAddress] = useState({} as Props);
+  const [addressNumber, setAddressNumber] = useState(null);
   const [mapSrc, setMapSrc] = useState('');
 
   const handleChoosedAddress = (selectedOption: any) => {
@@ -55,6 +54,9 @@ export function AddressAutocompleteInput({ title }: { title: string }) {
         </span>
       )}
 
+      <div
+        className='flex flex-col w-full'
+      >
         <AsyncSelect 
           cacheOptions
           menuShouldBlockScroll
@@ -65,6 +67,7 @@ export function AddressAutocompleteInput({ title }: { title: string }) {
           loadOptions={handleGetPredictions}
           classNamePrefix="react-select"
         />
+      </div>
 
       { mapSrc && (
         <iframe

@@ -1,9 +1,9 @@
-import { GetResources } from '@/services/GetResources'
-import { useQuery } from '@tanstack/react-query'
+import { GetResources } from '@/services/GetResources';
+import { useQuery } from '@tanstack/react-query';
 
-export function useGetResources() {
+export function useGetResources(category?: string) {
   return useQuery({
-    queryKey: ['resources'],
-    queryFn: GetResources,
-  })
+    queryKey: ['resources', category],
+    queryFn: () => GetResources(category),
+  });
 }

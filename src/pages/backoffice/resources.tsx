@@ -14,13 +14,18 @@ export function ResourcesPage() {
   const getResources = useGetResources();
 
   const resources = getResources.data?.data;
-  const isEmpty = resources && resources.length === 0;
+  const isEmpty = resources && resources.resources.length === 0;
 
-  const servicesResources = resources?.filter((item) => item.category === 'SERVICES');
-  const appsResources = resources?.filter((item) => item.category === 'APPS');
-  const brandsResources = resources?.filter((item) => item.category === 'BRANDS');
-  const conviniencesResources = resources?.filter((item) => item.category === 'CONVINIENCES');
-  const changeOilsResources = resources?.filter((item) => item.category === 'CHANGE_OIL');
+  const servicesResources = resources?.resources
+    .filter((item) => item.category === 'SERVICES');
+  const appsResources = resources?.resources
+    .filter((item) => item.category === 'APPS');
+  const brandsResources = resources?.resources
+    .filter((item) => item.category === 'BRANDS');
+  const conviniencesResources = resources?.resources
+    .filter((item) => item.category === 'CONVINIENCES');
+  const changeOilsResources = resources?.resources
+    .filter((item) => item.category === 'CHANGE_OIL');
 
   return (
     <PrivateLayout>

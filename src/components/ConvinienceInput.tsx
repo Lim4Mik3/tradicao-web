@@ -1,4 +1,4 @@
-// src/components/ServicesInput.tsx
+// src/components/ConvenienciaInput.tsx
 import { ServiceCard } from './ServiceCard';
 import { useGetResources } from '@/hooks/useGetResources';
 import { useState } from 'react';
@@ -8,8 +8,8 @@ type Props = {
   onChange?: (selectedIds: string[]) => void;
 };
 
-export function ServicesInput({ title, onChange }: Props) {
-  const { data, isLoading, error } = useGetResources('SERVICES');
+export function ConvinienceInput({ title, onChange }: Props) {
+  const { data, isLoading, error } = useGetResources('CONVINIENCES');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const toggleSelection = (id: string) => {
@@ -27,7 +27,7 @@ export function ServicesInput({ title, onChange }: Props) {
   }
 
   if (error) {
-    return <div className="flex justify-center text-red-500">Erro ao carregar serviços: {error.message}</div>;
+    return <div className="flex justify-center text-red-500">Erro ao carregar conveniências: {error.message}</div>;
   }
 
   const resources = data?.data?.resources || [];
@@ -47,7 +47,7 @@ export function ServicesInput({ title, onChange }: Props) {
             />
           ))
         ) : (
-          <p className="text-gray-500">Nenhum serviço encontrado.</p>
+          <p className="text-gray-500">Nenhuma conveniência encontrada.</p>
         )}
       </div>
     </div>

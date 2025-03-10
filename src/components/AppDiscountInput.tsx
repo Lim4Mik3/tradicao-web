@@ -1,4 +1,4 @@
-// src/components/ServicesInput.tsx
+// src/components/AppsInput.tsx
 import { ServiceCard } from './ServiceCard';
 import { useGetResources } from '@/hooks/useGetResources';
 import { useState } from 'react';
@@ -8,8 +8,8 @@ type Props = {
   onChange?: (selectedIds: string[]) => void;
 };
 
-export function ServicesInput({ title, onChange }: Props) {
-  const { data, isLoading, error } = useGetResources('SERVICES');
+export function AppsInput({ title, onChange }: Props) {
+  const { data, isLoading, error } = useGetResources('APPS');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const toggleSelection = (id: string) => {
@@ -27,7 +27,7 @@ export function ServicesInput({ title, onChange }: Props) {
   }
 
   if (error) {
-    return <div className="flex justify-center text-red-500">Erro ao carregar serviços: {error.message}</div>;
+    return <div className="flex justify-center text-red-500">Erro ao carregar apps: {error.message}</div>;
   }
 
   const resources = data?.data?.resources || [];
@@ -47,7 +47,25 @@ export function ServicesInput({ title, onChange }: Props) {
             />
           ))
         ) : (
-          <p className="text-gray-500">Nenhum serviço encontrado.</p>
+          <div className="flex flex-col items-center justify-center w-full py-8">
+            <svg
+              className="w-16 h-16 text-gray-400 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            <p className="text-gray-500 text-center">
+              Nenhum recurso de app cadastrado, cadastre um e aparecerá aqui.
+            </p>
+          </div>
         )}
       </div>
     </div>
