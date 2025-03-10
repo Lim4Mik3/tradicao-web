@@ -8,7 +8,7 @@ type Props = {
   onChange?: (selectedIds: string[]) => void;
 };
 
-export function TrocaDeOleoInput({ title, onChange }: Props) {
+export function OilChangeInput({ title, onChange }: Props) {
   const { data, isLoading, error } = useGetResources('CHANGE_OIL');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -37,7 +37,7 @@ export function TrocaDeOleoInput({ title, onChange }: Props) {
       <span className="flex text-sm font-semibold text-gray-600 mb-4">{title}</span>
 
       <div className="grid grid-cols-5 gap-4">
-        {resources.length > 0 ? (
+        {resources.length > 0 && (
           resources.map((resource) => (
             <ServiceCard
               key={resource.id}
@@ -46,10 +46,14 @@ export function TrocaDeOleoInput({ title, onChange }: Props) {
               onToggle={() => toggleSelection(resource.id)}
             />
           ))
-        ) : (
-          <p className="text-gray-500">Nenhuma troca de óleo encontrada.</p>
         )}
       </div>
+
+      { resources.length === 0 && (
+          <p className="text-gray-500 py-12 flex items-center justify-center w-full border border-dashed rounded-md border-gray-300">
+            Nenhuma troca de óleo encontrada, cadastre uma nova para selecionar.
+          </p>
+        )}
     </div>
   );
 }

@@ -34,7 +34,7 @@ type Props = {
 
 export function ManagersInput({ title, onChange }: { 
   title: string; 
-  onChange?: (selectedOption: { managerId: string }) => void; 
+  onChange?: (managerId: string) => void; 
 }) {
   const [selectedManager, setSelectedManager] = useState<Props | null>(null);
 
@@ -46,7 +46,7 @@ export function ManagersInput({ title, onChange }: {
       });
 
       if (onChange) {
-        onChange({ managerId: selectedOption.value });
+        onChange(selectedOption.value);
       }
     } else {
       setSelectedManager(null);

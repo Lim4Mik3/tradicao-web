@@ -1,12 +1,12 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { PhotoCard } from './PhotoCard';
 import { Plus } from 'lucide-react';
 
 type PhotoWithId = File & { id: string };
 
-type Props = { title: string };
+type Props = { title: string, onChange: (photos: PhotoWithId[]) => void };
 
-export function PhotoInput({ title }: Props) {
+export function PhotoInput({ title, onChange }: Props) {
   const [photos, setPhotos] = useState<PhotoWithId[]>([]);
   const inputId = useId()
 
@@ -39,6 +39,8 @@ export function PhotoInput({ title }: Props) {
   const handleRemove = (id: string) => {
     setPhotos((prev) => prev.filter((photo) => photo.id !== id));
   };
+
+  useEffect(() => { onChange(photos) }, [photos]);  
 
   if (photos.length === 0) {
     return (

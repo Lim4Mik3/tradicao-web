@@ -28,15 +28,16 @@ type Props = {
   value: string;
 }
 
-export function AddressAutocompleteInput({ title }: { title: string }) {
+export function AddressAutocompleteInput({ title, onChange }: { title: string, onChange: (event: any) => void; }) {
   const [address, setCurrentAddress] = useState({} as Props);
-  const [addressNumber, setAddressNumber] = useState(null);
   const [mapSrc, setMapSrc] = useState('');
 
   const handleChoosedAddress = (selectedOption: any) => {
     if (selectedOption) {
       const newSrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAGaexRL1fyRRl77U05s7MH2Gwg3gjVxNk&q=place_id:${selectedOption.value}`;
       setMapSrc(newSrc);
+
+      onChange(selectedOption.value);
 
       setCurrentAddress({
         label: selectedOption.label,

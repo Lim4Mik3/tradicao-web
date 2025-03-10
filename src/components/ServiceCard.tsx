@@ -1,45 +1,64 @@
-import { useId } from 'react';
+import { cn } from "@/lib/utils"
+import { useId } from "react"
 
 type ServiceCardProps = {
   resource: {
-    id: string;
-    title: string;
-    category: string;
-    image?: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-  isSelected: boolean;
-  onToggle: () => void;
-};
+    id: string
+    title: string
+    category: string
+    image?: string
+    createdAt: string
+    updatedAt: string
+  }
+  isSelected: boolean
+  onToggle: () => void
+}
 
 export function ServiceCard({ resource, isSelected, onToggle }: ServiceCardProps) {
-  const id = useId();
+  const id = useId()
 
   return (
     <label
       htmlFor={id}
-      className={`bg-gray-100 rounded-sm inline-flex hover:opacity-85 transition-all ${isSelected ? 'opacity-100 bg-green-600/20 border-green-600/80' : 'opacity-60 border-gray-400/10'} hover:cursor-pointer overflow-hidden border has-[:checked]:border-green-600/80 max-w-[213px] aspect-square`}
+      className={cn("relative bg-slate-50 rounded-2xl flex flex-col hover:opacity-90 transition-all cursor-pointer border border-slate-100 w-[180px] aspect-square", {
+          "opacity-100 border-red-600/40 bg-red-50": isSelected
+        })}
     >
-      <input
-        id={id}
-        type="checkbox"
-        className="hidden"
-        checked={isSelected}
-        onChange={onToggle}
-      />
+      <input id={id} type="checkbox" className="peer hidden" checked={isSelected} onChange={onToggle} />
 
-      <div className="flex flex-col items-center justify-around">
+      <div className="flex-1 p-6 relative">
         <img
           alt={resource.title}
-          className="w-10 h-10 my-4"
-          src={resource.image || 'https://png.pngtree.com/png-vector/20190420/ourmid/pngtree-vector-fuel-station-icon-png-image_965104.jpg'}
+          className="w-8 h-8 object-cover rounded-md opacity-90"
+          src={resource.image || '/placeholder.png'}
         />
 
-        <span className="text-left text-zinc-900 text-lg px-4 border-gray-500/20">
-          {resource.title}
-        </span>
+        <div className="absolute top-6 right-6">
+          <div
+            className={`
+            w-5 h-5 rounded-md border transition-colors
+            ${isSelected ? "bg-red-500 border-red-500" : "bg-white border-slate-200"}
+          `}
+          >
+            {isSelected && (
+              <svg viewBox="0 0 14 14" fill="none" className="w-full h-full text-white p-[2px]">
+                <path
+                  d="M11.6666 3.5L5.24992 9.91667L2.33325 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 pt-0">
+        <h3 className="text-[#1B2B4D] text-xl font-medium leading-tight">{resource.title}</h3>
       </div>
     </label>
-  );
+  )
 }
+
