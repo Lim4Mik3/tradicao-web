@@ -1,5 +1,5 @@
 import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
+import { Header } from '@/components/Header/index';
 import MobileMenu from '@/components/Header/Mobile';
 import { cn } from '@/lib/utils';
 import { ComponentProps } from 'react';

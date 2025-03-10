@@ -18,6 +18,10 @@ html, body {
   font-family: "Poppins", serif;
   font-optical-sizing: auto;
   font-style: normal;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 #root, body {

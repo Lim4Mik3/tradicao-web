@@ -17,8 +17,8 @@ export function AppHomeSection() {
         <p className="text-[#850B10] font-bold text-4xl md:text-[46px] leading-[69px]">
           Obtenha vantagens e muito cashback utilizando o app da Tua Rede!
         </p>
-        <p>Tecnologia e comodidade, juntos.</p>
-        <p>Baixe o aplicativo agora na sua loja preferida.</p>
+        <p className='text-[#1C1C1C]'>Tecnologia e comodidade, juntos.</p>
+        <p className='text-[#1C1C1C]'>Baixe o aplicativo agora na sua loja preferida.</p>
         <div>
           <Button
             variant="default"

@@ -26,9 +26,9 @@ export function Footer() {
             </NavLink>
             <NavLink
               className="p-2 text-[#D24248] rounded-md transition"
-              to="/blog"
+              to="https://www.contatoseguro.com.br/grupotradicao"
             >
-              Blog
+              Ouvidoria
             </NavLink>
             <NavLink
               className="p-2 text-[#D24248] rounded-md transition"

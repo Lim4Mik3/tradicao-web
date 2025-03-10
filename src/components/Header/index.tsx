@@ -15,8 +15,8 @@ export function Header() {
           <NavLink to="/">Início</NavLink>
           <NavLink to="/institucional">Institucional</NavLink>
           <NavLink to="/postos">Postos</NavLink>
-          <NavLink to="/blog">Blog</NavLink>
           <NavLink to="/fale-conosco">Contato</NavLink>
+          <NavLink to="https://www.contatoseguro.com.br/grupotradicao">Ouvidoria</NavLink>
           <Button className="bg-[#D24248] text-white uppercase">
             Buscar Posto
           </Button>
