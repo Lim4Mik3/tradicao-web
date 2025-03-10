@@ -15,9 +15,7 @@ export async function DeleteResource(input: DeleteResource.Input): Promise<{
   const { resourceId } = input;
 
   try {
-    const response = await httpClient.delete(`/resource/${resourceId}`, 
-      { headers: { 'protected': true } }
-    );
+    const response = await httpClient.delete(`/resource/${resourceId}`);
 
     return response.data;
   } catch (error) {

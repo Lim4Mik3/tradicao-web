@@ -34,6 +34,7 @@ export function LoginPage() {
         navigate('/confirm-login')
       }
     } catch (error) {
+      console.error(error)
       alert("Algum erro inesperado aconteceu, tente novamente mais tarde.")
     }
   }

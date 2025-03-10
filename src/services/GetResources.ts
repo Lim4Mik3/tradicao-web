@@ -9,11 +9,11 @@ export async function GetResources(): Promise<{
   data: [] | null;
 }> {
   try {
-    const response = await httpClient.get('/resources', { headers: { 'protected': true } });
+    const response = await httpClient.get('/resource');
 
     return {
       error: null,
-      data: response.data
+      data: response.data.resources,
     };
   } catch (error) {
     console.error("error", error);

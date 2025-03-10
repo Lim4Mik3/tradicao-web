@@ -6,23 +6,16 @@ export const httpClient = axios.create({
 })
 
 httpClient.interceptors.request.use((req) => {
-  const isProtected = req.headers['protected'];
-  
-  if (isProtected) {
-    delete req.headers['protected'];
-    
-    const session = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION) ?? '{}');
+  const session = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION) ?? '{}');
 
+  if (Object.keys(session).length > 0) {
     if (session.token) {
       req.headers.Authorization = `Bearer ${session.token}`;
-    } else {
-      throw Error();
     }
   }
   
   return req;
 }, (error) => {
-  // Tratamento de erro caso a requisição falhe
   return Promise.reject(error);
 });
 

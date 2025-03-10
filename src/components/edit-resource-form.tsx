@@ -7,9 +7,9 @@ import { useState } from "react"
 import { Input } from "./Input"
 import { Button } from "./Button"
 import { cn } from "@/lib/utils"
-import { useCreateResouce } from "@/hooks/useCreateResource"
 import { useNavigate } from "react-router-dom"
 import { ResourceModel } from "@/models/Resource"
+import { useEditResource } from "@/hooks/useEditResource"
 
 export const options = [
   { value: 'SERVICES', label: 'Serviços', color: '#00B8D9' },
@@ -33,7 +33,7 @@ export default function EditResourceForm({ resource }: Props) {
   }>({ url: resource.image } as any);
 
   const navigate = useNavigate();
-  const createResource = useCreateResouce();
+  const editResource = useEditResource();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -67,9 +67,11 @@ export default function EditResourceForm({ resource }: Props) {
       setErrors({});
     }
 
-    await createResource.mutateAsync({
+    await editResource.mutateAsync({
+      id: resource.id,
       title,
       category,
+      image: image.file,
     })
 
     navigate(-1);
@@ -164,7 +166,7 @@ export default function EditResourceForm({ resource }: Props) {
               <Button 
                 className="w-20 h-14" 
                 onClick={handleSubmit} 
-                loading={createResource.isPending}
+                loading={editResource.isPending}
               >
                 Salvar
               </Button>

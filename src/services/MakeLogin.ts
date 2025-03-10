@@ -10,7 +10,7 @@ export namespace MakeLogin {
 
 export async function MakeLogin(props: MakeLogin.Input): Promise<MakeLogin.Output> {
   try {
-    const response = await httpClient.post('/login', { email: props.email });
+    const response = await httpClient.post('/auth/login', { email: props.email });
 
     if (response.status !== 200) throw new Error();
 

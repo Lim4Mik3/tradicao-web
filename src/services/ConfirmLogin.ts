@@ -11,7 +11,7 @@ export namespace ConfirmLoginService {
 
 export async function ConfirmLoginServiceService(props: ConfirmLoginService.Input): Promise<ConfirmLoginService.Output> {
   try {
-    const response = await httpClient.post('/verify-login', { 
+    const response = await httpClient.post('/auth/confirm-login', { 
       email: props.email,
       code: props.code,
     });

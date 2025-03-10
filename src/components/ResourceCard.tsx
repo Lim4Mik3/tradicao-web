@@ -60,7 +60,7 @@ export default function ResourceCard({ resource, reload }: Props) {
             {
               resource.image
                 ? (
-                  <img src={resource.image} alt={resource.title} className="w-10 h-10 object-cover" />
+                  <img src={resource.image} alt={resource.title} className="w-10 h-10 object-cover rounded-sm" />
                 )
                 : (
                   <Bolt className="w-8 h-8 text-red-500 stroke-2" />

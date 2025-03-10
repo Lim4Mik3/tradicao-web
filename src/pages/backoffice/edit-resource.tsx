@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export function EditResourcePage() {
   const [resource, setResource] = useState<ResourceModel>({} as ResourceModel);
   const [isLoading, setIsLoading] = useState(true);
-
+  
   const navigate = useNavigate();
   const queryClient = useQueryClient()
   const pathname = useLocation().pathname;
@@ -29,7 +29,6 @@ export function EditResourcePage() {
       }
     }
   }, []);
-
 
   return (
     <PrivateLayout>
