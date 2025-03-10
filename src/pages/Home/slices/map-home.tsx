@@ -17,7 +17,7 @@ export function MapSection() {
         <div>
           <Button
             variant="default"
-            className="uppercase bg-[#D24248] text-white"
+            className="uppercase bg-[#D24248] text-white p-6"
           >
             Encontre o Posto
           </Button>

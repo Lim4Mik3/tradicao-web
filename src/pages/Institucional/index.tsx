@@ -27,7 +27,7 @@ export function InstitucionalPage() {
           <h2 className="font-bold text-start text-7xl text-[#B00000]">
             A Rede Tradição
           </h2>
-          <p className="text-xl leading-8">
+          <p className="text-xl leading-8 text-zinc-800">
             A Rede Tradição começou sua trajetória em setembro de 2015, no norte
             do Rio Grande do Sul, com o propósito de oferecer produtos e
             serviços de qualidade que realmente fizessem a diferença no dia a
@@ -35,14 +35,14 @@ export function InstitucionalPage() {
             Sananduva e Novo Barreiro, em parceria com a Cia Shell, consolidando
             nosso compromisso com excelência e proximidade.
           </p>
-          <p className="text-xl leading-8">
+          <p className="text-xl leading-8 text-zinc-800">
             Em janeiro de 2016, demos um passo importante rumo à expansão com a
             aquisição de uma unidade na BR-386, em Soledade, um dos principais
             corredores logísticos do estado. Poucos meses depois, em abril,
             ampliamos ainda mais nossa atuação com uma nova unidade na RS-126,
             em Sananduva.
           </p>
-          <p className="text-xl leading-8">
+          <p className="text-xl leading-8 text-zinc-800">
             O ano de 2018 trouxe uma grande transformação para a nossa marca.
             Sob nova gestão, abraçamos a inovação e nos tornamos ainda mais
             focados em você, nosso cliente. Com isso, adotamos uma nova
@@ -51,14 +51,14 @@ export function InstitucionalPage() {
             experiências que facilitam e enriquecem o dia a dia dos nossos
             clientes.
           </p>
-          <p className="text-xl leading-8">
+          <p className="text-xl leading-8 text-zinc-800">
             Hoje, a Rede Tradição se orgulha de operar com 53 unidades no Rio
             Grande do Sul, 18 em Santa Catarina e 2 no Paraná, além de contar
             com nosso Centro Administrativo em Marau – RS. Cada uma dessas
             unidades reflete nosso propósito de atender com excelência e
             humanização, sempre priorizando a sua satisfação.
           </p>
-          <p className="text-xl leading-8 font-bold italic">
+          <p className="text-xl leading-8 font-bold italic text-zinc-800">
             Rede Tradição, a Tua Rede de Postos. Facilitando Teu Dia.
           </p>
           <Separator />
@@ -68,19 +68,19 @@ export function InstitucionalPage() {
             <span className="uppercase font-light text-[#979797] text-[64px] leading-[89px]">
               Anos
             </span>
-            <span className="font-normal text-7xl">7</span>
+            <span className="font-normal text-7xl text-zinc-800">7</span>
           </div>
           <div className="flex flex-col items-center gap-2">
             <span className="uppercase font-light text-[#979797] text-[64px] leading-[89px]">
               Postos
             </span>
-            <span className="font-normal text-7xl">70+</span>
+            <span className="font-normal text-7xl text-zinc-800">70+</span>
           </div>
           <div className="flex flex-col items-center gap-2">
             <span className="uppercase font-light text-[#979797] text-[64px] leading-[89px]">
               Clientes
             </span>
-            <span className="font-normal text-7xl">200mil+</span>
+            <span className="font-normal text-7xl text-zinc-800">200mil+</span>
           </div>
         </div>
       </section>
@@ -95,44 +95,44 @@ export function InstitucionalPage() {
       >
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
-            <img src={Marcio} alt="logo" />
-            <span className="text-lg">Marcio Andre Pagnussat</span>
-            <span>CEO</span>
+            <img src={Marcio} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Marcio Andre Pagnussat</span>
+            <span className="text-md text-zinc-700">CEO</span>
           </Card>
         </div>
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
-            <img src={Eluir} alt="logo" />
-            <span className="text-lg">Elui Seiffert</span>
-            <span>Diretor de Expansão</span>
+            <img src={Eluir} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Elui Seiffert</span>
+            <span className="text-md text-zinc-700">Diretor de Expansão</span>
           </Card>
         </div>
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
-            <img src={Claudia} alt="logo" />
-            <span className="text-lg">Cláudia Pereto Pagnussat</span>
-            <span> Diretora Administrativa</span>
+            <img src={Claudia} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Cláudia Pereto Pagnussat</span>
+            <span className="text-md text-zinc-700">Diretora Administrativa</span>
           </Card>
         </div>
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
-            <img src={Milena} alt="logo" />
-            <span className="text-lg">Milena Pereto Pagnussat</span>
-            <span>Diretora Administrativa</span>
+            <img src={Milena} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Milena Pereto Pagnussat</span>
+            <span className="text-md text-zinc-700">Diretora Administrativa</span>
           </Card>
         </div>
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
-            <img src={Fabio} alt="logo" />
-            <span className="text-lg">Fábio Remedi Trindade</span>
-            <span>Diretor Operacional</span>
+            <img src={Fabio} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Fábio Remedi Trindade</span>
+            <span className="text-md text-zinc-700">Diretor Operacional</span>
           </Card>
         </div>
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
-            <img src={Matheus} alt="logo" />
-            <span className="text-lg">Matheus Brugnera</span>
-            <span>Diretor Comercial</span>
+            <img src={Matheus} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Matheus Brugnera</span>
+            <span className="text-md text-zinc-700">Diretor Comercial</span>
           </Card>
         </div>
       </Carousel>

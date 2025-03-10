@@ -9,10 +9,10 @@ export function AppHomeSection() {
 
     <section className="p-6 gap-12 md:gap-2 md:flex-row md:p-0 max-w-[1200px] mt-10 m-auto justify-center flex items-center flex-col">
       <div className="flex flex-col md:max-w-[500px] gap-3">
-        <div className="bg-[#C1C1C166]/40 rounded-full py-[6px] px-[38px] ">
-          <p className="uppercase text-sm text-black font-bold">
+        <div className="bg-[#C1C1C166]/40 rounded-full py-[6px] px-[38px] inline-flex w-fit">
+          <span className="uppercase text-xs text-black font-semibold tracking-wide">
             Aplicativo rede tradição
-          </p>
+          </span>
         </div>
         <p className="text-[#850B10] font-bold text-4xl md:text-[46px] leading-[69px]">
           Obtenha vantagens e muito cashback utilizando o app da Tua Rede!
@@ -22,7 +22,7 @@ export function AppHomeSection() {
         <div>
           <Button
             variant="default"
-            className="uppercase bg-[#D24248] text-white"
+            className="uppercase bg-[#D24248] text-white p-6"
           >
             Obtenha o aplicativo
           </Button>

@@ -12,4 +12,7 @@ export const ROUTES_NAME = {
   "EDIT_RESOURCE": "/backoffice/resources/edit/:id",
   "USERS": "/backoffice/users",
   "PROFILE": "/backoffice/profile",
+  "INSTITUTIONAL": "/institucional",
+  "POSTOS": "/postos",
+  "CONTATO": "/fale-conosco",
 } as const;

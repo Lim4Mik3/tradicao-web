@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button';
+import { ROUTES_NAME } from '@/constants/ROUTES_NAME';
+import { NavLink } from '../../../components/NavLink';
 import { ArrowRight } from 'lucide-react';
 
 export function TrajetoriaHomeSection() {
@@ -20,10 +21,10 @@ export function TrajetoriaHomeSection() {
             precisar. Rede Tradição – Facilitando Teu Dia!
           </p>
         </div>
-        <Button variant="link" className="text-[#850B10] uppercase">
+        <NavLink to={ROUTES_NAME.INSTITUTIONAL} className="text-[#850B10] uppercase flex items-center gap-2">
           Saiba Mais
           <ArrowRight size={24} />
-        </Button>
+        </NavLink>
       </section>
     </main>
   );
