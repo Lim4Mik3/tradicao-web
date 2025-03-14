@@ -32,9 +32,10 @@ type Props = {
   value: string;
 };
 
-export function ManagersInput({ title, onChange }: { 
+export function ManagersInput({ title, hasError, onChange }: { 
   title: string; 
   onChange?: (managerId: string) => void; 
+  hasError?: string;
 }) {
   const [selectedManager, setSelectedManager] = useState<Props | null>(null);
 
@@ -71,6 +72,10 @@ export function ManagersInput({ title, onChange }: {
           value={selectedManager}
           defaultOptions
         />
+
+        { hasError && (
+          <span className="text-xs font-semibold tracking-wide text-red-500">{hasError}</span>
+        )}
       </div>
     </div>
   );

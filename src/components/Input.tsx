@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { type ComponentProps, forwardRef } from "react"
 
 type InputProps = ComponentProps<"input"> & {
-  hasError?: boolean;
+  hasError?: string;
   isLoading?: boolean;
   title?: string;
   variant?: boolean;
@@ -29,7 +29,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
       )}
       <div
         className={cn("flex items-center justify-between w-full px-5 py-3 bg-white border border-gray-200 rounded-md shadow-sm has-[:focus]:outline-none has-[:focus]:ring-2 has-[:focus]:ring-red-300 gap-4", className, {
-          "border-2 border-red-400 has-[:focus]:ring-transparent": hasError,
+          "border-2 border-red-400 has-[:focus]:ring-transparent": !!hasError,
           "pointer-events-none opacity-70 select-none": isLoading
         })}
       >
@@ -43,6 +43,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
 
         { isLoading && (<div style={{ "--color": "red" }} className="loader" />) }
       </div>
+
+      { hasError && (<span className="text-xs font-semibold tracking-wide text-red-500">{hasError}</span>)}
     </div>
   )
 })

@@ -50,7 +50,7 @@ export function ConvinienceInput({ title, onChange }: Props) {
       </div>
 
       { resources.length === 0 && (
-          <p className="text-gray-500 py-12 flex items-center justify-center w-full border border-dashed rounded-md border-gray-300">
+          <p className="text-gray-500 py-12 flex items-center justify-center w-full border border-dashed rounded-md border-gray-300 text-center px-8">
             Nenhuma conveniência encontrada, cadastre uma nova para selecionar.
           </p>
         )}

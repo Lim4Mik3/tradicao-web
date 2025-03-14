@@ -4,9 +4,9 @@ import { Plus } from 'lucide-react';
 
 type PhotoWithId = File & { id: string };
 
-type Props = { title: string, onChange: (photos: PhotoWithId[]) => void };
+type Props = { title: string, hasError?: string; onChange: (photos: PhotoWithId[]) => void };
 
-export function PhotoInput({ title, onChange }: Props) {
+export function PhotoInput({ title, hasError, onChange }: Props) {
   const [photos, setPhotos] = useState<PhotoWithId[]>([]);
   const inputId = useId()
 
@@ -67,6 +67,8 @@ export function PhotoInput({ title, onChange }: Props) {
             <Plus className="w-6 h-6" />
             <span className="text-md">Adicionar fotos</span>
         </label>
+
+        { hasError && (<span className="text-xs font-semibold tracking-wide text-red-500">{hasError}</span>)}
       </div>
     )
   }
@@ -102,6 +104,7 @@ export function PhotoInput({ title, onChange }: Props) {
             <span className="text-base">Adicionar mais fotos</span>
         </label>
       </div>
+      { hasError && (<span className="text-xs font-semibold tracking-wide text-red-500 mt-1">{hasError}</span>)}
     </div>
   );
 }

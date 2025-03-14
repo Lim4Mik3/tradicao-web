@@ -1,4 +1,5 @@
 import { httpClient } from '@/infra/httpClient';
+import { cn } from '@/lib/utils';
 import { debounce } from '@/utils/debounce';
 import { useState } from 'react';
 import AsyncSelect from 'react-select/async';
@@ -28,7 +29,7 @@ type Props = {
   value: string;
 }
 
-export function AddressAutocompleteInput({ title, onChange }: { title: string, onChange: (event: any) => void; }) {
+export function AddressAutocompleteInput({ title, hasError, onChange }: { title: string, onChange: (event: any) => void; hasError?: string }) {
   const [address, setCurrentAddress] = useState({} as Props);
   const [mapSrc, setMapSrc] = useState('');
 
@@ -69,6 +70,10 @@ export function AddressAutocompleteInput({ title, onChange }: { title: string, o
           classNamePrefix="react-select"
         />
       </div>
+
+      { hasError && (
+        <span className="text-xs font-semibold tracking-wide text-red-500">{hasError}</span>
+      )}
 
       { mapSrc && (
         <iframe

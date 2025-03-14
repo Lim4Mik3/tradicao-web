@@ -14,12 +14,23 @@ import { ConvinienceInput } from "@/components/ConvinienceInput";
 import { OilChangeInput } from "@/components/OilChangeInput";
 
 const schema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
+  name: z
+    .string()
+    .min(1, "Nome é obrigatório"),
+  filialNumber: z
+    .string()
+    .min(1, "Número da filial é obrigatório")
+    .nonempty("Número da filial é obrigatório"),
   enabled: z.boolean(),
-  addressPlaceId: z.string().min(1, "Endereço é obrigatório"),
+  addressPlaceId: z
+    .string({ required_error: "Endereço é obrigatório" })
+    .min(1, "Endereço é obrigatório")
+    .nonempty("Endereço é obrigatório"),
   photos: z.array(z.object({ id: z.string() })).min(3, "É necessário pelo menos 3 fotos"),
   services: z.array(z.string()).optional(),
   phone: z.string().min(10, "Telefone inválido"),
+  comercialHours: z.string().min(1, "Horário comercial é obrigatório"),
+  holidaysHours: z.string().min(1, "Horário em feriados é obrigatório"),
   mobile: z.string().min(10, "Celular inválido"),
   whatsapp: z.string().min(10, "Whatsapp inválido"),
   email: z.string().email("E-mail inválido"),
@@ -36,11 +47,13 @@ export function CreateGasStationPage() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<z.TypeOf<typeof schema>>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data) => {
+  console.log(errors)
+
+  const onSubmit = (data: any) => {
     console.log("Formulário válido:", data);
   };
 
@@ -60,44 +73,105 @@ export function CreateGasStationPage() {
                 <span className="text-sm font-semibold text-gray-600 mr-1">Unidade ativa:</span>
                 <Switch onCheckedChange={(selected) => setValue("enabled", selected)} />
               </div>
-              {errors.enabled && <span className="text-red-500 mt-1">{String(errors.enabled.message)}</span>}
-              
-              <Input title="Nome da unidade" placeholder="Digite o nome da unidade" {...register("name")} />
-              {errors.name && <span className="text-red-500 mt-1">{String(errors.name.message)}</span>}
-              
-              <Input title="Numero da unidade" placeholder="Digite o numero da filial" {...register("unityNumber")} />
-              
-              <AddressAutocompleteInput title="Endereço da unidade" onChange={(placeId) => setValue("addressPlaceId", placeId)} />
-              {errors.addressPlaceId && <span className="text-red-500 mt-1">{String(errors.addressPlaceId.message)}</span>}
 
-              <PhotoInput title="Imagens da unidade" onChange={(photos) => setValue("photos", photos)} />
-              {errors.photos && <span className="text-red-500 mt-1">{String(errors.photos.message)}</span>}
-
-              <ServicesInput title="Serviços da unidade" onChange={(services) => setValue("services", services)} />
-              {errors.services && <span className="text-red-500 mt-1">{String(errors.services?.message)}</span>}
-
-              <Input title="Telefone da unidade" placeholder="Digite o telefone da unidade" {...register("phone")} />
-              {errors.phone && <span className="text-red-500 mt-1">{String(errors.phone.message)}</span>}
-
-              <Input title="Celular da unidade" placeholder="Digite o celular da unidade" {...register("mobile")} />
-              {errors.mobile && <span className="text-red-500 mt-1">{String(errors.mobile.message)}</span>}
-
-              <Input title="Whatsapp da unidade" placeholder="Digite o whatsapp da unidade" {...register("whatsapp")} />
-              {errors.whatsapp && <span className="text-red-500 mt-1">{String(errors.whatsapp.message)}</span>}
-
-              <Input title="E-mail da unidade" placeholder="Digite o e-mail da unidade" {...register("email")} />
-              {errors.email && <span className="text-red-500 mt-1">{String(errors.email.message)}</span>}
+              <Input 
+                title="Nome da unidade"
+                placeholder="Digite o nome da unidade" 
+                hasError={errors.name?.message}
+                {...register("name")} 
+              />
               
-              <AppsInput title="Aplicativos de desconto" onChange={(apps) => setValue("apps", apps)} />
-              <BrandsInput title="Marcas" onChange={(brands) => setValue("brands", brands)} />
-              <ConvinienceInput title="Conveniências" onChange={(conveniences) => setValue("conveniences", conveniences)} />
-              <OilChangeInput title="Troca de óleo" onChange={(oilChanges) => setValue("oilChanges", oilChanges)} />
+              <Input 
+                title="Numero da filial" 
+                placeholder="Digite o numero da filial" 
+                hasError={errors.filialNumber?.message}
+                {...register("filialNumber")} 
+              />
               
-              <Input title="Horario comercial" placeholder="Horario comercial" {...register("comercialHours")} />
-              <Input title="Horario feriados" placeholder="Horario holidays" {...register("holidaysHours")} />
+              <AddressAutocompleteInput 
+                title="Endereço da unidade" 
+                onChange={(placeId) => setValue("addressPlaceId", placeId)} 
+                hasError={errors.addressPlaceId?.message}
+              />
+
+              <PhotoInput 
+                title="Imagens da unidade" 
+                hasError={errors.photos?.message}
+                onChange={(photos) => setValue("photos", photos)} 
+              />
+
+              <ServicesInput 
+                title="Serviços da unidade" 
+                onChange={(services) => setValue("services", services)} 
+              />
+
+              <Input 
+                title="Telefone da unidade" 
+                hasError={errors.phone?.message}
+                placeholder="Digite o telefone da unidade" 
+                {...register("phone")} 
+              />
+
+              <Input 
+                title="Celular da unidade" 
+                placeholder="Digite o celular da unidade" 
+                hasError={errors.mobile?.message}
+                {...register("mobile")} 
+              />
+
+              <Input 
+                title="Whatsapp da unidade" 
+                placeholder="Digite o whatsapp da unidade" 
+                hasError={errors.whatsapp?.message}
+                {...register("whatsapp")} 
+              />
+
+              <Input 
+                title="E-mail da unidade" 
+                hasError={errors.email?.message}
+                placeholder="Digite o e-mail da unidade" 
+                {...register("email")} 
+              />
               
-              <ManagersInput title="Gerente" onChange={(managerId) => setValue("managerId", managerId[0] || "")} />
-              {errors.managerId && <span className="text-red-500 mt-1">{String(errors.managerId.message)}</span>}
+              <AppsInput 
+                title="Aplicativos de desconto" 
+                onChange={(apps) => setValue("apps", apps)} 
+              />
+
+              <BrandsInput 
+                title="Marcas" 
+                onChange={(brands) => setValue("brands", brands)} 
+              />
+
+              <ConvinienceInput 
+                title="Conveniências" 
+                onChange={(conveniences) => setValue("conveniences", conveniences)} 
+              />
+
+              <OilChangeInput 
+                title="Troca de óleo" 
+                onChange={(oilChanges) => setValue("oilChanges", oilChanges)} 
+              />
+              
+              <Input 
+                title="Horario comercial" 
+                placeholder="Horario comercial" 
+                hasError={errors.comercialHours?.message}
+                {...register("comercialHours")} 
+              />
+
+              <Input 
+                title="Horario feriados" 
+                placeholder="Horario holidays" 
+                hasError={errors.holidaysHours?.message}
+                {...register("holidaysHours")} 
+              />
+              
+              <ManagersInput 
+                title="Gerente" 
+                hasError={errors.managerId?.message}
+                onChange={(managerId) => setValue("managerId", managerId)} 
+              />
             </div>
           </section>
           
