@@ -3,7 +3,6 @@ import { Menu } from "@/components/Menu/Menu";
 
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
-import { Toasts } from "@/components/Toasts";
 
 type Props =  {
   children: React.ReactNode;
@@ -24,8 +23,6 @@ export function PrivateLayout({ children, className }: Props) {
           {children}
         </div>
       </div>
-
-      <Toasts />
     </main>
   )
 }
