@@ -9,7 +9,6 @@ import { Button } from "./Button"
 import { cn } from "@/lib/utils"
 import { useCreateResouce } from "@/hooks/useCreateResource"
 import { useNavigate } from "react-router-dom"
-
 export const options = [
   { value: 'SERVICES', label: 'Serviços', color: '#00B8D9' },
   { value: 'APPS', label: 'Aplicativos', color: '#0052CC' },
@@ -48,8 +47,8 @@ export default function CreateResourceForm() {
       errors = { ...errors, title: 'O nome do recurso é obrigatório' }
     }
 
-    if (title.length < 2) {
-      errors = { ...errors, title: 'O nome do recurso deve ter ao menos 2 caracteres.' }
+    if (title.length < 4) {
+      errors = { ...errors, title: 'O nome do recurso deve ter ao menos 4 caracteres.' }
     }
 
     if (!category) {

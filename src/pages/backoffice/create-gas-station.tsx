@@ -12,21 +12,27 @@ import { z } from "zod";
 import { AppsInput } from "@/components/AppDiscountInput";
 import { ConvinienceInput } from "@/components/ConvinienceInput";
 import { OilChangeInput } from "@/components/OilChangeInput";
+import { useCreateGasStation } from "@/hooks/useCreateGasStation";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/Button";
 
 const schema = z.object({
   name: z
     .string()
-    .min(1, "Nome é obrigatório"),
+    .min(4, "Nome é obrigatório"),
   filialNumber: z
     .string()
     .min(1, "Número da filial é obrigatório")
     .nonempty("Número da filial é obrigatório"),
-  enabled: z.boolean(),
+  enabled: z.boolean().default(true),
   addressPlaceId: z
     .string({ required_error: "Endereço é obrigatório" })
     .min(1, "Endereço é obrigatório")
     .nonempty("Endereço é obrigatório"),
-  photos: z.array(z.object({ id: z.string() })).min(3, "É necessário pelo menos 3 fotos"),
+  photos: z.array(z.object({
+    id: z.string(),
+    file: z.instanceof(File, { message: "O campo file deve ser um arquivo válido" }),
+  })),
   services: z.array(z.string()).optional(),
   phone: z.string().min(10, "Telefone inválido"),
   comercialHours: z.string().min(1, "Horário comercial é obrigatório"),
@@ -51,10 +57,16 @@ export function CreateGasStationPage() {
     resolver: zodResolver(schema),
   });
 
-  console.log(errors)
+  const navigate = useNavigate()
 
-  const onSubmit = (data: any) => {
-    console.log("Formulário válido:", data);
+  const createGasStation = useCreateGasStation()
+
+  const onSubmit = async (data: any) => {
+    const result = await createGasStation.mutateAsync(data);
+
+    if (result.error === null) {
+      navigate("/backoffice/gas-stations");
+    }
   };
 
   return (
@@ -71,7 +83,10 @@ export function CreateGasStationPage() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center">
                 <span className="text-sm font-semibold text-gray-600 mr-1">Unidade ativa:</span>
-                <Switch onCheckedChange={(selected) => setValue("enabled", selected)} />
+                <Switch 
+                  defaultChecked
+                  onCheckedChange={(selected) => setValue("enabled", selected)} 
+                />
               </div>
 
               <Input 
@@ -98,6 +113,7 @@ export function CreateGasStationPage() {
                 title="Imagens da unidade" 
                 hasError={errors.photos?.message}
                 onChange={(photos) => setValue("photos", photos)} 
+                // onChange={(photos) => { photos.map((image) => console.log(image.file.name)) }} 
               />
 
               <ServicesInput 
@@ -175,7 +191,9 @@ export function CreateGasStationPage() {
             </div>
           </section>
           
-          <button type="submit" className="mt-8 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Salvar</button>
+          <Button type="submit" className="mt-20" loading={createGasStation.isPending}>
+            Salvar
+          </Button>
         </form>
       </div>
     </PrivateLayout>

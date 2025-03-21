@@ -2,7 +2,7 @@ import { Trash } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 type Props = {
-  file: File & { id: string };
+  file: { file: File; id: string };
   onRemove?: (id: string) => void;
 }
 
@@ -16,7 +16,7 @@ export function PhotoCard({ file, onRemove }: Props) {
       setImage(reader.result as string);
     };
     
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file.file);
   }, [file]);
 
   return (
@@ -26,7 +26,7 @@ export function PhotoCard({ file, onRemove }: Props) {
       {image && (
         <img 
           src={image} 
-          alt={file.name} 
+          alt={file.file.name} 
           className='object-cover w-full h-full rounded-lg'
         />
       )}

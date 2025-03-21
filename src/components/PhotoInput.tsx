@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from 'react';
 import { PhotoCard } from './PhotoCard';
 import { Plus } from 'lucide-react';
 
-type PhotoWithId = File & { id: string };
+type PhotoWithId = { file: File; id: string };
 
 type Props = { title: string, hasError?: string; onChange: (photos: PhotoWithId[]) => void };
 
@@ -16,7 +16,8 @@ export function PhotoInput({ title, hasError, onChange }: Props) {
     const newPhotos: PhotoWithId[] = [];
 
     for (const file of e.target.files) {
-      const photoWithId = Object.assign(file, { id: crypto.randomUUID() });
+      const photoWithId = { file, id: crypto.randomUUID() };
+
       newPhotos.push(photoWithId);
     }
 
@@ -29,7 +30,8 @@ export function PhotoInput({ title, hasError, onChange }: Props) {
     const newPhotos: PhotoWithId[] = [];
 
     for (const file of e.target.files) {
-      const photoWithId = Object.assign(file, { id: crypto.randomUUID() });
+      const photoWithId = { file, id: crypto.randomUUID() };
+
       newPhotos.push(photoWithId);
     }
 
