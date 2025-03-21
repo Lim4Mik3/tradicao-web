@@ -1,11 +1,5 @@
 import type React from "react"
 
-import { Fragment, useState } from "react"
-import { Upload } from "lucide-react"
-import EditButton from "./edit-button"
-import ModalVariant from "./modal-variant"
-import { Input } from "./Input"
-
 interface ProfileHeaderProps {
   name: string
   title: string
@@ -15,26 +9,26 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ name, title, location, imageUrl, onSave }: ProfileHeaderProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    name,
-    title,
-    location,
-    imageUrl,
-  })
+  // const [isModalOpen, setIsModalOpen] = useState(false)
+  // const [formData, setFormData] = useState({
+  //   name,
+  //   title,
+  //   location,
+  //   imageUrl,
+  // })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }))
+  // }
 
-  const handleSubmit = () => {
-    onSave(formData)
-    setIsModalOpen(false)
-  }
+  // const handleSubmit = () => {
+  //   onSave(formData)
+  //   setIsModalOpen(false)
+  // }
 
   return (
     <div className="border rounded-lg border-gray-300 overflow-hidden mb-8">

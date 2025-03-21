@@ -134,3 +134,7 @@ html, body {
 .slick-arrow {
   @apply hidden!;
 }
+
+.gm-style-iw-d {
+  @apply overflow-hidden!;
+}

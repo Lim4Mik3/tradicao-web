@@ -19,6 +19,7 @@ type PrivateRoutesPath = Omit<
 
 type HeaderTitleMap = Record<keyof PrivateRoutesPath, ReactNode>;
 
+// @ts-ignore
 const HEADER_TITLE_MAP: HeaderTitleMap = {
   '/backoffice/dashboard': (
     <span className="text-zinc-950 font-medium text-2xl tracking-wide">
@@ -52,7 +53,7 @@ const HEADER_TITLE_MAP: HeaderTitleMap = {
   ),
   '/backoffice/gas-stations/create': <CreateGasStationHeader />,
   '/backoffice/resources/create': <CreateResourceHeader />,
-  '/backoffice/resources/edit/:id': <EditResourceHeader />
+  '/backoffice/resources/edit/:id': <EditResourceHeader />,
 }
 
 export function Header() {

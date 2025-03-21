@@ -1,5 +1,4 @@
 import { httpClient } from '@/infra/httpClient';
-import { cn } from '@/lib/utils';
 import { debounce } from '@/utils/debounce';
 import { useState } from 'react';
 import AsyncSelect from 'react-select/async';
@@ -30,7 +29,7 @@ type Props = {
 }
 
 export function AddressAutocompleteInput({ title, hasError, onChange }: { title: string, onChange: (event: any) => void; hasError?: string }) {
-  const [address, setCurrentAddress] = useState({} as Props);
+  const [_, setCurrentAddress] = useState({} as Props);
   const [mapSrc, setMapSrc] = useState('');
 
   const handleChoosedAddress = (selectedOption: any) => {

@@ -75,7 +75,7 @@ export function LoginPage() {
       >
         <Input
           {...register('email')} 
-          hasError={!!errors.email}
+          hasError={errors.email?.message}
           autoComplete="off"
           placeholder="email@redetradicao.com.br" 
           className="w-full"

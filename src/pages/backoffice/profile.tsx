@@ -20,7 +20,7 @@ export default function ProfilePage() {
     taxId: "AS564178969",
   })
 
-  const updateProfile = (section: string, data: any) => {
+  const updateProfile = (_: string, data: any) => {
     setProfileData((prev) => ({
       ...prev,
       ...data,

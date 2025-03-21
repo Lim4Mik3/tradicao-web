@@ -5,10 +5,17 @@ import { Button } from '../Button';
 import { toast } from 'react-toastify';
 import { getLocationByIP } from '@/services/GetLocationByIp';
 
-const mapOptions = {
+const mapOptions: google.maps.MapOptions = {
   streetViewControl: false,
   fullscreenControl: false,
   mapTypeControl: false,
+  styles: [
+    {
+      featureType: "poi", // Remove todos os pontos de interesse
+      elementType: "all",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
 };
 
 const Maps = () => {
@@ -30,6 +37,7 @@ const Maps = () => {
     if (!preciseLocation) {
       const fetchInitialLocation = async () => {
         const location = await getLocationByIP();
+
   
         if (location) {
           setPreciseLocation(location);
@@ -117,7 +125,7 @@ const Maps = () => {
   return (
     <>
       <GoogleMap
-        mapContainerClassName="w-full h-full rounded-md relative bg-red-500"
+        mapContainerClassName="w-full h-full rounded-md relative border border-zinc-300"
         zoom={12}
         center={preciseLocation || { lat: 0, lng: 0 }} // Usa a localização do usuário, se disponível
         options={mapOptions}
@@ -139,54 +147,36 @@ const Maps = () => {
           >
             {selectedStation?.id === station.id && (
               <InfoWindowF
-                position={{ lat: station.address.coordinates[0], lng: station.address.coordinates[1] }}
+                position={{ 
+                  lat: station.address.coordinates[0], 
+                  lng: station.address.coordinates[1] 
+                }}
                 onCloseClick={() => setSelectedStation(null)}
+                options={{ headerDisabled: true }}
               >
-                <div style={{ padding: '10px', maxWidth: '200px' }}>
-                  <h3 style={{ margin: '0 0 10px 0' }}>{station.name}</h3>
-                  <p style={{ margin: '0 0 10px 0' }}>{station.address.formatted}</p>
-                  <button
-                    onClick={() => handleDetailsClick(station)}
-                    style={{
-                      backgroundColor: '#007bff',
-                      color: 'white',
-                      border: 'none',
-                      padding: '5px 10px',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Ver Detalhes
-                  </button>
+                <div className='p-4'>
+                  <h3 className='text-xl text-zinc-900 tracking-wide font-semibold mb-4'>
+                    {station.name}
+                  </h3>
+                  <p className='text-xs text-zinc-700'>{station.address.formatted}</p>
+                  
+
+                  <Button className='mt-10'>
+                    Ver detalhes
+                  </Button>
                 </div>
               </InfoWindowF>
             )}
           </MarkerF>
         ))}
 
-        {preciseLocation === null && (
           <div className="absolute bg-white/20 h-14 left-1/2 -translate-x-1/2 bottom-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-all">
             <Button onClick={handleGetPreciseLocation}>Buscar próximos</Button>
           </div>
-        )}
       </GoogleMap>
 
-      {showDetails && selectedStationDetails && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '300px',
-            backgroundColor: '#fff',
-            borderRadius: '10px',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            padding: '15px',
-            zIndex: 1000,
-            border: '2px solid #000',
-          }}
-        >
+      {/* {showDetails && selectedStationDetails && (
+        <div className='bg-red-500 p-10'>
           <button
             onClick={closeDetails}
             style={{
@@ -244,7 +234,7 @@ const Maps = () => {
             Navegar
           </button>
         </div>
-      )}
+      )} */}
     </>
   );
 };

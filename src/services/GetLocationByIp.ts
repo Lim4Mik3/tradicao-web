@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 export interface LocationByIP {
@@ -7,10 +8,10 @@ export interface LocationByIP {
 
 export const getLocationByIP = async (): Promise<LocationByIP | null> => {
   try {
-    const response = await fetch('http://ip-api.com/json');
-    const data = await response.json();
+    const response = await axios.get('http://ip-api.com/json');
+    const data = response.data;
 
-    if (data.status === 'success') {
+    if (response.status === 200) {
       return {
         lat: data.lat,
         lng: data.lon,
@@ -21,7 +22,6 @@ export const getLocationByIP = async (): Promise<LocationByIP | null> => {
     }
   } catch (error) {
     console.error('Erro ao buscar localização por IP:', error);
-    toast.error('Erro ao buscar localização por IP.');
     return null;
   }
 };

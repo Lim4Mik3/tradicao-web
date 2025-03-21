@@ -5,7 +5,7 @@ import { useState } from "react"
 
 export function DescriptionInput() {
   const { register, watch } = useFormContext()
-  const description = watch("cityDescription")
+  // const description = watch("cityDescription")
   const [charCount, setCharCount] = useState(0)
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

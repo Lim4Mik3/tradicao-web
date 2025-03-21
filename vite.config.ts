@@ -17,18 +17,18 @@ export default defineConfig({
     }
   },
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            // @ts-ignore
-            const packageName = id.match(/node_modules\/([^\/]*)\//)[1];
+    // rollupOptions: {
+    //   output: {
+    //     manualChunks(id) {
+    //       if (id.includes('node_modules')) {
+    //         // @ts-ignore
+    //         const packageName = id.match(/node_modules\/([^\/]*)\//)[1];
 
-            return `vendor-${packageName}`;
-          }
-        }
-      }
-    }
+    //         return `vendor-${packageName}`;
+    //       }
+    //     }
+    //   }
+    // }
   },
   resolve: {
     alias: {
