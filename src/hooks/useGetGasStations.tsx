@@ -1,14 +1,10 @@
 import { GetGasStation } from '@/services/GetGasStations';
 import { useQuery } from '@tanstack/react-query';
 
-type Props = {
-  enabled?: boolean;
-}
-
-export function useGetGasStations(props: Props) {
+export function useGetGasStations() {
   return useQuery({
     queryKey: ['gas-stations'],
+    staleTime: 0,
     queryFn: () => GetGasStation(),
-    enabled: props.enabled
   });
 }

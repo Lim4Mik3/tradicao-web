@@ -55,7 +55,7 @@ export function CreateGasStationPage() {
     formState: { errors },
   } = useForm<z.TypeOf<typeof schema>>({
     resolver: zodResolver(schema),
-  });
+  }); 
 
   const navigate = useNavigate()
 
@@ -64,24 +64,20 @@ export function CreateGasStationPage() {
   const onSubmit = async (data: any) => {
     const result = await createGasStation.mutateAsync(data);
 
-    if (result.error === null) {
+    if (result.error === null) { 
       navigate("/backoffice/gas-stations");
     }
   };
 
   return (
     <PrivateLayout>
-      <div className="bg-white rounded-lg h-full mx-auto max-w-[70%] border border-gray-300 overflow-auto">
-        <header className="py-10 px-16 bg-gradient-to-r from-red-200 to-red-100 flex items-center justify-start gap-8 text-zinc-950">
-          <span className="flex items-center justify-center w-14 aspect-square rounded-lg border border-zinc-400/20 bg-red-400 text-slate-50 text-xl font-semibold">01</span>
-          <span className="text-2xl drop-shadow-md">Preencha as informações</span>
-        </header>
-        
+      <div className="bg-white rounded-lg h-full mx-auto border border-gray-300 overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="px-12 py-16">
-          <section className="flex flex-col ">
+          <section className="flex flex-col">
             <span className="text-2xl text-zinc-700 font-semibold border-b border-b-gray-300 pb-1 mb-5">Dados básicas</span>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center">
+            <div className="flex flex-col gap-6 py-6">
+
+              <div className="flex items-center mb-4">
                 <span className="text-sm font-semibold text-gray-600 mr-1">Unidade ativa:</span>
                 <Switch 
                   defaultChecked
@@ -191,7 +187,7 @@ export function CreateGasStationPage() {
             </div>
           </section>
           
-          <Button type="submit" className="mt-20" loading={createGasStation.isPending}>
+          <Button type="submit" className="mt-10 w-40" loading={createGasStation.isPending}>
             Salvar
           </Button>
         </form>
