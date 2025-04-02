@@ -18,8 +18,11 @@ export function MapSection() {
           <Button
             variant="default"
             className="uppercase bg-[#D24248] text-white p-6"
+            asChild
           >
-            Encontre o Posto
+            <a href="/postos">
+              Encontre o Posto
+            </a>
           </Button>
         </div>
       </div>

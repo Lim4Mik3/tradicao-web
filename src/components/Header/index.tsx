@@ -16,8 +16,10 @@ export function Header() {
           <NavLink to="/fale-conosco">Contato</NavLink>
           <NavLink to="https://www.contatoseguro.com.br/grupotradicao">Ouvidoria</NavLink>
 
-          <Button className="bg-[#D24248] text-white uppercase p-6 ml-10">
-            Buscar Posto
+          <Button asChild className="bg-[#D24248] text-white uppercase p-6 ml-10">
+            <a href="/postos">
+              Buscar Posto
+            </a>
           </Button>
         </nav>
       </div>
