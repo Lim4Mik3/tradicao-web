@@ -1,24 +1,25 @@
+import { Modal } from "@/components/Modal";
+import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
+import { CreateGasStationPage } from "@/pages/backoffice/create-gas-station";
+import { CreateResourcePage } from "@/pages/backoffice/create-resource";
+import { DashboardPage } from "@/pages/backoffice/dashboard";
+import { EditResourcePage } from "@/pages/backoffice/edit-resource";
+import { GasStationsPage } from "@/pages/backoffice/gas-stations";
+import ProfilePage from "@/pages/backoffice/profile";
+import { ResourcesPage } from "@/pages/backoffice/resources";
 import { ConfirmLoginPage } from "@/pages/confirm-login";
+import { FaleConoscoPage } from "@/pages/FaleConosco";
+import { HomePage } from "@/pages/Home";
+import { InstitucionalPage } from "@/pages/Institucional";
 import { LoginPage } from "@/pages/login";
+import { PostosPage } from "@/pages/Postos";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
+import { createPortal } from "react-dom";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./protected-route";
 import { PublicRoute } from "./public-route";
 import { SecureConfirmLoginRoute } from "./secure-confirm-login-route";
-import { createPortal } from "react-dom";
-import { Modal } from "@/components/Modal";
-import { DashboardPage } from "@/pages/backoffice/dashboard";
-import { GasStationsPage } from "@/pages/backoffice/gas-stations";
-import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
-import { CreateGasStationPage } from "@/pages/backoffice/create-gas-station";
-import ProfilePage from "@/pages/backoffice/profile";
-import { ResourcesPage } from "@/pages/backoffice/resources";
-import { CreateResourcePage } from "@/pages/backoffice/create-resource";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { EditResourcePage } from "@/pages/backoffice/edit-resource";
-import { HomePage } from "@/pages/Home";
-import { FaleConoscoPage } from "@/pages/FaleConosco";
-import { InstitucionalPage } from "@/pages/Institucional";
 
 const NavigateAllNotFoundPageToHome = () => <Navigate to="/login" replace />
 
@@ -35,9 +36,9 @@ export function router() {
               <Route path={ROUTES_NAME.HOME} Component={HomePage} />
               <Route path={ROUTES_NAME.CONTATO} Component={FaleConoscoPage} />
               <Route path={ROUTES_NAME.INSTITUTIONAL} Component={InstitucionalPage} />
-              <Route path={ROUTES_NAME.POSTOS} Component={InstitucionalPage} />
+              <Route path={ROUTES_NAME.POSTOS} Component={PostosPage} />
             </Route>
-            
+
             <Route element={<SecureConfirmLoginRoute />}>
               <Route path={ROUTES_NAME.CONFIRM_LOGIN} Component={ConfirmLoginPage} />
             </Route>

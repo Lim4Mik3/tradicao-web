@@ -1,9 +1,9 @@
 import { useGetGasStations } from '@/hooks/useGetGasStations';
-import { GoogleMap, MarkerF, useLoadScript, InfoWindowF } from '@react-google-maps/api';
-import { useState, useEffect, useRef } from 'react';
-import { Button } from '../Button';
-import { toast } from 'react-toastify';
 import { getLocationByIP } from '@/services/GetLocationByIp';
+import { GoogleMap, InfoWindowF, MarkerF, useLoadScript } from '@react-google-maps/api';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Button } from '../Button';
 
 const mapOptions: google.maps.MapOptions = {
   streetViewControl: false,
@@ -38,7 +38,7 @@ const Maps = () => {
       const fetchInitialLocation = async () => {
         const location = await getLocationByIP();
 
-  
+
         if (location) {
           setPreciseLocation(location);
         }
@@ -140,16 +140,16 @@ const Maps = () => {
             position={{ lat: station.address.coordinates[0], lng: station.address.coordinates[1] }}
             icon={{
               url: '/bg-icon.png',
-              scaledSize: new window.google.maps.Size(50, 50), 
+              scaledSize: new window.google.maps.Size(50, 50),
               anchor: new window.google.maps.Point(25, 25),
             }}
             onClick={() => setSelectedStation(station)}
           >
             {selectedStation?.id === station.id && (
               <InfoWindowF
-                position={{ 
-                  lat: station.address.coordinates[0], 
-                  lng: station.address.coordinates[1] 
+                position={{
+                  lat: station.address.coordinates[0],
+                  lng: station.address.coordinates[1]
                 }}
                 onCloseClick={() => setSelectedStation(null)}
                 options={{ headerDisabled: true }}
@@ -159,7 +159,7 @@ const Maps = () => {
                     {station.name}
                   </h3>
                   <p className='text-xs text-zinc-700'>{station.address.formatted}</p>
-                  
+
 
                   <Button className='mt-10'>
                     Ver detalhes
@@ -170,9 +170,9 @@ const Maps = () => {
           </MarkerF>
         ))}
 
-          <div className="absolute bg-white/20 h-14 left-1/2 -translate-x-1/2 bottom-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-all">
-            <Button onClick={handleGetPreciseLocation}>Buscar próximos</Button>
-          </div>
+        <div className="absolute bg-white/20 h-14 left-1/2 -translate-x-1/2 bottom-5 flex items-center justify-center opacity-40 hover:opacity-100 transition-all">
+          <Button onClick={handleGetPreciseLocation}>Buscar próximos</Button>
+        </div>
       </GoogleMap>
 
       {/* {showDetails && selectedStationDetails && (

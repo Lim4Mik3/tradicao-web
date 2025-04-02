@@ -1,9 +1,13 @@
 import Claudia from '@/assets/Diretores/Claudia.png';
+import Cristiano from '@/assets/Diretores/Cristiano_Pena.png';
 import Eluir from '@/assets/Diretores/Eluir.png';
+import Everton from '@/assets/Diretores/Everton_Moreno.png';
 import Fabio from '@/assets/Diretores/Fabio.png';
+import Luciano from '@/assets/Diretores/Luciano_Dall-Alba.png';
 import Marcio from '@/assets/Diretores/Marcio.png';
 import Matheus from '@/assets/Diretores/Matheus.png';
 import Milena from '@/assets/Diretores/Milena.png';
+import Paulo from '@/assets/Diretores/Paulo_Ricardo_Sampaio.png';
 import Banner from '@/assets/Institucional/BannerInstitucional.jpg';
 import { Carousel } from '@/components/Carousel';
 import { Card } from '@/components/ui/card';
@@ -104,7 +108,7 @@ export function InstitucionalPage() {
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
             <img src={Eluir} alt="logo" className='rounded-md' />
             <span className="text-lg text-zinc-800">Elui Seiffert</span>
-            <span className="text-md text-zinc-700">Diretor de Expansão</span>
+            <span className="text-md text-zinc-700">Assessor de Novos Negócios e Expansão</span>
           </Card>
         </div>
         <div>
@@ -125,14 +129,39 @@ export function InstitucionalPage() {
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
             <img src={Fabio} alt="logo" className='rounded-md' />
             <span className="text-lg text-zinc-800">Fábio Remedi Trindade</span>
-            <span className="text-md text-zinc-700">Diretor Operacional</span>
+            <span className="text-md text-zinc-700">Assessor de Relação Institucional</span>
           </Card>
         </div>
         <div>
           <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
             <img src={Matheus} alt="logo" className='rounded-md' />
             <span className="text-lg text-zinc-800">Matheus Brugnera</span>
-            <span className="text-md text-zinc-700">Diretor Comercial</span>
+            <span className="text-md text-zinc-700">Gerente Executivo Combustíveis e Gás</span>
+          </Card>
+        </div>
+        <div>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Everton} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Everton Moreno</span>
+            <span className="text-md text-zinc-700">Gerente Executivo Financeiro</span>
+          </Card>
+        </div><div>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Paulo} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Paulo Ricardo Sampaio</span>
+            <span className="text-md text-zinc-700">Gerente Executivo das Empresas Associadas</span>
+          </Card>
+        </div><div>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Cristiano} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Cristiano Pena</span>
+            <span className="text-md text-zinc-700">Gerente Executivo Comercial</span>
+          </Card>
+        </div><div>
+          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+            <img src={Luciano} alt="logo" className='rounded-md' />
+            <span className="text-lg text-zinc-800">Luciano Dall-Alba</span>
+            <span className="text-md text-zinc-700">Gerente Executivo Administrativo, Suprimentos e Logística</span>
           </Card>
         </div>
       </Carousel>
