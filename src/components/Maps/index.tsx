@@ -60,7 +60,7 @@ const Maps = () => {
         }
 
         if (denied.POSITION_UNAVAILABLE) {
-          return toast.error('A localização não pode ser encontrada.');
+          // return toast.error('A localização não pode ser encontrada.');
         }
 
         toast.error('Aconteceu um erro ao pegar a localização.');
@@ -134,7 +134,7 @@ const Maps = () => {
           fitMapToMarkers();
         }}
       >
-        {state.data?.stations.map((station) => (
+        {state.data?.stations?.map((station) => (
           <MarkerF
             key={station.id}
             position={{ lat: station.address.coordinates[0], lng: station.address.coordinates[1] }}

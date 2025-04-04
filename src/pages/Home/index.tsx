@@ -10,6 +10,7 @@ import { TrajetoriaHomeSection } from './slices/trajetoria-home';
 export function HomePage() {
   return (
     <AppLayout>
+
       <BannerHomeSection />
       <MultipleItems />
       <MapSection />
@@ -17,6 +18,7 @@ export function HomePage() {
       <AppHomeSection />
       <TrajetoriaHomeSection />
       <CarreiraSection />
+
     </AppLayout>
   );
 }
