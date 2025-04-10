@@ -1,9 +1,14 @@
 import { Separator } from '@/components/ui/separator';
 import { AppLayout } from '@/Layouts/app';
+import { Helmet } from 'react-helmet-async';
 
 export function PostosPage() {
   return (
     <AppLayout>
+      <Helmet>
+        <title>Postos - Posto Tradição</title>
+        <meta name="description" content="Conheça nossos pontos de abastecimento." />
+      </Helmet>
       <section className="max-w-[1200px] p-6 md:p-0 gap-24 m-auto justify-center flex items-center flex-col">
         <div className="flex flex-col gap-6">
           <h2 className="font-bold text-start text-7xl text-[#B00000]">

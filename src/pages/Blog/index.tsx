@@ -1,11 +1,16 @@
 import { AppLayout } from '@/Layouts/app';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Helmet } from 'react-helmet-async';
 import { BannerBlogSection } from './slices/BannerBlog';
 
 export function BlogPage() {
   return (
     <AppLayout>
+      <Helmet>
+        <title>Blog - Posto Tradição</title>
+        <meta name="description" content="Acompanhe o blog do Posto Tradição e fique por dentro de dicas automotivas, economia de combustível, novidades do setor e muito mais!" />
+      </Helmet>
       <BannerBlogSection />
       <section className="max-w-[1200px] m-auto mt-6 p-6">
         <div className="flex flex-col gap-4">

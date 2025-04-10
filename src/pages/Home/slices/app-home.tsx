@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 export function AppHomeSection() {
   return (
 
-    <section className="p-6 gap-12 md:gap-2 md:flex-row md:p-0 max-w-[1200px] mt-10 m-auto justify-center flex items-center flex-col">
+    <section className="p-6 gap-12 md:gap-2 md:flex md:flex-row md:p-0 max-w-[1200px] mt-10 m-auto justify-center ">
       <div className="flex flex-col md:max-w-[500px] gap-3">
         <div className="bg-[#C1C1C166]/40 rounded-full py-[6px] px-[38px] inline-flex w-fit">
           <span className="uppercase text-xs text-black font-semibold tracking-wide">
@@ -30,7 +30,7 @@ export function AppHomeSection() {
       </div>
 
       <Carousel
-        className="md:max-w-[500px] max-w-[320px] m-auto mb-20"
+        className="md:max-w-[500px] mt-20 md:mt-0 max-w-[320px] m-auto mb-20"
         dots
         infinite
         speed={500}

@@ -13,10 +13,15 @@ import { Carousel } from '@/components/Carousel';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { AppLayout } from '@/Layouts/app';
+import { Helmet } from 'react-helmet-async';
 
 export function InstitucionalPage() {
   return (
     <AppLayout>
+      <Helmet>
+        <title>Institucional - Posto Tradição</title>
+        <meta name="description" content="Conheça a história, valores e compromisso do Posto Tradição com qualidade, segurança e atendimento de excelência. Abasteça confiança." />
+      </Helmet>
       <section className="max-w-[1200px] p-6 md:p-0 gap-24 m-auto justify-center flex items-center flex-col">
         <div className="flex w-full flex-col items-start mt-24 justify-start ">
           <h1 className="font-bold text-[#313131] text-4xl text-start md:text-7xl">
@@ -98,70 +103,70 @@ export function InstitucionalPage() {
         autoplay
       >
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Marcio} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Marcio Andre Pagnussat</span>
-            <span className="text-md text-zinc-700">CEO</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Marcio Andre Pagnussat</span>
+            <span className="text-center text-md text-zinc-700">CEO</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Eluir} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Elui Seiffert</span>
-            <span className="text-md text-zinc-700">Assessor de Novos Negócios e Expansão</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Elui Seiffert</span>
+            <span className="text-center text-md text-zinc-700">Assessor de Novos Negócios e Expansão</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Claudia} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Cláudia Pereto Pagnussat</span>
-            <span className="text-md text-zinc-700">Diretora Administrativa</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Cláudia Pereto Pagnussat</span>
+            <span className="text-center text-md text-zinc-700">Diretora Administrativa</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Milena} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Milena Pereto Pagnussat</span>
-            <span className="text-md text-zinc-700">Diretora Administrativa</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Milena Pereto Pagnussat</span>
+            <span className="text-center text-md text-zinc-700">Diretora Administrativa</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Fabio} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Fábio Remedi Trindade</span>
-            <span className="text-md text-zinc-700">Assessor de Relação Institucional</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Fábio Remedi Trindade</span>
+            <span className="text-center text-md text-zinc-700">Assessor de Relação Institucional</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Matheus} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Matheus Brugnera</span>
-            <span className="text-md text-zinc-700">Gerente Executivo Combustíveis e Gás</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Matheus Brugnera</span>
+            <span className="text-center text-md text-zinc-700">Gerente Executivo Combustíveis e Gás</span>
           </Card>
         </div>
         <div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Everton} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Everton Moreno</span>
-            <span className="text-md text-zinc-700">Gerente Executivo Financeiro</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Everton Moreno</span>
+            <span className="text-center text-md text-zinc-700">Gerente Executivo Financeiro</span>
           </Card>
         </div><div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Paulo} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Paulo Ricardo Sampaio</span>
-            <span className="text-md text-zinc-700">Gerente Executivo das Empresas Associadas</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Paulo Ricardo Sampaio</span>
+            <span className="text-center text-md text-zinc-700">Gerente Executivo das Empresas Associadas</span>
           </Card>
         </div><div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Cristiano} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Cristiano Pena</span>
-            <span className="text-md text-zinc-700">Gerente Executivo Comercial</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Cristiano Pena</span>
+            <span className="text-center text-md text-zinc-700">Gerente Executivo Comercial</span>
           </Card>
         </div><div>
-          <Card className="border items-center border-gray-300 w-[284px] gap-2 h-[350px] p-6 flex flex-col">
+          <Card className="border items-center  border-gray-300 w-[295px] gap-2 h-[400px] p-6 flex flex-col">
             <img src={Luciano} alt="logo" className='rounded-md' />
-            <span className="text-lg text-zinc-800">Luciano Dall-Alba</span>
-            <span className="text-md text-zinc-700">Gerente Executivo Administrativo, Suprimentos e Logística</span>
+            <span className="text-lg border-l-4 border-red-500 pl-2 text-zinc-800">Luciano Dall-Alba</span>
+            <span className="text-center text-md text-zinc-700">Gerente Executivo Administrativo, Suprimentos e Logística</span>
           </Card>
         </div>
       </Carousel>

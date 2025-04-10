@@ -16,6 +16,7 @@ import { PostosPage } from "@/pages/Postos";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
 import { createPortal } from "react-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./protected-route";
 import { PublicRoute } from "./public-route";
@@ -29,35 +30,38 @@ export function router() {
   return (
     <QueryClientProvider client={queryClient}>
       <StrictMode>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<PublicRoute />}>
-              <Route path={ROUTES_NAME.LOGIN} Component={LoginPage} />
-              <Route path={ROUTES_NAME.HOME} Component={HomePage} />
-              <Route path={ROUTES_NAME.CONTATO} Component={FaleConoscoPage} />
-              <Route path={ROUTES_NAME.INSTITUTIONAL} Component={InstitucionalPage} />
-              <Route path={ROUTES_NAME.POSTOS} Component={PostosPage} />
-            </Route>
+        <HelmetProvider>
 
-            <Route element={<SecureConfirmLoginRoute />}>
-              <Route path={ROUTES_NAME.CONFIRM_LOGIN} Component={ConfirmLoginPage} />
-            </Route>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<PublicRoute />}>
+                <Route path={ROUTES_NAME.LOGIN} Component={LoginPage} />
+                <Route path={ROUTES_NAME.HOME} Component={HomePage} />
+                <Route path={ROUTES_NAME.CONTATO} Component={FaleConoscoPage} />
+                <Route path={ROUTES_NAME.INSTITUTIONAL} Component={InstitucionalPage} />
+                <Route path={ROUTES_NAME.POSTOS} Component={PostosPage} />
+              </Route>
 
-            <Route path={ROUTES_NAME.BACKOFFICE_PREFIX} element={<PrivateRoute />}>
-              <Route path={ROUTES_NAME.DASHBOARD} Component={DashboardPage} />
-              <Route path={ROUTES_NAME.GAS_STATIONS} Component={GasStationsPage} />
-              <Route path={ROUTES_NAME.CREATE_GAS_STATION} Component={CreateGasStationPage} />
-              <Route path={ROUTES_NAME.PROFILE} Component={ProfilePage} />
-              <Route path={ROUTES_NAME.RESOURCES} Component={ResourcesPage} />
-              <Route path={ROUTES_NAME.CREATE_RESOURCE} Component={CreateResourcePage} />
-              <Route path={ROUTES_NAME.EDIT_RESOURCE} Component={EditResourcePage} />
-            </Route>
+              <Route element={<SecureConfirmLoginRoute />}>
+                <Route path={ROUTES_NAME.CONFIRM_LOGIN} Component={ConfirmLoginPage} />
+              </Route>
 
-            <Route path="*" Component={NavigateAllNotFoundPageToHome} />
-          </Routes>
-        </BrowserRouter>
+              <Route path={ROUTES_NAME.BACKOFFICE_PREFIX} element={<PrivateRoute />}>
+                <Route path={ROUTES_NAME.DASHBOARD} Component={DashboardPage} />
+                <Route path={ROUTES_NAME.GAS_STATIONS} Component={GasStationsPage} />
+                <Route path={ROUTES_NAME.CREATE_GAS_STATION} Component={CreateGasStationPage} />
+                <Route path={ROUTES_NAME.PROFILE} Component={ProfilePage} />
+                <Route path={ROUTES_NAME.RESOURCES} Component={ResourcesPage} />
+                <Route path={ROUTES_NAME.CREATE_RESOURCE} Component={CreateResourcePage} />
+                <Route path={ROUTES_NAME.EDIT_RESOURCE} Component={EditResourcePage} />
+              </Route>
 
-        {createPortal(<Modal />, document.getElementById('portal-1')!)}
+              <Route path="*" Component={NavigateAllNotFoundPageToHome} />
+            </Routes>
+          </BrowserRouter>
+
+          {createPortal(<Modal />, document.getElementById('portal-1')!)}
+        </HelmetProvider>
       </StrictMode>
     </QueryClientProvider>
   )
