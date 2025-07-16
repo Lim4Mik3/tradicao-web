@@ -1,12 +1,10 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddressAutocompleteInput } from "@/components/AddressAutocompleteInput";
 import { BrandsInput } from "@/components/BrandsInput";
 import { Input } from "@/components/Input";
-import { ManagersInput } from "@/components/ManagersInput";
 import { PhotoInput } from "@/components/PhotoInput";
 import { ServicesInput } from "@/components/ServicesInput";
-import { Switch } from "@/components/ui/switch";
 import { PrivateLayout } from "@/Layouts/PrivateLayout";
 import { z } from "zod";
 import { AppsInput } from "@/components/AppDiscountInput";
@@ -15,75 +13,82 @@ import { OilChangeInput } from "@/components/OilChangeInput";
 import { useCreateGasStation } from "@/hooks/useCreateGasStation";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   name: z
     .string()
-    .min(4, "Nome é obrigatório"),
+    .min(1, "Nome é obrigatório")
+    .min(4, "Nome deve ter ao menos 4 caracteres"),
   filialNumber: z
     .string()
-    .min(1, "Número da filial é obrigatório")
-    .nonempty("Número da filial é obrigatório"),
-  enabled: z.boolean().default(true),
+    .min(1, "Número da filial é obrigatório"),
   addressPlaceId: z
     .string({ required_error: "Endereço é obrigatório" })
-    .min(1, "Endereço é obrigatório")
-    .nonempty("Endereço é obrigatório"),
+    .min(1, "Endereço é obrigatório"),
   photos: z.array(z.object({
     id: z.string(),
     file: z.instanceof(File, { message: "O campo file deve ser um arquivo válido" }),
-  })),
+  })).optional(),
   services: z.array(z.string()).optional(),
-  phone: z.string().min(10, "Telefone inválido"),
+  phone: z.string().min(10, "Telefone deve ter ao menos 10 dígitos"),
   comercialHours: z.string().min(1, "Horário comercial é obrigatório"),
   holidaysHours: z.string().min(1, "Horário em feriados é obrigatório"),
-  mobile: z.string().min(10, "Celular inválido"),
-  whatsapp: z.string().min(10, "Whatsapp inválido"),
+  mobile: z.string().min(10, "Celular deve ter ao menos 10 dígitos"),
+  whatsapp: z.string().min(10, "WhatsApp deve ter ao menos 10 dígitos"),
   email: z.string().email("E-mail inválido"),
   apps: z.array(z.string()).optional(),
   brands: z.array(z.string()).optional(),
   conveniences: z.array(z.string()).optional(),
   oilChanges: z.array(z.string()).optional(),
-  managerId: z.string().min(1, "Gerente é obrigatório"),
 });
+
+type GasStationFormData = z.infer<typeof schema>;
 
 export function CreateGasStationPage() {
   const {
     register,
     handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<z.TypeOf<typeof schema>>({
+    control,
+    formState: { errors, isValid },
+  } = useForm<GasStationFormData>({
     resolver: zodResolver(schema),
+    mode: 'onChange',
+    defaultValues: {
+      services: [],
+      apps: [],
+      brands: [],
+      conveniences: [],
+      oilChanges: [],
+    },
   }); 
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const createGasStation = useCreateGasStation();
 
-  const createGasStation = useCreateGasStation()
+  const onSubmit = async (data: GasStationFormData) => {
+    try {
+      const result = await createGasStation.mutateAsync(data);
 
-  const onSubmit = async (data: any) => {
-    const result = await createGasStation.mutateAsync(data);
-
-    if (result.error === null) { 
-      navigate("/backoffice/gas-stations");
+      if (result.error === null) { 
+        toast.success("🎉 Posto de gasolina criado com sucesso!");
+        navigate("/backoffice/gas-stations");
+      } else {
+        toast.error(`❌ Erro ao criar posto: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Erro ao criar posto:', error);
+      toast.error("❌ Erro inesperado ao criar posto. Tente novamente.");
     }
   };
 
   return (
     <PrivateLayout>
-      <div className="bg-white rounded-lg h-full mx-auto border border-gray-300 overflow-auto">
-        <form onSubmit={handleSubmit(onSubmit)} className="px-12 py-16">
+      <div className="bg-white rounded-lg h-full mx-auto border border-gray-300 overflow-auto max-w-[60vw]">
+        <form onSubmit={handleSubmit(onSubmit)} className="px-12 py-16 ">
           <section className="flex flex-col">
-            <span className="text-2xl text-zinc-700 font-semibold border-b border-b-gray-300 pb-1 mb-5">Dados básicas</span>
+            <span className="text-2xl text-zinc-700 font-semibold border-b border-b-gray-300 pb-1 mb-5">Dados básicos</span>
             <div className="flex flex-col gap-6 py-6">
-
-              <div className="flex items-center mb-4">
-                <span className="text-sm font-semibold text-gray-600 mr-1">Unidade ativa:</span>
-                <Switch 
-                  defaultChecked
-                  onCheckedChange={(selected) => setValue("enabled", selected)} 
-                />
-              </div>
 
               <Input 
                 title="Nome da unidade"
@@ -93,28 +98,45 @@ export function CreateGasStationPage() {
               />
               
               <Input 
-                title="Numero da filial" 
-                placeholder="Digite o numero da filial" 
+                title="Número da filial" 
+                placeholder="Digite o número da filial" 
                 hasError={errors.filialNumber?.message}
                 {...register("filialNumber")} 
               />
               
-              <AddressAutocompleteInput 
-                title="Endereço da unidade" 
-                onChange={(placeId) => setValue("addressPlaceId", placeId)} 
-                hasError={errors.addressPlaceId?.message}
+              <Controller
+                name="addressPlaceId"
+                control={control}
+                render={({ field }) => (
+                  <AddressAutocompleteInput 
+                    title="Endereço da unidade" 
+                    onChange={field.onChange} 
+                    hasError={errors.addressPlaceId?.message}
+                  />
+                )}
               />
 
-              <PhotoInput 
-                title="Imagens da unidade" 
-                hasError={errors.photos?.message}
-                onChange={(photos) => setValue("photos", photos)} 
-                // onChange={(photos) => { photos.map((image) => console.log(image.file.name)) }} 
+              <Controller
+                name="photos"
+                control={control}
+                render={({ field }) => (
+                  <PhotoInput 
+                    title="Imagens da unidade" 
+                    hasError={errors.photos?.message}
+                    onChange={field.onChange} 
+                  />
+                )}
               />
 
-              <ServicesInput 
-                title="Serviços da unidade" 
-                onChange={(services) => setValue("services", services)} 
+              <Controller
+                name="services"
+                control={control}
+                render={({ field }) => (
+                  <ServicesInput 
+                    title="Serviços da unidade" 
+                    onChange={field.onChange} 
+                  />
+                )}
               />
 
               <Input 
@@ -132,8 +154,8 @@ export function CreateGasStationPage() {
               />
 
               <Input 
-                title="Whatsapp da unidade" 
-                placeholder="Digite o whatsapp da unidade" 
+                title="WhatsApp da unidade" 
+                placeholder="Digite o WhatsApp da unidade" 
                 hasError={errors.whatsapp?.message}
                 {...register("whatsapp")} 
               />
@@ -145,50 +167,73 @@ export function CreateGasStationPage() {
                 {...register("email")} 
               />
               
-              <AppsInput 
-                title="Aplicativos de desconto" 
-                onChange={(apps) => setValue("apps", apps)} 
+              <Controller
+                name="apps"
+                control={control}
+                render={({ field }) => (
+                  <AppsInput 
+                    title="Aplicativos de desconto" 
+                    onChange={field.onChange} 
+                  />
+                )}
               />
 
-              <BrandsInput 
-                title="Marcas" 
-                onChange={(brands) => setValue("brands", brands)} 
+              <Controller
+                name="brands"
+                control={control}
+                render={({ field }) => (
+                  <BrandsInput 
+                    title="Marcas" 
+                    onChange={field.onChange} 
+                  />
+                )}
               />
 
-              <ConvinienceInput 
-                title="Conveniências" 
-                onChange={(conveniences) => setValue("conveniences", conveniences)} 
+              <Controller
+                name="conveniences"
+                control={control}
+                render={({ field }) => (
+                  <ConvinienceInput 
+                    title="Conveniências" 
+                    onChange={field.onChange} 
+                  />
+                )}
               />
 
-              <OilChangeInput 
-                title="Troca de óleo" 
-                onChange={(oilChanges) => setValue("oilChanges", oilChanges)} 
+              <Controller
+                name="oilChanges"
+                control={control}
+                render={({ field }) => (
+                  <OilChangeInput 
+                    title="Troca de óleo" 
+                    onChange={field.onChange} 
+                  />
+                )}
               />
               
               <Input 
-                title="Horario comercial" 
-                placeholder="Horario comercial" 
+                title="Horário comercial" 
+                placeholder="Ex: Segunda a Sexta: 06:00 às 22:00" 
                 hasError={errors.comercialHours?.message}
                 {...register("comercialHours")} 
               />
 
               <Input 
-                title="Horario feriados" 
-                placeholder="Horario holidays" 
+                title="Horário feriados" 
+                placeholder="Ex: Sábados e Domingos: 07:00 às 20:00" 
                 hasError={errors.holidaysHours?.message}
                 {...register("holidaysHours")} 
-              />
-              
-              <ManagersInput 
-                title="Gerente" 
-                hasError={errors.managerId?.message}
-                onChange={(managerId) => setValue("managerId", managerId)} 
               />
             </div>
           </section>
           
-          <Button type="submit" className="mt-10 w-40" loading={createGasStation.isPending}>
-            Salvar
+          <Button 
+            type="submit" 
+            className="mt-10 w-40" 
+            loading={createGasStation.isPending}
+            disabled={!isValid || createGasStation.isPending}
+          >
+            {createGasStation.isPending ? 'Salvando...' : 'Salvar'}
           </Button>
         </form>
       </div>

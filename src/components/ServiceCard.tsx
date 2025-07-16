@@ -1,15 +1,9 @@
 import { cn } from "@/lib/utils"
 import { useId } from "react"
+import { ResourceModel } from "@/models/Resource"
 
 type ServiceCardProps = {
-  resource: {
-    id: string
-    title: string
-    category: string
-    image?: string
-    createdAt: string
-    updatedAt: string
-  }
+  resource: ResourceModel
   isSelected: boolean
   onToggle: () => void
 }

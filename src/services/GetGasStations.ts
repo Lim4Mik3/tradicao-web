@@ -31,7 +31,6 @@ export namespace GetGasStation {
       brands: string[];
       conveniences: string[];
       oilChanges: string[];
-      manager: string;
       images: string[];
       createdAt: string;
       updatedAt: string;

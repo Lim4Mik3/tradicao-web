@@ -6,26 +6,35 @@ import { useNavigate } from "react-router-dom";
 import ResourceCard from "@/components/ResourceCard";
 
 import { PrivateLayout } from "@/Layouts/PrivateLayout";
-import { useGetResources } from "@/hooks/useGetResources";
+import { useGetResources } from "@/hooks/useResourcesQueries";
 import { Fragment } from "react";
 
 export function ResourcesPage() {
   const navigate = useNavigate();
-  const getResources = useGetResources();
+  const { data: resources, isLoading, error, refetch } = useGetResources();
 
-  const resources = getResources.data?.data;
-  const isEmpty = resources && resources.resources.length === 0;
+  const isEmpty = resources && resources.length === 0;
 
-  const servicesResources = resources?.resources
-    .filter((item) => item.category === 'SERVICES');
-  const appsResources = resources?.resources
-    .filter((item) => item.category === 'APPS');
-  const brandsResources = resources?.resources
-    .filter((item) => item.category === 'BRANDS');
-  const conviniencesResources = resources?.resources
-    .filter((item) => item.category === 'CONVINIENCES');
-  const changeOilsResources = resources?.resources
-    .filter((item) => item.category === 'CHANGE_OIL');
+  const servicesResources = resources?.filter((item) => item.category === 'SERVICES');
+  const appsResources = resources?.filter((item) => item.category === 'APPS');
+  const brandsResources = resources?.filter((item) => item.category === 'BRANDS');
+  const conviniencesResources = resources?.filter((item) => item.category === 'CONVINIENCES');
+  const changeOilsResources = resources?.filter((item) => item.category === 'CHANGE_OIL');
+
+  if (error) {
+    return (
+      <PrivateLayout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <p className="text-red-600 mb-4">Erro ao carregar recursos</p>
+            <Button onClick={() => refetch()}>
+              Tentar novamente
+            </Button>
+          </div>
+        </div>
+      </PrivateLayout>
+    );
+  }
 
   return (
     <PrivateLayout>
@@ -41,18 +50,20 @@ export function ResourcesPage() {
       </div>
 
       {
-        isEmpty && (
+        isEmpty && !isLoading && (
           <span
             className="flex items-center justify-center text-lg text-zinc-900 font-medium my-20"
           >
-            Nao existe nenhum recurso criado ainda.
+            Não existe nenhum recurso criado ainda.
           </span>
         )
       }
 
       {
-        getResources.isLoading && (
-          <div style={{ '--color': "red" }} className="loader mx-auto" />
+        isLoading && (
+          <div className="flex items-center justify-center my-20">
+            <div style={{ '--color': "red" }} className="loader mx-auto" />
+          </div>
         )
       }
 
@@ -68,7 +79,7 @@ export function ResourcesPage() {
                   <ResourceCard 
                     key={resource.id} 
                     resource={resource}
-                    reload={getResources.refetch} 
+                    reload={refetch} 
                   />
                 )) }
               </div>
@@ -87,7 +98,7 @@ export function ResourcesPage() {
                   <ResourceCard 
                     key={resource.id} 
                     resource={resource}
-                    reload={getResources.refetch} 
+                    reload={refetch} 
                   />
                 )) }
               </div>
@@ -108,7 +119,7 @@ export function ResourcesPage() {
                   <ResourceCard 
                     key={resource.id} 
                     resource={resource}
-                    reload={getResources.refetch} 
+                    reload={refetch} 
                   />
                 )) }
               </div>
@@ -127,7 +138,7 @@ export function ResourcesPage() {
                   <ResourceCard 
                     key={resource.id} 
                     resource={resource}
-                    reload={getResources.refetch} 
+                    reload={refetch} 
                   />
                 )) }
               </div>
@@ -146,7 +157,7 @@ export function ResourcesPage() {
                   <ResourceCard 
                     key={resource.id} 
                     resource={resource}
-                    reload={getResources.refetch} 
+                    reload={refetch} 
                   />
                 )) }
               </div>

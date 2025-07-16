@@ -5,6 +5,7 @@ import { Button } from "./Button";
 import { useDeleteResource } from "@/hooks/useDeleteResource";
 import { useNavigate } from "react-router-dom";
 import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
+import { ResourceModel } from "@/models/Resource";
 
 const CATEGORY_MAP = {
   "SERVICES": "Serviços",
@@ -12,10 +13,10 @@ const CATEGORY_MAP = {
   "BRANDS": "Marcas",
   "CONVINIENCES": "Conveniência",
   "CHANGE_OIL": "Troca de Óleo"
-}
+} as const;
 
 type Props = {
-  resource: any, 
+  resource: ResourceModel, 
   reload: () => void;
 }
 
@@ -28,11 +29,14 @@ export default function ResourceCard({ resource, reload }: Props) {
   const toggleDeleteModal = () => setIsDeleteModalOpen((prev) => !prev);
 
   const handleDeleteResource = async () => {
-    await deleteResource.mutateAsync({ resourceId: resource.id });
-    
-    reload()
-
-    toggleDeleteModal();
+    try {
+      await deleteResource.mutateAsync(resource.id);
+      reload();
+      toggleDeleteModal();
+    } catch (error) {
+      console.error('Erro ao deletar recurso:', error);
+      // Aqui você pode adicionar uma notificação de erro
+    }
   }
   
 

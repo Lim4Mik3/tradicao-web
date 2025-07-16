@@ -4,12 +4,14 @@ import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MakeLogin } from "@/services/MakeLogin";
-import { useNavigate } from "react-router-dom";
-import { LOCAL_STORAGE_KEYS } from "@/constants/LOCAL_STORAGE_KEYS";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const schema = z.object({
-  email: z.string().email("E-mail inválido").nonempty("O E-mail é obrigatório")
+  email: z.string().email("E-mail inválido").nonempty("O E-mail é obrigatório"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres").nonempty("A senha é obrigatória")
 })
 
 type LoginFormValues = z.infer<typeof schema>;
@@ -17,26 +19,52 @@ type LoginFormValues = z.infer<typeof schema>;
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn, isAuthenticated, loading: authLoading } = useAuth();
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  // Pega a rota de onde o usuário veio (se foi redirecionado de uma rota protegida)
+  const from = location.state?.from || '/dashboard';
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormValues>({
     resolver: zodResolver(schema)
   });
 
-  const handleLogin = async ({ email }: LoginFormValues) => {
+  // Redireciona se já estiver autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
+
+  const handleLogin = async ({ email, password }: LoginFormValues) => {
     try {
-      const result = await MakeLogin({ email }) as Record<string, unknown>;
+      setLoginError(null);
+      
+      const result = await signIn(email, password);
 
-      if (result.status === 200) {
-        localStorage.setItem(LOCAL_STORAGE_KEYS.REQUEST_LOGIN, JSON.stringify({
-          email,
-        }))
-
-        navigate('/confirm-login')
+      if (result.success) {
+        // Redireciona para a rota que o usuário estava tentando acessar
+        navigate(from, { replace: true });
+      } else {
+        setLoginError(result.error || 'Erro ao fazer login. Verifique suas credenciais.');
       }
     } catch (error) {
-      console.error(error)
-      alert("Algum erro inesperado aconteceu, tente novamente mais tarde.")
+      console.error('Erro inesperado no login:', error);
+      setLoginError('Algum erro inesperado aconteceu, tente novamente mais tarde.');
     }
+  }
+
+  // Mostra loading enquanto verifica autenticação
+  if (authLoading) {
+    return (
+      <RootLayout className="w-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Verificando autenticação...</p>
+        </div>
+      </RootLayout>
+    );
   }
 
   return (
@@ -76,22 +104,56 @@ export function LoginPage() {
         <Input
           {...register('email')} 
           hasError={errors.email?.message}
-          autoComplete="off"
+          autoComplete="email"
           placeholder="email@redetradicao.com.br" 
           className="w-full"
         />
-        { errors.email && (
+        {errors.email && (
           <p className="text-xs text-red-400 font-semibold mt-1 self-start">{errors.email.message}</p>
+        )}
+
+        <Input
+          {...register('password')} 
+          type="password"
+          hasError={errors.password?.message}
+          autoComplete="current-password"
+          placeholder="Sua senha" 
+          className="w-full mt-4"
+        />
+        {errors.password && (
+          <p className="text-xs text-red-400 font-semibold mt-1 self-start">{errors.password.message}</p>
+        )}
+
+        {loginError && (
+          <div className="w-full mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-sm text-red-600">{loginError}</p>
+          </div>
         )}
 
         <Button
           type="submit"
-          className="w-full mt-4"
+          className="w-full mt-6"
           loading={isSubmitting}
         >
           Acessar
         </Button>
       </form>
+
+      <div className="w-full mt-6 text-center">
+        <Link 
+          to="/signup" 
+          className="text-sm text-blue-600 hover:text-blue-500 font-medium block mb-3"
+        >
+          Não tem uma conta? Cadastre-se aqui
+        </Link>
+        
+        <Link 
+          to="/forgot-password" 
+          className="text-sm text-gray-600 hover:text-gray-500 font-medium"
+        >
+          Esqueceu sua senha?
+        </Link>
+      </div>
 
       <div
         className="flex items-center gap-5 mt-14 w-8 h-8 self-start"

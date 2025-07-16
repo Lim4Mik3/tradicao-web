@@ -1,6 +1,6 @@
 // src/components/ServicesInput.tsx
 import { ServiceCard } from './ServiceCard';
-import { useGetResources } from '@/hooks/useGetResources';
+import { useGetResourcesByCategory } from '@/hooks/useResourcesQueries';
 import { useState } from 'react';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function ServicesInput({ title, onChange }: Props) {
-  const { data, isLoading, error } = useGetResources('SERVICES');
+  const { data: resources, isLoading, error } = useGetResourcesByCategory('SERVICES');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const toggleSelection = (id: string) => {
@@ -23,21 +23,19 @@ export function ServicesInput({ title, onChange }: Props) {
   };
 
   if (isLoading) {
-    return <div className="flex justify-center">Carregando...</div>;
+    return <div className="flex justify-center">Carregando serviços...</div>;
   }
 
   if (error) {
-    return <div className="flex justify-center">Erro ao carregar serviços: {error.message}</div>;
+    return <div className="flex justify-center text-red-500">Erro ao carregar serviços: {error.message}</div>;
   }
-
-  const resources = data?.data?.resources || [];
 
   return (
     <div className="flex flex-col w-full">
       <span className="flex text-sm font-semibold text-gray-600 mb-4">{title}</span>
 
       <div className="grid grid-cols-5 gap-4 w-full">
-        {resources.length > 0 && (
+        {resources && resources.length > 0 ? (
           resources.map((resource) => (
             <ServiceCard
               key={resource.id}
@@ -46,14 +44,14 @@ export function ServicesInput({ title, onChange }: Props) {
               onToggle={() => toggleSelection(resource.id)}
             />
           ))
-        )}
-      </div>
-
-      { resources.length === 0 && (
-          <p className="text-gray-500 py-12 flex items-center justify-center w-full border border-dashed rounded-md border-gray-300 text-center px-8">
-            Nenhum serviço encontrado, cadastre um novo para selecionar.
-          </p>
-        )}
+        ) : (
+          <div className="col-span-5 text-center text-gray-500 py-4">
+            Nenhum serviço encontrado. 
+            <a href="/backoffice/resources/create" className="text-blue-500 hover:underline ml-1">
+              Criar primeiro serviço
+            </a>
+          </div>
+        )}      </div>
     </div>
   );
 }

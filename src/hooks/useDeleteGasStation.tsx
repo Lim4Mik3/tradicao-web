@@ -1,8 +1,8 @@
-import { DeleteGasStation } from "@/services/DeleteGasStation";
+import { DeleteGasStationFromSupabase } from "@/services/DeleteGasStationFromSupabase";
 import { useMutation } from "@tanstack/react-query";
 
 export function useDeleteGasStation() {
   return useMutation({
-    mutationFn: DeleteGasStation,
+    mutationFn: DeleteGasStationFromSupabase,
   });
 }

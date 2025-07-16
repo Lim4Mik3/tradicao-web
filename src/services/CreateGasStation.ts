@@ -1,10 +1,12 @@
-import { httpClient } from "@/infra/httpClient";
+import { supabase } from "@/infra/supabase";
+import { GasStationModel } from "@/models/GasStation";
+import { UploadGasStationImages } from "./UploadGasStationImages";
+import { DeleteGasStationImages } from "./DeleteGasStationImages";
 
 export namespace CreateGasStation {
   export type Input = {
     name: string;
     filialNumber: string;
-    enabled: boolean;
     addressPlaceId: string;
     photos?: Array<{ id: string; file: File }>;
     services?: string[];
@@ -18,7 +20,6 @@ export namespace CreateGasStation {
     brands?: string[];
     conveniences?: string[];
     oilChanges?: string[];
-    managerId: string;
   };
 
   export type Output = {
@@ -35,50 +36,100 @@ export async function CreateGasStation(input: CreateGasStation.Input): Promise<{
   error: string | null;
   data: CreateGasStation.Output | null;
 }> {
+  let gasStationId: string | null = null;
+  
   try {
-    const formData = new FormData();
-    
-    // Campos simples
-    formData.append("name", input.name);
-    formData.append("filialNumber", input.filialNumber);
-    formData.append("enabled", String(input.enabled));
-    formData.append("placeId", input.addressPlaceId);
-    formData.append("phone", input.phone);
-    formData.append("comercialHours", input.comercialHours);
-    formData.append("holidaysHours", input.holidaysHours);
-    formData.append("mobile", input.mobile);
-    formData.append("whatsapp", input.whatsapp);
-    formData.append("email", input.email);
-    formData.append("managerId", input.managerId);
+    // 1. Usar placeId diretamente - endereço básico
+    const addressDetails = {
+      route: "A ser preenchido",
+      street_number: "",
+      neighborhood: "A ser preenchido",
+      city: "A ser preenchido",
+      state: "A ser preenchido", 
+      country: "Brasil",
+      postal_code: "",
+      placeId: input.addressPlaceId,
+      formatted: "Endereço selecionado via Google Places",
+      coordinates: [-23.5505, -46.6333] as [number, number] // [latitude, longitude] - São Paulo
+    };
 
-    // Arrays opcionais
-    if (input.photos) {
-      input.photos.forEach((image) => {
-        formData.append("photos", image.file);
-      });
+    // 2. Criar o modelo do posto de gasolina
+    const gasStationModel = GasStationModel.create({
+      name: input.name,
+      email: input.email,
+      filialNumber: input.filialNumber,
+      phone: input.phone,
+      mobile: input.mobile,
+      whatsapp: input.whatsapp,
+      comercialHours: input.comercialHours,
+      holidaysHours: input.holidaysHours,
+      address: addressDetails,
+      apps: input.apps || [],
+      services: input.services || [],
+      brands: input.brands || [],
+      conveniences: input.conveniences || [],
+      oilChanges: input.oilChanges || [],
+      images: [], // Será preenchido após o upload
+    });
+
+    // Salvar o ID para possível limpeza
+    gasStationId = gasStationModel.id;
+
+    // 3. Fazer upload das imagens se existirem
+    let imageUrls: string[] = [];
+    if (input.photos && input.photos.length > 0) {
+      try {
+        const uploadResult = await UploadGasStationImages({
+          gasStationId: gasStationModel.id,
+          images: input.photos.map(photo => photo.file),
+        });
+        imageUrls = uploadResult.urls;
+        gasStationModel.images = imageUrls;
+      } catch (uploadError) {
+        console.warn("Erro no upload de imagens, continuando sem imagens:", uploadError);
+        // Continue mesmo se o upload falhar
+      }
     }
 
-    if (input.services) {
-      formData.append("services", JSON.stringify(input.services));
-    }
-    if (input.apps) {
-      formData.append("apps", JSON.stringify(input.apps));
-    }
-    if (input.brands) {
-      formData.append("brands", JSON.stringify(input.brands));
-    }
-    if (input.conveniences) {
-      formData.append("conveniences", JSON.stringify(input.conveniences));
-    }
-    if (input.oilChanges) {
-      formData.append("oilChanges", JSON.stringify(input.oilChanges));
+    // 4. Salvar no Supabase
+    const gasStationData = gasStationModel.toJson();
+    const { data, error } = await supabase
+      .from('gas_stations')
+      .insert([gasStationData])
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Erro ao salvar posto no banco: ${error.message}`);
     }
 
-    const response = await httpClient.post("/gas-station", formData);
-
-    return { error: null, data: response.data };
+    return {
+      error: null,
+      data: {
+        status: "success",
+        data: {
+          id: data.id,
+          name: data.name,
+          filialNumber: data.filial_number,
+        },
+      },
+    };
   } catch (error) {
-    console.error("Erro ao criar um posto de gasolina:", error);
-    return { error: "Erro na requisição à API", data: null };
+    console.error("Erro ao criar posto de gasolina:", error);
+    
+    // Limpar imagens em caso de erro
+    if (gasStationId) {
+      try {
+        await DeleteGasStationImages({ gasStationId });
+        console.log("Imagens limpas com sucesso após erro");
+      } catch (cleanupError) {
+        console.error("Erro ao limpar imagens:", cleanupError);
+      }
+    }
+    
+    return {
+      error: error instanceof Error ? error.message : "Erro desconhecido ao criar posto",
+      data: null,
+    };
   }
 }

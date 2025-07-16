@@ -1,8 +1,19 @@
-import { DeleteResource } from "@/services/DeleteResource";
-import { useMutation } from "@tanstack/react-query";
+import { ResourceService } from "@/services/resourceService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useDeleteResource() {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: DeleteResource,
+    mutationFn: async (id: string) => {
+      return await ResourceService.delete(id);
+    },
+    onSuccess: () => {
+      // Invalidar a query dos recursos para atualizar a lista
+      queryClient.invalidateQueries({ queryKey: ['resources'] });
+    },
+    onError: (error) => {
+      console.error('Erro ao deletar recurso:', error);
+    },
   });
 }

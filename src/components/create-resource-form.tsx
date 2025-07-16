@@ -1,6 +1,9 @@
 import type React from "react"
 
 import Select from 'react-select'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Clock } from "lucide-react"
 import { useState } from "react"
@@ -9,6 +12,7 @@ import { Button } from "./Button"
 import { cn } from "@/lib/utils"
 import { useCreateResouce } from "@/hooks/useCreateResource"
 import { useNavigate } from "react-router-dom"
+import { ResourceCategory } from "@/models/Resource"
 export const options = [
   { value: 'SERVICES', label: 'Serviços', color: '#00B8D9' },
   { value: 'APPS', label: 'Aplicativos', color: '#0052CC' },
@@ -17,57 +21,61 @@ export const options = [
   { value: 'CHANGE_OIL', label: 'Troca de Óleo', color: '#FF8B00' },
 ] as const;
 
-export default function CreateResourceForm() {
-  const [category, setCategory] = useState("")
-  const [title, setTitle] = useState('')
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [image, setImage] = useState<{
-    url: string,
-    file: File
-  }>({} as any);
+const resourceSchema = z.object({
+  title: z.string()
+    .min(1, 'O nome do recurso é obrigatório')
+    .min(4, 'O nome do recurso deve ter ao menos 4 caracteres.'),
+  category: z.string()
+    .min(1, 'A categoria do recurso é obrigatória'),
+  image: z.instanceof(File, { message: 'A imagem é obrigatória' })
+})
 
+type ResourceFormData = z.infer<typeof resourceSchema>
+
+export default function CreateResourceForm() {
+  const [imagePreview, setImagePreview] = useState<string>("")
+  
   const navigate = useNavigate();
   const createResource = useCreateResouce();
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid }
+  } = useForm<ResourceFormData>({
+    resolver: zodResolver(resourceSchema),
+    mode: 'onChange',
+    defaultValues: {
+      title: '',
+      category: '',
+      image: undefined
+    }
+  })
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-
       const url = URL.createObjectURL(file)
-      setImage({ url, file });
+      setImagePreview(url)
+      setValue('image', file, { shouldValidate: true })
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    let errors = {}
-
-    if (!title) {
-      errors = { ...errors, title: 'O nome do recurso é obrigatório' }
+  const onSubmit = async (data: ResourceFormData) => {
+    try {
+      await createResource.mutateAsync({
+        title: data.title,
+        category: data.category as ResourceCategory,
+        image: data.image,
+      });
+      
+      // Navegar de volta após sucesso
+      navigate(-1);
+    } catch (error) {
+      console.error('Erro ao criar recurso:', error);
+      // Aqui você pode adicionar uma notificação de erro
     }
-
-    if (title.length < 4) {
-      errors = { ...errors, title: 'O nome do recurso deve ter ao menos 4 caracteres.' }
-    }
-
-    if (!category) {
-      errors = { ...errors, category: 'A categoria do recurso é obrigatória' }
-    }
-
-    if (Object.keys(errors).length > 0) {
-      return setErrors(errors)
-    } else {
-      setErrors({});
-    }
-
-    await createResource.mutateAsync({
-      title,
-      category,
-      image: image.file
-    })
-
-    navigate(-1);
   }
 
   return (
@@ -76,7 +84,7 @@ export default function CreateResourceForm() {
         <h2 className="text-red-500 font-medium text-xl">Adicione uma recurso</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="p-4">
         <div className="mb-6">
           <h3 className="text-gray-800 font-medium mb-4">Dados</h3>
           <div className="border-t border-gray-200 pt-4">
@@ -93,11 +101,14 @@ export default function CreateResourceForm() {
                 />
                 <label
                   htmlFor="icone-upload"
-                  className="flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+                  className={cn(
+                    "flex items-center justify-center w-24 h-24 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50",
+                    errors.image ? "border-red-400" : "border-gray-300"
+                  )}
                 >
-                  {image.url ? (
+                  {imagePreview ? (
                     <img
-                      src={image.url || "/placeholder.svg"}
+                      src={imagePreview}
                       alt="Preview"
                       className="w-full h-full object-cover rounded-lg"
                     />
@@ -106,6 +117,11 @@ export default function CreateResourceForm() {
                   )}
                 </label>
               </div>
+              {errors.image && (
+                <span className="text-xs text-red-400 font-semibold mt-1 self-start">
+                  {errors.image.message}
+                </span>
+              )}
             </div>
 
             <div className="mb-6">
@@ -114,33 +130,46 @@ export default function CreateResourceForm() {
               >
                 Categoria
               </span>
-              <Select
-                placeholder="Escolha uma categoria"
-                classNamePrefix="react-select"
-                className={cn({ 
-                  "border-2 border-red-400 has-[:focus]:ring-transparent rounded-md": !!errors.category, 
-                })}
-                onChange={(option) => option?.value ? setCategory(option.value) : undefined}
-                options={options}
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Escolha uma categoria"
+                    classNamePrefix="react-select"
+                    className={cn({ 
+                      "border-2 border-red-400 has-[:focus]:ring-transparent rounded-md": !!errors.category, 
+                    })}
+                    onChange={(option) => field.onChange(option?.value || '')}
+                    value={options.find(option => option.value === field.value)}
+                    options={options}
+                  />
+                )}
               />
-              { errors.category && (
+              {errors.category && (
                 <span className="text-xs text-red-400 font-semibold mt-1 self-start">
-                  {errors.category}
+                  {errors.category.message}
                 </span>
               )}
             </div>
 
             <div className="mb-6">
-              <Input 
-                value={title}
-                hasError={!!errors.title}
-                title="Nome do recurso"
-                placeholder="Digite o nome do recurso"
-                onChange={(e) => setTitle(e.target.value)}
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => (
+                  <Input 
+                    value={field.value}
+                    hasError={errors.title?.message}
+                    title="Nome do recurso"
+                    placeholder="Digite o nome do recurso"
+                    onChange={(e) => field.onChange(e.target.value)}
+                  />
+                )}
               />
-              { errors.title && (
+              {errors.title && (
                 <span className="text-xs text-red-400 font-semibold mt-1 self-start">
-                  {errors.title}
+                  {errors.title.message}
                 </span>
               )}
             </div>
@@ -152,11 +181,12 @@ export default function CreateResourceForm() {
 
             <div className="flex justify-end">
               <Button 
+                type="submit"
                 className="w-20 h-14" 
-                onClick={handleSubmit} 
                 loading={createResource.isPending}
+                disabled={!isValid || createResource.isPending}
               >
-                Criar
+                {createResource.isPending ? 'Criando...' : 'Criar'}
               </Button>
             </div>
           </div>

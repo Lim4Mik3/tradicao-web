@@ -1,48 +1,30 @@
-import { httpClient } from '@/infra/httpClient';
-import { debounce } from '@/utils/debounce';
 import { useState } from 'react';
 import AsyncSelect from 'react-select/async';
+import { AddressService, type AddressOption } from '@/services/addressService';
+import { debounceAsync } from '@/utils/debounceAsync';
 
-const GetAddressPredictions = async (inputValue: string) => {
-  try {
-    const result = await httpClient.get(`/address/suggestions?q=${inputValue}`);
+const handleGetPredictions = debounceAsync(AddressService.searchAddresses, 500);
 
-    if (result.data && Array.isArray(result.data)) {
-      return result.data.map(item => ({
-        label: item.endereco,
-        value: item.placeId
-      }));
-    }
-
-    return [];
-  } catch (error) {
-    console.error("Erro ao buscar previsões:", error);
-    return [];
-  }
-};
-
-const handleGetPredictions = debounce(GetAddressPredictions, 1000);
-
-type Props = {
-  label: string;
-  value: string;
+interface AddressAutocompleteInputProps {
+  title: string;
+  onChange: (placeId: string) => void;
+  hasError?: string;
 }
 
-export function AddressAutocompleteInput({ title, hasError, onChange }: { title: string, onChange: (event: any) => void; hasError?: string }) {
-  const [_, setCurrentAddress] = useState({} as Props);
+export function AddressAutocompleteInput({ title, hasError, onChange }: AddressAutocompleteInputProps) {
   const [mapSrc, setMapSrc] = useState('');
 
-  const handleChoosedAddress = (selectedOption: any) => {
+  const handleChoosedAddress = (selectedOption: AddressOption | null) => {
     if (selectedOption) {
-      const newSrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAGaexRL1fyRRl77U05s7MH2Gwg3gjVxNk&q=place_id:${selectedOption.value}`;
+      // Usar o place_id para criar o mapa
+      const newSrc = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=place_id:${selectedOption.value}`;
       setMapSrc(newSrc);
 
       onChange(selectedOption.value);
-
-      setCurrentAddress({
-        label: selectedOption.label,
-        value: selectedOption.value
-      })
+    } else {
+      // Limpar quando não há seleção
+      setMapSrc('');
+      onChange('');
     }
   };
   return (
@@ -58,13 +40,19 @@ export function AddressAutocompleteInput({ title, hasError, onChange }: { title:
       <div
         className='flex flex-col w-full'
       >
-        <AsyncSelect 
+        <AsyncSelect<AddressOption>
           cacheOptions
+          defaultOptions={false}
           menuShouldBlockScroll
+          isClearable
           onChange={handleChoosedAddress}
           placeholder="Digite o endereço da unidade"
-          noOptionsMessage={() => "Não encontramos nenhum resultado"}
-          // @ts-expect-error
+          noOptionsMessage={({ inputValue }) => 
+            inputValue.length < 3 
+              ? "Digite pelo menos 3 caracteres" 
+              : "Não encontramos nenhum resultado"
+          }
+          loadingMessage={() => "Buscando endereços..."}
           loadOptions={handleGetPredictions}
           classNamePrefix="react-select"
         />

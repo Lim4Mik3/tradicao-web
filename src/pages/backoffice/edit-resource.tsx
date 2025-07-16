@@ -1,47 +1,58 @@
 import EditResourceForm from "@/components/edit-resource-form";
 import { PrivateLayout } from "@/Layouts/PrivateLayout";
-import { ResourceModel } from "@/models/Resource";
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useGetResource } from "@/hooks/useResourcesQueries";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "@/components/Button";
 
 export function EditResourcePage() {
-  const [resource, setResource] = useState<ResourceModel>({} as ResourceModel);
-  const [isLoading, setIsLoading] = useState(true);
-  
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const queryClient = useQueryClient()
-  const pathname = useLocation().pathname;
+  
+  const { data: resource, isLoading, error } = useGetResource(id!);
 
-  useEffect(() => {
-    const [[_, cache]] = queryClient.getQueriesData({ queryKey: ['resources'] }) as any;
-    const resources = cache.data.resources;
+  if (error) {
+    return (
+      <PrivateLayout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <p className="text-red-600 mb-4">Erro ao carregar recurso</p>
+            <Button onClick={() => navigate(-1)}>
+              Voltar
+            </Button>
+          </div>
+        </div>
+      </PrivateLayout>
+    );
+  }
 
-    if (resources.length > 0) {
-      const resourceID = pathname.split('/').pop();
+  if (isLoading) {
+    return (
+      <PrivateLayout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div style={{ '--color': "red" }} className="loader mx-auto" />
+        </div>
+      </PrivateLayout>
+    );
+  }
 
-      const resource = resources.find((item: any) => item.id === resourceID);
-
-      if (resource) {
-        setResource(resource)
-        setIsLoading(false)
-      } else {
-        navigate(-1);
-      }
-    }
-  }, []);
+  if (!resource) {
+    return (
+      <PrivateLayout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <p className="text-gray-600 mb-4">Recurso não encontrado</p>
+            <Button onClick={() => navigate(-1)}>
+              Voltar
+            </Button>
+          </div>
+        </div>
+      </PrivateLayout>
+    );
+  }
 
   return (
     <PrivateLayout>
-      {
-        isLoading
-          ? (
-            <div style={{ '--color': "red" }} className="loader mx-auto" />
-          )
-          : (
-            <EditResourceForm resource={resource} />
-          )
-      }
+      <EditResourceForm resource={resource} />
     </PrivateLayout>
   )
 }

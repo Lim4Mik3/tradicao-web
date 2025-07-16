@@ -66,7 +66,6 @@ export namespace GetGasStation {
         createdAt: string;
         updatedAt: string;
       }>;
-      manager: string;
       location: {
         type: string;
         coordinates: [number, number];
