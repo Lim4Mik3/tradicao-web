@@ -4,6 +4,8 @@ import ModalVariant from "./modal-variant";
 import { Button } from "./Button";
 import dayjs from 'dayjs'
 import { useDeleteGasStation } from "@/hooks/useDeleteGasStation";
+import { useNavigate } from "react-router-dom";
+import { ROUTES_NAME } from "@/constants/ROUTES_NAME";
 
 type Props = {
   station: any
@@ -16,6 +18,7 @@ export function GasStationBackofficeCard({ station, refetch }: Props) {
   const toggleDeleteModal = () => setDeleteModal((prev) => !prev);
 
   const deleteGasStation = useDeleteGasStation();
+  const navigate = useNavigate();
 
   const handleDeleteGasStation = async () => {
     try {
@@ -25,7 +28,6 @@ export function GasStationBackofficeCard({ station, refetch }: Props) {
 
       toggleDeleteModal()
     } catch (error) {
-      console.error(error)
     }
   }
 
@@ -56,13 +58,15 @@ export function GasStationBackofficeCard({ station, refetch }: Props) {
           />
 
           <div className="absolute right-[10px] top-[10px] flex items-center gap-2">
-            <button className="relative group hover:cursor-pointer p-2 border border-gray-200 rounded-md bg-zinc-100 hover:brightness-90 transition-all">
+            <button
+              className="relative group hover:cursor-pointer p-2 border border-gray-200 rounded-md bg-zinc-100 hover:brightness-90 transition-all"
+              onClick={() => navigate(ROUTES_NAME.EDIT_GAS_STATION.replace(":id", station._id))}
+            >
               <div 
                 className="bg-zinc-950/95 absolute bottom-[110%] left-1/2 -translate-x-1/2 rounded-md py-1 px-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-all"
               >
                 Editar
               </div>
-
               <PencilLine 
                 size={24}
                 className="text-zinc-500"
@@ -92,12 +96,7 @@ export function GasStationBackofficeCard({ station, refetch }: Props) {
           </h3>
 
           <span className="inline-flex mt-1 text-sm text-zinc-800 font-light line-clamp-1">
-            {station.address.route} {", "} {station.address.street_number || "N/A"}
-          </span>
-          <span className="block text-sm text-zinc-800 font-light">
-            {station.address.city}
-            {" - "}
-            {station.address.state}
+            {station.address.label} {", "} {station.address.street_number || "N/A"}<br />
           </span>
 
           {

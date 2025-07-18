@@ -44,10 +44,10 @@ export class ResourceService {
         .remove([filePath]);
 
       if (error) {
-        console.warn('Erro ao deletar imagem do storage:', error.message);
+        // Removido console.warn
       }
     } catch (error) {
-      console.warn('Erro ao processar URL da imagem:', error);
+      // Removido console.warn
     }
   }
 

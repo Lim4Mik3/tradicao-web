@@ -73,7 +73,6 @@ export default function CreateResourceForm() {
       // Navegar de volta após sucesso
       navigate(-1);
     } catch (error) {
-      console.error('Erro ao criar recurso:', error);
       // Aqui você pode adicionar uma notificação de erro
     }
   }

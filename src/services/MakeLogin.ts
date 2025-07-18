@@ -20,13 +20,8 @@ export async function MakeLogin(props: MakeLogin.Input): Promise<MakeLogin.Outpu
       password: props.password,
     });
 
-    if (!result.success) {
-      console.error("Erro no login:", result.error);
-    }
-
     return result;
   } catch (error) {
-    console.error("Erro inesperado no login:", error);
     return {
       success: false,
       error: "Erro inesperado ao fazer login",

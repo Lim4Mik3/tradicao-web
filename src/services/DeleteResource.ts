@@ -19,8 +19,6 @@ export async function DeleteResource(input: DeleteResource.Input): Promise<{
 
     return response.data;
   } catch (error) {
-    // Tratamento de erros de rede ou outros
-    console.error("Erro ao deletar um recurso:", error);
     return { error: "Erro na requisição à API", data: null };
   }
 }

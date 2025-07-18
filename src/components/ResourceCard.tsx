@@ -34,7 +34,6 @@ export default function ResourceCard({ resource, reload }: Props) {
       reload();
       toggleDeleteModal();
     } catch (error) {
-      console.error('Erro ao deletar recurso:', error);
       // Aqui você pode adicionar uma notificação de erro
     }
   }

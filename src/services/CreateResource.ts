@@ -31,7 +31,6 @@ export async function CreateResource(input: CreateResource.Input): Promise<{
 
     return { error: null, data: response.data };
   } catch (error) {
-    console.error("Erro ao criar um recurso:", error);
     return { error: "Erro na requisição à API", data: null };
   }
 }

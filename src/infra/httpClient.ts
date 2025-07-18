@@ -24,7 +24,7 @@ httpClient.interceptors.response.use((response) => response, (error) => {
     if (error.status === 500) {
       if (error.response?.data.message && error.response?.data.message === 'jwt expired') {
         localStorage.removeItem(LOCAL_STORAGE_KEYS.SESSION);
-        window.location.href = "/login"
+        // Removido window.location.href = "/login" para evitar redirecionamento forçado
       }
     }
   }

@@ -22,7 +22,6 @@ export function PostGISTestComponent() {
           });
         },
         (error) => {
-          console.error('Erro ao obter localização:', error);
           // Usar São Paulo como padrão
           setLocation({ lat: -23.5505, lng: -46.6333 });
         }

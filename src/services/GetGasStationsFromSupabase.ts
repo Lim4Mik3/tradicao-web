@@ -104,7 +104,6 @@ export async function GetGasStationsFromSupabase(
       stations,
     };
   } catch (error) {
-    console.error("Erro ao buscar postos do Supabase:", error);
     throw new Error("Erro na busca de postos de gasolina");
   }
 }

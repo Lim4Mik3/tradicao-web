@@ -1,16 +1,24 @@
 // src/components/ServicesInput.tsx
 import { ServiceCard } from './ServiceCard';
 import { useGetResourcesByCategory } from '@/hooks/useResourcesQueries';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Props = {
   title: string;
   onChange?: (selectedIds: string[]) => void;
+  value?: string[];
 };
 
-export function ServicesInput({ title, onChange }: Props) {
+export function ServicesInput({ title, onChange, value }: Props) {
   const { data: resources, isLoading, error } = useGetResourcesByCategory('SERVICES');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  // Sincronizar com o valor externo quando mudar
+  useEffect(() => {
+    if (value !== undefined && Array.isArray(value)) {
+      setSelectedIds(value);
+    }
+  }, [value]);
 
   const toggleSelection = (id: string) => {
     setSelectedIds((prev) => {

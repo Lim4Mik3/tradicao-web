@@ -79,7 +79,8 @@ export class GasStationModel {
       id: data.id || generateUUID(),
       location: {
         type: "Point",
-        coordinates: [data.address.coordinates[1], data.address.coordinates[0]]
+        // Manter consistência: coordinates já está em [lng, lat]
+        coordinates: data.address.coordinates
       },
       createdAt: data.createdAt || now,
       updatedAt: data.updatedAt || now,
@@ -135,7 +136,7 @@ export class GasStationModel {
       conveniences: this.props.conveniences,
       oil_changes: this.props.oilChanges,
       // Para PostGIS - formato correto: POINT(longitude latitude)
-      location: `POINT(${this.props.address.coordinates[1]} ${this.props.address.coordinates[0]})`,
+      location: `POINT(${this.props.address.coordinates[0]} ${this.props.address.coordinates[1]})`,
       images: this.props.images,
       created_at: this.props.createdAt.toISOString(),
       updated_at: this.props.updatedAt.toISOString(),

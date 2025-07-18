@@ -45,7 +45,6 @@ export function getStoredAuthData() {
     
     return { session, user };
   } catch (error) {
-    console.error('Erro ao recuperar dados de autenticação:', error);
     clearAuthData();
     return null;
   }

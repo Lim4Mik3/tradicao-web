@@ -44,7 +44,6 @@ export async function GetGasStation(): Promise<GetGasStation.Output> {
     
     return response.data;
   } catch (error) {
-    console.error("Erro ao buscar postos:", error);
     return { error: "Erro na requisição à API", data: null } as any; // Type assertion temporária para erro
   }
 }

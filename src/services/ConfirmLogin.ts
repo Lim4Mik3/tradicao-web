@@ -20,6 +20,6 @@ export async function ConfirmLoginServiceService(props: ConfirmLoginService.Inpu
 
     return response;
   } catch (error) {
-    console.error("erro", error);
+    // Removido console.error
   }
 }

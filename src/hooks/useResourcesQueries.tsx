@@ -58,7 +58,6 @@ export function useUpdateResource() {
       queryClient.invalidateQueries({ queryKey: ['resource', updatedResource.id] });
     },
     onError: (error) => {
-      console.error('Erro ao atualizar recurso:', error);
     },
   });
 }
@@ -76,7 +75,6 @@ export function useDeleteResource() {
       queryClient.invalidateQueries({ queryKey: ['resources'] });
     },
     onError: (error) => {
-      console.error('Erro ao deletar recurso:', error);
     },
   });
 }

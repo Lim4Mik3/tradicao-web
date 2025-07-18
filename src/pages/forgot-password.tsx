@@ -34,7 +34,6 @@ export function ForgotPasswordPage() {
         setError(result.error || 'Erro ao enviar email de recuperação');
       }
     } catch (error) {
-      console.error('Erro inesperado:', error);
       setError('Algum erro inesperado aconteceu, tente novamente mais tarde.');
     }
   };

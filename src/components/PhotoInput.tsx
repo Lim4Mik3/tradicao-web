@@ -4,10 +4,17 @@ import { Plus } from 'lucide-react';
 
 type PhotoWithId = { file: File; id: string };
 
-type Props = { title: string, hasError?: string; onChange: (photos: PhotoWithId[]) => void };
+type Props = { 
+  title: string; 
+  hasError?: string; 
+  onChange: (photos: PhotoWithId[]) => void;
+  value?: PhotoWithId[];
+  existingImages?: string[];
+};
 
-export function PhotoInput({ title, hasError, onChange }: Props) {
-  const [photos, setPhotos] = useState<PhotoWithId[]>([]);
+export function PhotoInput({ title, hasError, onChange, value, existingImages }: Props) {
+  const [photos, setPhotos] = useState<PhotoWithId[]>(value || []);
+  const [displayImages, setDisplayImages] = useState<string[]>(existingImages || []);
   const inputId = useId()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,9 +49,13 @@ export function PhotoInput({ title, hasError, onChange }: Props) {
     setPhotos((prev) => prev.filter((photo) => photo.id !== id));
   };
 
+  const handleRemoveExistingImage = (imageUrl: string) => {
+    setDisplayImages((prev) => prev.filter((url) => url !== imageUrl));
+  };
+
   useEffect(() => { onChange(photos) }, [photos]);  
 
-  if (photos.length === 0) {
+  if (photos.length === 0 && displayImages.length === 0) {
     return (
       <div className="flex flex-col w-full">
         <span
@@ -86,6 +97,25 @@ export function PhotoInput({ title, hasError, onChange }: Props) {
       <div
         className='flex items-center justify-start gap-4 flex-wrap'
       >
+        {/* Mostrar imagens existentes */}
+        {displayImages.map((imageUrl, index) => (
+          <div key={`existing-${index}`} className="relative">
+            <img 
+              src={imageUrl} 
+              alt={`Imagem ${index + 1}`}
+              className="w-[10rem] h-[12rem] object-cover rounded-md border"
+            />
+            <button
+              type="button"
+              onClick={() => handleRemoveExistingImage(imageUrl)}
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+
+        {/* Mostrar novas fotos */}
         {photos.map((photo) => (
           <PhotoCard key={photo.id} file={photo} onRemove={handleRemove} />
         ))}

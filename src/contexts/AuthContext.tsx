@@ -29,9 +29,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider value={auth}>
-      <ErrorBoundary fallback={<DiagnosticScreen />}>
+      {/* <ErrorBoundary fallback={<DiagnosticScreen />}> */}
         {children}
-      </ErrorBoundary>
+      {/* </ErrorBoundary> */}
     </AuthContext.Provider>
   )
 }

@@ -79,7 +79,6 @@ export default function EditResourceForm({ resource }: Props) {
       // Navegar de volta após sucesso
       navigate(-1);
     } catch (error) {
-      console.error('Erro ao editar recurso:', error);
       // Aqui você pode adicionar uma notificação de erro
     }
   }

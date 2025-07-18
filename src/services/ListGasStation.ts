@@ -1,4 +1,4 @@
-import { httpClient } from "@/infra/httpClient";
+import { supabase } from "@/infra/supabase";
 
 export namespace GetGasStation {
   export type Input = {
@@ -26,46 +26,11 @@ export namespace GetGasStation {
         street_number: string | null;
       };
       filialNumber: string;
-      apps: Array<{
-        _id: string;
-        title: string;
-        category: string;
-        image: string;
-        createdAt: string;
-        updatedAt: string;
-      }>;
-      services: Array<{
-        _id: string;
-        title: string;
-        category: string;
-        image: string;
-        createdAt: string;
-        updatedAt: string;
-      }>;
-      brands: Array<{
-        _id: string;
-        title: string;
-        category: string;
-        image: string;
-        createdAt: string;
-        updatedAt: string;
-      }>;
-      conveniences: Array<{
-        _id: string;
-        title: string;
-        category: string;
-        image: string;
-        createdAt: string;
-        updatedAt: string;
-      }>;
-      oilChanges: Array<{
-        _id: string;
-        title: string;
-        category: string;
-        image: string;
-        createdAt: string;
-        updatedAt: string;
-      }>;
+      apps: string[];
+      services: string[];
+      brands: string[];
+      conveniences: string[];
+      oilChanges: string[];
       location: {
         type: string;
         coordinates: [number, number];
@@ -80,23 +45,51 @@ export namespace GetGasStation {
 export async function ListGasStation(
   input: GetGasStation.Input
 ): Promise<GetGasStation.Output> {
-  try {
-    const { term, page = 1, limit = 15 } = input;
+  const { term, page = 1, limit = 100 } = input;
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
 
-    const queryParams = new URLSearchParams();
+  let query = supabase
+    .from("gas_stations")
+    .select("*", { count: "exact" })
+    .range(from, to)
+    .order("created_at", { ascending: false });
 
-    if (term) queryParams.append("term", term);
-    
-    queryParams.append("page", page.toString());
-    queryParams.append("limit", limit.toString());
-
-    const response = await httpClient.get<GetGasStation.Output>(
-      `/admin/gas-station?${queryParams.toString()}`
+  if (term && term.length >= 3) {
+    // Busca por nome OU por partes do endereço (cidade, bairro, rua)
+    query = query.or(
+      `name.ilike.%${term}%,address->>city.ilike.%${term}%,address->>neighborhood.ilike.%${term}%,address->>route.ilike.%${term}%`
     );
-
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar postos:", error);
-    throw new Error("Erro na requisição à API");
   }
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    throw new Error("Erro na busca de postos de gasolina");
+  }
+
+  const stations = (data || []).map((station: any) => ({
+    _id: station.id,
+    name: station.name,
+    email: station.email,
+    address: station.address,
+    filialNumber: station.filial_number,
+    apps: station.apps || [],
+    services: station.services || [],
+    brands: station.brands || [],
+    conveniences: station.conveniences || [],
+    oilChanges: station.oil_changes || [],
+    location: {
+      type: "Point",
+      coordinates: station.address?.coordinates || [0, 0],
+    },
+    images: station.images || [],
+    createdAt: station.created_at,
+    updatedAt: station.updated_at,
+  }));
+
+  return {
+    page,
+    stations,
+  };
 }

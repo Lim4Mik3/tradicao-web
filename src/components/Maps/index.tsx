@@ -19,15 +19,11 @@ const mapOptions: google.maps.MapOptions = {
 };
 
 const Maps = () => {
-  const [selectedStation, setSelectedStation] = useState(null);
+  const [selectedStation, setSelectedStation] = useState<any>(null);
   const [preciseLocation, setPreciseLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [showDetails, setShowDetails] = useState(false);
-  const [selectedStationDetails, setSelectedStationDetails] = useState(null);
-  let mapRef = useRef<google.maps.Map>(null);
+  let mapRef = useRef<google.maps.Map | null>(null);
 
-  const state = useGetGasStations({
-    enabled: !!preciseLocation,
-  });
+  const state = useGetGasStations();
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyDgb4iW2vKp1_RkIz1lEsnScwbybCW4Luc',
@@ -36,11 +32,13 @@ const Maps = () => {
   useEffect(() => {
     if (!preciseLocation) {
       const fetchInitialLocation = async () => {
-        const location = await getLocationByIP();
-
-
-        if (location) {
-          setPreciseLocation(location);
+        try {
+          const location = await getLocationByIP();
+          if (location) {
+            setPreciseLocation(location);
+          }
+        } catch (error) {
+          // Continua sem localização, usando coordenadas padrão
         }
       };
 
@@ -77,11 +75,10 @@ const Maps = () => {
       bounds.extend(preciseLocation);
     }
 
-    if (state.data?.stations && state.data.stations.length > 0) {
-      state.data.stations.forEach(({ address }) => {
+    if (state.data?.stations && state.data.stations.length > 0) {        state.data.stations.forEach(({ address }) => {
         bounds.extend({
-          lat: address.coordinates[0],
-          lng: address.coordinates[1],
+          lat: address.coordinates[1], // PostGIS format: [lng, lat]
+          lng: address.coordinates[0], // So coordinates[1] = lat, coordinates[0] = lng
         });
       });
     }
@@ -90,15 +87,20 @@ const Maps = () => {
       mapRef.current.fitBounds(bounds);
 
       const listener = window.google.maps.event.addListenerOnce(mapRef.current, 'bounds_changed', () => {
-        if (mapRef.current && mapRef.current.getZoom() > 15) {
+        const currentZoom = mapRef.current?.getZoom();
+        if (mapRef.current && currentZoom && currentZoom > 15) {
           mapRef.current.setZoom(15);
         }
       });
-      setTimeout(() => window.google.maps.event.removeListener(listener), 1000);
+      setTimeout(() => {
+        if (listener) {
+          window.google.maps.event.removeListener(listener);
+        }
+      }, 1000);
     } else {
-      // TODO: Caso não haja marcadores nem localização, define um centro padrão
-      mapRef.current.setCenter({ lat: 0, lng: 0 });
-      mapRef.current.setZoom(2);
+      // Caso não haja marcadores nem localização, foca na região Sul do Brasil
+      mapRef.current.setCenter({ lat: -28.5, lng: -51.5 });
+      mapRef.current.setZoom(7);
     }
   };
 
@@ -108,17 +110,6 @@ const Maps = () => {
     }
   }, [state.data?.stations, preciseLocation]);
 
-  const handleDetailsClick = (station) => {
-    setSelectedStationDetails(station);
-    setShowDetails(true);
-    setSelectedStation(null);
-  };
-
-  const closeDetails = () => {
-    setShowDetails(false);
-    setSelectedStationDetails(null);
-  };
-
   if (loadError) return <div>Erro ao carregar o mapa</div>;
   if (!isLoaded) return <div>Carregando o mapa...</div>;
 
@@ -126,8 +117,8 @@ const Maps = () => {
     <>
       <GoogleMap
         mapContainerClassName="w-full h-full rounded-md relative border border-zinc-300"
-        zoom={12}
-        center={preciseLocation || { lat: 0, lng: 0 }} // Usa a localização do usuário, se disponível
+        zoom={7} // Zoom reduzido para mostrar toda região Sul
+        center={preciseLocation || { lat: -28.5, lng: -51.5 }} // Centro da região Sul do Brasil (SC/RS)
         options={mapOptions}
         onLoad={(map) => {
           mapRef.current = map;
@@ -137,7 +128,7 @@ const Maps = () => {
         {state.data?.stations?.map((station) => (
           <MarkerF
             key={station.id}
-            position={{ lat: station.address.coordinates[0], lng: station.address.coordinates[1] }}
+            position={{ lat: station.address.coordinates[1], lng: station.address.coordinates[0] }} // PostGIS format: [lng, lat]
             icon={{
               url: '/bg-icon.png',
               scaledSize: new window.google.maps.Size(50, 50),
@@ -148,8 +139,8 @@ const Maps = () => {
             {selectedStation?.id === station.id && (
               <InfoWindowF
                 position={{
-                  lat: station.address.coordinates[0],
-                  lng: station.address.coordinates[1]
+                  lat: station.address.coordinates[1], // PostGIS format: [lng, lat]
+                  lng: station.address.coordinates[0]
                 }}
                 onCloseClick={() => setSelectedStation(null)}
                 options={{ headerDisabled: true }}

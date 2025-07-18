@@ -1,4 +1,3 @@
-
 export interface AddressApiResponse {
   description: string;
   main_text: string;
@@ -28,23 +27,20 @@ export class AddressService {
       const response = await fetch(`${ADDRESS_API_URL}?input=${encodedInput}`);
 
       if (!response.ok) {
-        console.error('Erro na requisição de endereços:', response.status, response.statusText);
         return [];
       }
 
       const data: AddressApiResponse[] = await response.json();
       
       if (!Array.isArray(data)) {
-        console.error('Resposta da API de endereços não é um array:', data);
         return [];
       }
 
       return data.map((item) => ({
         label: item.description,
-        value: item.place_id
+        value: item
       }));
     } catch (error) {
-      console.error("Erro ao buscar endereços:", error);
       return [];
     }
   }

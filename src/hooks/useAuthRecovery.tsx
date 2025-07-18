@@ -21,21 +21,9 @@ export function useAuthRecovery() {
         const loadingTime = Date.now() - mountTimeRef.current;
         
         if (loadingTime > 10000) { // 10 segundos
-          console.warn('⚠️ Auth loading por muito tempo:', loadingTime + 'ms');
-          
-          if (import.meta.env.DEV) {
-            console.group('🔍 Auth Recovery Debug');
-            console.log('Loading:', loading);
-            console.log('IsAuthenticated:', isAuthenticated);
-            console.log('User:', user);
-            console.log('Session:', session);
-            console.log('Loading time:', loadingTime + 'ms');
-            console.groupEnd();
-          }
 
           // Em casos extremos, força refresh
           if (loadingTime > 30000) { // 30 segundos
-            console.error('🚨 Auth travado, forçando refresh');
             window.location.reload();
           }
         }
@@ -54,20 +42,12 @@ export function useAuthRecovery() {
     if (!loading) {
       // Estado inconsistente: tem session mas não está autenticado
       if (session && !isAuthenticated) {
-        console.warn('⚠️ Estado inconsistente: session existe mas isAuthenticated é false');
         
-        if (import.meta.env.DEV) {
-          console.group('🔍 Inconsistent State Debug');
-          console.log('Session:', session);
-          console.log('IsAuthenticated:', isAuthenticated);
-          console.log('User:', user);
-          console.groupEnd();
-        }
+      
       }
 
       // Estado inconsistente: autenticado mas sem user
       if (isAuthenticated && !user) {
-        console.warn('⚠️ Estado inconsistente: autenticado mas sem user');
       }
     }
   }, [loading, isAuthenticated, user, session]);

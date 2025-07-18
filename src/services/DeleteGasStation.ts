@@ -16,6 +16,6 @@ export async function DeleteGasStation(
 
     return null;
   } catch (error) {
-    console.error("erro", error);
+    // Removido console.error
   }
 }

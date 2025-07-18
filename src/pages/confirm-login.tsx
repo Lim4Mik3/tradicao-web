@@ -37,8 +37,6 @@ export function ConfirmLoginPage() {
         
         navigate('/dashboard');
       }
-    } catch (error) {
-      console.error(error)
     } finally {
       setIsLoading(false);
     }

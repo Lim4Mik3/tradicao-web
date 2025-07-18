@@ -29,7 +29,6 @@ export async function GetPlaceDetails(
 
     return response.data;
   } catch (error) {
-    console.error("Erro ao buscar detalhes do endereço:", error);
     throw new Error("Erro na requisição à API de endereços");
   }
 }

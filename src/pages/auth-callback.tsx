@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/infra/supabase'
+import { clearAuthData } from '@/utils/authUtils'
+import { ROUTES_NAME } from '@/constants/ROUTES_NAME'
 
 export function AuthCallback() {
   const navigate = useNavigate()
@@ -17,26 +19,25 @@ export function AuthCallback() {
       const { data, error } = await supabase.auth.getSession()
 
       if (error) {
-        console.error('Erro no callback de autenticação:', error.message)
         setError(`Erro na autenticação: ${error.message}`)
+        clearAuthData()
         setLoading(false)
         return
       }
 
       if (data.session) {
         // Sucesso - usuário autenticado
-        console.log('Usuário autenticado com sucesso:', data.session.user?.email)
         
         // Armazena informações da sessão no localStorage (opcional)
         localStorage.setItem('supabase_session', JSON.stringify(data.session))
         localStorage.setItem('user', JSON.stringify(data.session.user))
 
         // Redireciona para o dashboard ou página protegida
-        navigate('/dashboard', { replace: true })
+        navigate(ROUTES_NAME.GAS_STATIONS, { replace: true })
       } else {
         // Não há sessão ativa
-        console.log('Nenhuma sessão ativa encontrada')
         setError('Falha na autenticação. Tente fazer login novamente.')
+        clearAuthData()
         
         // Redireciona para login após alguns segundos
         setTimeout(() => {
@@ -44,7 +45,6 @@ export function AuthCallback() {
         }, 3000)
       }
     } catch (unexpectedError) {
-      console.error('Erro inesperado no callback:', unexpectedError)
       setError('Erro inesperado durante a autenticação')
     } finally {
       setLoading(false)

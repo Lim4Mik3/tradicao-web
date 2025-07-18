@@ -32,7 +32,6 @@ export async function EditResource(input: EditResource.Input): Promise<{
 
     return { error: null, data: response.data };
   } catch (error) {
-    console.error("Erro ao editar um recurso:", error);
     return { error: "Erro na requisição à API", data: null };
   }
 }

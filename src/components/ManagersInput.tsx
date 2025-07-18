@@ -20,7 +20,6 @@ const GetManagersPredictions = async (inputValue?: string) => {
 
     return [];
   } catch (error) {
-    console.error("Erro ao buscar managers:", error);
     return [];
   }
 };

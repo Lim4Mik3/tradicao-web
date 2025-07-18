@@ -14,18 +14,24 @@ import { useCreateGasStation } from "@/hooks/useCreateGasStation";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
 import { toast } from "react-toastify";
+import { useEditGasStation } from "@/hooks/useEditGasStation";
 
 const schema = z.object({
-  name: z
-    .string()
-    .min(1, "Nome é obrigatório")
-    .min(4, "Nome deve ter ao menos 4 caracteres"),
-  filialNumber: z
-    .string()
-    .min(1, "Número da filial é obrigatório"),
-  addressPlaceId: z
-    .string({ required_error: "Endereço é obrigatório" })
-    .min(1, "Endereço é obrigatório"),
+  name: z.string().min(1, "Nome é obrigatório").min(4, "Nome deve ter ao menos 4 caracteres"),
+  filialNumber: z.string().min(1, "Número da filial é obrigatório"),
+  address: z.object({
+    label: z.string().min(1, "Endereço é obrigatório"),
+    value: z.object({
+      description: z.string(),
+      main_text: z.string(),
+      secondary_text: z.string(),
+      place_id: z.string(),
+      location: z.object({
+        lat: z.number(),
+        lng: z.number(),
+      })
+    })
+  }),
   photos: z.array(z.object({
     id: z.string(),
     file: z.instanceof(File, { message: "O campo file deve ser um arquivo válido" }),
@@ -45,7 +51,7 @@ const schema = z.object({
 
 type GasStationFormData = z.infer<typeof schema>;
 
-export function CreateGasStationPage() {
+export default function CreateGasStationForm({ station, isEdit }: { station?: any, isEdit?: boolean }) {
   const {
     register,
     handleSubmit,
@@ -54,31 +60,69 @@ export function CreateGasStationPage() {
   } = useForm<GasStationFormData>({
     resolver: zodResolver(schema),
     mode: 'onChange',
-    defaultValues: {
-      services: [],
-      apps: [],
-      brands: [],
-      conveniences: [],
-      oilChanges: [],
-    },
+    defaultValues: station
+      ? {
+          ...station,
+          address: {
+            label: station.address?.label || station.address?.formatted || "",
+            value: {
+              description: station.address?.label || station.address?.formatted || "",
+              main_text: station.address?.main_text || "",
+              secondary_text: station.address?.secondary_text || "",
+              place_id: station.address?.placeId || "",
+              location: {
+                // Coordenadas salvas como [lng, lat] - buscar corretamente
+                lat: station.address?.location?.lat || station.address?.coordinates?.[1] || 0,
+                lng: station.address?.location?.lng || station.address?.coordinates?.[0] || 0,
+              },
+            },
+          },
+          photos: [],
+        }
+      : undefined
   }); 
 
   const navigate = useNavigate();
   const createGasStation = useCreateGasStation();
+  const editGasStation = useEditGasStation();
 
   const onSubmit = async (data: GasStationFormData) => {
+    const payload = {
+      ...data,
+      address: {
+        label: data.address.label,
+        location: data.address.value.location,
+      },
+    };
+    
+    // Debug das coordenadas
+    console.log('🗺️ Coordenadas capturadas:', {
+      latitude: data.address.value.location.lat,
+      longitude: data.address.value.location.lng,
+      payload: payload.address.location
+    });
+    
     try {
-      const result = await createGasStation.mutateAsync(data);
-
-      if (result.error === null) { 
-        toast.success("🎉 Posto de gasolina criado com sucesso!");
-        navigate("/backoffice/gas-stations");
+      if (isEdit && station) {
+        const result = await editGasStation.mutateAsync({ id: station._id, data: payload });
+        if (result.error === null) {
+          toast.success("🎉 Posto de gasolina atualizado com sucesso!");
+          navigate("/backoffice/gas-stations");
+        } else {
+          toast.error(`❌ Erro ao atualizar posto: ${result.error}`);
+        }
       } else {
-        toast.error(`❌ Erro ao criar posto: ${result.error}`);
+        const result = await createGasStation.mutateAsync(payload);
+        if (result.error === null) {
+          toast.success("🎉 Posto de gasolina criado com sucesso!");
+          navigate("/backoffice/gas-stations");
+        } else {
+          toast.error(`❌ Erro ao criar posto: ${result.error}`);
+        }
       }
     } catch (error) {
-      console.error('Erro ao criar posto:', error);
-      toast.error("❌ Erro inesperado ao criar posto. Tente novamente.");
+      console.error(isEdit ? 'Erro ao atualizar posto:' : 'Erro ao criar posto:', error);
+      toast.error(isEdit ? "❌ Erro inesperado ao atualizar posto. Tente novamente." : "❌ Erro inesperado ao criar posto. Tente novamente.");
     }
   };
 
@@ -87,7 +131,9 @@ export function CreateGasStationPage() {
       <div className="bg-white rounded-lg h-full mx-auto border border-gray-300 overflow-auto max-w-[60vw]">
         <form onSubmit={handleSubmit(onSubmit)} className="px-12 py-16 ">
           <section className="flex flex-col">
-            <span className="text-2xl text-zinc-700 font-semibold border-b border-b-gray-300 pb-1 mb-5">Dados básicos</span>
+            <span className="text-2xl text-zinc-700 font-semibold border-b border-b-gray-300 pb-1 mb-5">
+              {isEdit ? 'Editar unidade' : 'Dados básicos'}
+            </span>
             <div className="flex flex-col gap-6 py-6">
 
               <Input 
@@ -105,13 +151,16 @@ export function CreateGasStationPage() {
               />
               
               <Controller
-                name="addressPlaceId"
+                name="address"
                 control={control}
                 render={({ field }) => (
                   <AddressAutocompleteInput 
                     title="Endereço da unidade" 
-                    onChange={field.onChange} 
-                    hasError={errors.addressPlaceId?.message}
+                    value={field.value}
+                    onChange={change => {
+                      field.onChange(change)
+                    }} 
+                    hasError={errors.address?.message}
                   />
                 )}
               />
@@ -123,6 +172,8 @@ export function CreateGasStationPage() {
                   <PhotoInput 
                     title="Imagens da unidade" 
                     hasError={errors.photos?.message}
+                    value={field.value}
+                    existingImages={station?.images || []}
                     onChange={field.onChange} 
                   />
                 )}
@@ -134,6 +185,7 @@ export function CreateGasStationPage() {
                 render={({ field }) => (
                   <ServicesInput 
                     title="Serviços da unidade" 
+                    value={field.value}
                     onChange={field.onChange} 
                   />
                 )}
@@ -173,6 +225,7 @@ export function CreateGasStationPage() {
                 render={({ field }) => (
                   <AppsInput 
                     title="Aplicativos de desconto" 
+                    value={field.value}
                     onChange={field.onChange} 
                   />
                 )}
@@ -184,6 +237,7 @@ export function CreateGasStationPage() {
                 render={({ field }) => (
                   <BrandsInput 
                     title="Marcas" 
+                    value={field.value}
                     onChange={field.onChange} 
                   />
                 )}
@@ -195,6 +249,7 @@ export function CreateGasStationPage() {
                 render={({ field }) => (
                   <ConvinienceInput 
                     title="Conveniências" 
+                    value={field.value}
                     onChange={field.onChange} 
                   />
                 )}
@@ -206,21 +261,22 @@ export function CreateGasStationPage() {
                 render={({ field }) => (
                   <OilChangeInput 
                     title="Troca de óleo" 
+                    value={field.value}
                     onChange={field.onChange} 
                   />
                 )}
               />
               
               <Input 
-                title="Horário comercial" 
-                placeholder="Ex: Segunda a Sexta: 06:00 às 22:00" 
+                title="Horário de Segunda a Sábado" 
+                placeholder="Ex: 06:00 às 22:00" 
                 hasError={errors.comercialHours?.message}
                 {...register("comercialHours")} 
               />
 
               <Input 
-                title="Horário feriados" 
-                placeholder="Ex: Sábados e Domingos: 07:00 às 20:00" 
+                title="Horário em Domingos e Feriados" 
+                placeholder="Ex: 07:00 às 20:00" 
                 hasError={errors.holidaysHours?.message}
                 {...register("holidaysHours")} 
               />
@@ -230,13 +286,18 @@ export function CreateGasStationPage() {
           <Button 
             type="submit" 
             className="mt-10 w-40" 
-            loading={createGasStation.isPending}
-            disabled={!isValid || createGasStation.isPending}
+            loading={isEdit ? editGasStation.isPending : createGasStation.isPending}
+            disabled={!isValid || (isEdit ? editGasStation.isPending : createGasStation.isPending)}
           >
-            {createGasStation.isPending ? 'Salvando...' : 'Salvar'}
+            {isEdit 
+              ? (editGasStation.isPending ? 'Atualizando...' : 'Atualizar')
+              : (createGasStation.isPending ? 'Salvando...' : 'Salvar')
+            }
           </Button>
         </form>
       </div>
     </PrivateLayout>
   );
 }
+
+export const CreateGasStationPage = () => <CreateGasStationForm />;

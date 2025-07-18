@@ -71,17 +71,6 @@ export function useAppHealth() {
       environment: environmentOk,
       errors
     });
-
-    if (import.meta.env.DEV) {
-      console.group('🏥 App Health Check');
-      console.log('Supabase:', supabaseOk ? '✅' : '❌');
-      console.log('LocalStorage:', localStorageOk ? '✅' : '❌');
-      console.log('Environment:', environmentOk ? '✅' : '❌');
-      if (errors.length > 0) {
-        console.log('Errors:', errors);
-      }
-      console.groupEnd();
-    }
   };
 
   return { health, checkHealth };

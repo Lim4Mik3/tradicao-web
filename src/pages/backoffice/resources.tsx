@@ -40,7 +40,7 @@ export function ResourcesPage() {
     <PrivateLayout>
       <div>
         <Button
-          className="flex items-center justify-center gap-4 max-w-[300px] w-full"
+          className="flex items-center justify-center gap-4 max-w-[300px] w-full ml-auto"
           onClick={() => navigate(ROUTES_NAME.CREATE_RESOURCE)}
         >
           <Plus />

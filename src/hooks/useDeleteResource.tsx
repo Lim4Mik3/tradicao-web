@@ -13,7 +13,6 @@ export function useDeleteResource() {
       queryClient.invalidateQueries({ queryKey: ['resources'] });
     },
     onError: (error) => {
-      console.error('Erro ao deletar recurso:', error);
     },
   });
 }

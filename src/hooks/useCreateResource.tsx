@@ -20,7 +20,6 @@ export function useCreateResouce() {
       queryClient.invalidateQueries({ queryKey: ['resources'] });
     },
     onError: (error) => {
-      console.error('Erro ao criar recurso:', error);
     },
   });
 }

@@ -15,4 +15,5 @@ export const ROUTES_NAME = {
   "INSTITUTIONAL": "/institucional",
   "POSTOS": "/postos",
   "CONTATO": "/fale-conosco",
+  "EDIT_GAS_STATION": "/backoffice/gas-stations/edit/:id",
 } as const;

@@ -7,7 +7,13 @@ export namespace CreateGasStation {
   export type Input = {
     name: string;
     filialNumber: string;
-    addressPlaceId: string;
+    address: {
+      label: string;
+      location: {
+        lat: number;
+        lng: number;
+      };
+    };
     photos?: Array<{ id: string; file: File }>;
     services?: string[];
     phone: string;
@@ -37,33 +43,51 @@ export async function CreateGasStation(input: CreateGasStation.Input): Promise<{
   data: CreateGasStation.Output | null;
 }> {
   let gasStationId: string | null = null;
-  
   try {
-    // 1. Usar placeId diretamente - endereço básico
+    // Debug dos dados de entrada
+    console.log('📝 Dados de entrada CreateGasStation:', {
+      name: input.name,
+      phone: input.phone,
+      mobile: input.mobile,
+      whatsapp: input.whatsapp,
+      email: input.email,
+      lengths: {
+        phone: input.phone?.length,
+        mobile: input.mobile?.length,
+        whatsapp: input.whatsapp?.length,
+        email: input.email?.length
+      }
+    });
+    
+    // Novo address
     const addressDetails = {
-      route: "A ser preenchido",
+      label: input.address.label,
+      location: input.address.location,
+      // Preenche campos extras como vazio para compatibilidade
+      route: "",
       street_number: "",
-      neighborhood: "A ser preenchido",
-      city: "A ser preenchido",
-      state: "A ser preenchido", 
-      country: "Brasil",
+      neighborhood: "",
+      city: "",
+      state: "",
+      country: "",
       postal_code: "",
-      placeId: input.addressPlaceId,
-      formatted: "Endereço selecionado via Google Places",
-      coordinates: [-23.5505, -46.6333] as [number, number] // [latitude, longitude] - São Paulo
+      placeId: "",
+      formatted: "",
+      // PostGIS padrão: [longitude, latitude] - consistente com POINT(lng lat)
+      coordinates: [input.address.location.lng ?? 0, input.address.location.lat ?? 0] as [number, number],
     };
 
-    // 2. Criar o modelo do posto de gasolina
+    // Criar o modelo do posto de gasolina
     const gasStationModel = GasStationModel.create({
       name: input.name,
       email: input.email,
       filialNumber: input.filialNumber,
+      address: addressDetails,
       phone: input.phone,
       mobile: input.mobile,
       whatsapp: input.whatsapp,
       comercialHours: input.comercialHours,
       holidaysHours: input.holidaysHours,
-      address: addressDetails,
       apps: input.apps || [],
       services: input.services || [],
       brands: input.brands || [],
@@ -72,10 +96,9 @@ export async function CreateGasStation(input: CreateGasStation.Input): Promise<{
       images: [], // Será preenchido após o upload
     });
 
-    // Salvar o ID para possível limpeza
     gasStationId = gasStationModel.id;
 
-    // 3. Fazer upload das imagens se existirem
+    // Upload de imagens
     let imageUrls: string[] = [];
     if (input.photos && input.photos.length > 0) {
       try {
@@ -87,11 +110,10 @@ export async function CreateGasStation(input: CreateGasStation.Input): Promise<{
         gasStationModel.images = imageUrls;
       } catch (uploadError) {
         console.warn("Erro no upload de imagens, continuando sem imagens:", uploadError);
-        // Continue mesmo se o upload falhar
       }
     }
 
-    // 4. Salvar no Supabase
+    // Salvar no Supabase
     const gasStationData = gasStationModel.toJson();
     const { data, error } = await supabase
       .from('gas_stations')
@@ -116,8 +138,6 @@ export async function CreateGasStation(input: CreateGasStation.Input): Promise<{
     };
   } catch (error) {
     console.error("Erro ao criar posto de gasolina:", error);
-    
-    // Limpar imagens em caso de erro
     if (gasStationId) {
       try {
         await DeleteGasStationImages({ gasStationId });
@@ -126,7 +146,6 @@ export async function CreateGasStation(input: CreateGasStation.Input): Promise<{
         console.error("Erro ao limpar imagens:", cleanupError);
       }
     }
-    
     return {
       error: error instanceof Error ? error.message : "Erro desconhecido ao criar posto",
       data: null,

@@ -48,7 +48,6 @@ export function SignUpPage() {
       }
     } catch (error) {
       setError('Erro inesperado ao criar conta')
-      console.error('Erro no cadastro:', error)
     }
   }
 

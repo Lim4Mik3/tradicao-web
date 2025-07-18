@@ -8,6 +8,7 @@ import {
   AuthService 
 } from '@/services/AuthService'
 import { clearAuthData } from '@/utils/authUtils'
+import { useNavigate } from 'react-router-dom'
 
 export function useAuth() {
   const [user, setUser] = useState<any>(null)
@@ -16,6 +17,14 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [initialized, setInitialized] = useState(false)
   const [retryCount, setRetryCount] = useState(0)
+  // Só use useNavigate se estiver dentro de um contexto de navegador
+  let navigate: ReturnType<typeof useNavigate> | null = null;
+  try {
+    navigate = useNavigate();
+  } catch {
+    // Se não estiver em contexto de navegador, ignore
+    navigate = null;
+  }
 
   // Monitora mudanças na autenticação
   useEffect(() => {
@@ -24,9 +33,6 @@ export function useAuth() {
     const unsubscribe = onAuthStateChange((session) => {
       if (!isMounted) return
 
-      if (import.meta.env.DEV) {
-        console.log('🔐 Auth state change received:', !!session);
-      }
 
       setSession(session)
       setUser(session?.user || null)
@@ -59,15 +65,9 @@ export function useAuth() {
 
   const initializeAuth = async () => {
     try {
-      if (import.meta.env.DEV) {
-        console.log('🔐 Inicializando autenticação...');
-      }
-
       const sessionResult = await getCurrentSession()
-      
       // Se já foi inicializado pelo listener, não sobrescreve
       if (initialized) return
-      
       if (sessionResult.success) {
         setSession(sessionResult.session)
         setUser(sessionResult.user)
@@ -77,7 +77,17 @@ export function useAuth() {
         setSession(null)
         setUser(null)
         setIsAuthenticated(false)
-        
+        clearAuthData()
+        // Não redireciona para login aqui!
+        // O controle de redirecionamento fica nas rotas (PublicRoute/PrivateRoute)
+        // Se sessão expirada ou inválida, redireciona para login
+        if (
+          (sessionResult.error === 'Sessão expirada' ||
+          sessionResult.error === 'Nenhuma sessão ativa encontrada') &&
+          navigate
+        ) {
+          // navigate('/login', { replace: true })
+        }
         // Se houve erro e ainda não tentou muitas vezes, tenta novamente
         if (retryCount < 3 && sessionResult.error !== 'Nenhuma sessão ativa encontrada') {
           setTimeout(() => {
@@ -88,11 +98,10 @@ export function useAuth() {
         }
       }
     } catch (error) {
-      console.error('Erro ao inicializar autenticação:', error)
       setSession(null)
       setUser(null)
       setIsAuthenticated(false)
-      
+      clearAuthData()
       // Retry logic para erros de rede
       if (retryCount < 3) {
         setTimeout(() => {
@@ -158,7 +167,6 @@ export function useAuth() {
         setIsAuthenticated(true)
       }
     } catch (error) {
-      console.error('Erro ao atualizar sessão:', error)
     }
   }
 

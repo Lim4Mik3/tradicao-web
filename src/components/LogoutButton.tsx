@@ -26,12 +26,10 @@ export function LogoutButton({ className, children }: LogoutButtonProps) {
         // Redireciona para a página de login após logout
         navigate('/login', { replace: true })
       } else {
-        console.error('Erro ao fazer logout:', result.error)
         // Mesmo com erro, tenta redirecionar (pode ser problema de rede)
         navigate('/login', { replace: true })
       }
     } catch (error) {
-      console.error('Erro inesperado no logout:', error)
       navigate('/login', { replace: true })
     } finally {
       setLoading(false)

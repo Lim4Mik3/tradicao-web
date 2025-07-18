@@ -7,26 +7,30 @@ const handleGetPredictions = debounceAsync(AddressService.searchAddresses, 500);
 
 interface AddressAutocompleteInputProps {
   title: string;
-  onChange: (placeId: string) => void;
+  onChange: (place: any) => void;
   hasError?: string;
+  value?: any;
 }
 
-export function AddressAutocompleteInput({ title, hasError, onChange }: AddressAutocompleteInputProps) {
-  const [mapSrc, setMapSrc] = useState('');
+export function AddressAutocompleteInput({ title, hasError, onChange, value }: AddressAutocompleteInputProps) {
+  const [mapSrc, setMapSrc] = useState(value?.value?.place_id ? 
+    `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=place_id:${value.value.place_id}` : 
+    '');
 
   const handleChoosedAddress = (selectedOption: AddressOption | null) => {
     if (selectedOption) {
       // Usar o place_id para criar o mapa
-      const newSrc = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=place_id:${selectedOption.value}`;
+      const newSrc = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=place_id:${selectedOption.value.place_id}`;
       setMapSrc(newSrc);
 
-      onChange(selectedOption.value);
+      onChange(selectedOption);
     } else {
       // Limpar quando não há seleção
       setMapSrc('');
       onChange('');
     }
   };
+  
   return (
     <div className="flex flex-col w-full">
       { title && (
@@ -46,6 +50,7 @@ export function AddressAutocompleteInput({ title, hasError, onChange }: AddressA
           menuShouldBlockScroll
           isClearable
           onChange={handleChoosedAddress}
+          value={value ? { label: value.label, value: value.value.place_id } : null}
           placeholder="Digite o endereço da unidade"
           noOptionsMessage={({ inputValue }) => 
             inputValue.length < 3 

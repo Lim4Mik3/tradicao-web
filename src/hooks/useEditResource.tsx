@@ -23,7 +23,6 @@ export function useEditResource() {
       queryClient.invalidateQueries({ queryKey: ['resource', updatedResource.id] });
     },
     onError: (error) => {
-      console.error('Erro ao editar recurso:', error);
     },
   });
 }
