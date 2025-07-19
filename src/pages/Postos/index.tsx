@@ -6,6 +6,8 @@ import Tradicao from "../../../public/tradicao.png"
 import { Input } from '@/components/Input';
 import { useListGasStationPublic } from '@/hooks/useListGasStationPublic';
 import { useGeolocation } from '@/hooks/useGeolocation';
+import { Clock, Cog, Locate, Mail, MapPin, Phone } from 'lucide-react';
+import { formatPhoneNumber } from '@/utils/formatPhoneNumber';
 
 export function PostosPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,19 +91,19 @@ export function PostosPage() {
   return (
     <AppLayout>
       <Helmet>
-        <title>Postos - Posto Tradição</title>
+        <title>Postos – Posto Tradição</title>
         <meta name="description" content="Conheça nossos pontos de abastecimento." />
       </Helmet>
 
       <main className="relative pb-20">
         <img 
           src={Tradicao}
-          alt="" 
+          alt="Imagem do Posto Tradição" 
           className="w-full h-[350px] object-cover" 
         />
 
         <div
-          className="transform -translate-y-1/2 bg-white p-10 rounded-md shadow-xl max-w-[60vw] w-full z-10 mx-auto flex items-center justify-between"
+          className="transform -translate-y-1/2 bg-white p-4 md:p-8 lg:p-10 rounded-md shadow-xl max-w-[1200px] w-full z-10 mx-auto flex flex-col md:flex-row items-center justify-between"
         >
           <Input
             title="Busque uma unidade"
@@ -111,14 +113,13 @@ export function PostosPage() {
             onChange={({ target }) => setSearchTerm(target.value)}
           />
 
-          <div className="min-w-max text-gray-500 flex flex-col items-end">
+          <div className="min-w-max text-gray-500 flex flex-col sm:items-end mt-4">
             {isLoading && (
-              <span className="text-sm text-blue-500 font-semibold">Carregando...</span>
+              <span className="text-sm text-blue-500 font-semibold">Carregando…</span>
             )}
             {!isLoading && (
               <span>
                 Encontrado{totalStations > 0 ? ` ${totalStations}` : " 0"} posto{totalStations !== 1 ? "s" : ""}
-                {userLocation && " próximos"}
               </span>
             )}
             {isError && (
@@ -127,10 +128,10 @@ export function PostosPage() {
           </div>
         </div>
 
-        <div className="max-w-[60vw] mx-auto">
+        <div className="max-w-[1200px] mx-auto px-8 lg:px-0">
           {isLoading && stations.length === 0 ? (
             // Loading inicial
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 gap-8">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div key={index} className="bg-gray-200 rounded-lg h-80 animate-pulse"></div>
               ))}
@@ -139,17 +140,16 @@ export function PostosPage() {
             // Nenhum resultado encontrado
             <div className="text-center py-20">
               <p className="text-gray-500 text-lg">
-                {searchTerm ? `Nenhum posto encontrado para "${searchTerm}"` : "Nenhum posto encontrado"}
+                {searchTerm ? `Nenhum posto encontrado para “${searchTerm}”` : "Nenhum posto encontrado"}
               </p>
             </div>
           ) : (
             // Resultados encontrados
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
               {stations.map((station: any) => (
                 <div 
                   key={station._id} 
-                  className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow"
-                  onClick={() => openMapsWithRoute(station)}
+                  className="flex flex-col overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-300"
                 >
                   <div className="relative">
                     <img 
@@ -164,27 +164,57 @@ export function PostosPage() {
                     </div>
                     {/* Mostrar distância quando usando localização */}
                     {userLocation && station.distanceKm && (
-                      <div className="absolute top-4 right-4 bg-red-600 text-white px-2 py-1 rounded-md text-xs font-semibold">
+                      <div className="absolute top-4 right-4 text-white px-2 py-1 rounded-md text-xs font-semibold">
                         {station.distanceKm.toFixed(1)} km
                       </div>
                     )}
                   </div>
                   
-                  <div className="p-4">
-                    <div className="flex items-start gap-3 mb-4">
-                      <div className="w-6 h-6 text-red-600 flex-shrink-0 mt-1">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                        </svg>
-                      </div>
-                      <p className="text-gray-700 text-sm leading-relaxed">
-                        {station.address?.label || station.address?.formatted || 
-                         `${station.address?.route || ""} ${station.address?.street_number || ""}, ${station.address?.neighborhood || ""}, ${station.address?.city || ""} - ${station.address?.state || ""}`.trim()}
+                  <div className="p-3 flex flex-col flex-1">
+                    <div className='flex flex-col gap-1 mb-3'>
+                      <p className="text-gray-700 text-xs leading-relaxed">
+                        <MapPin size={12} className='inline-flex mr-1 text-slate-900' />
+                        {station.address?.label}
                       </p>
+
+                      <p className="text-gray-700 text-xs leading-relaxed truncate">
+                        <Phone size={12} className='inline-flex mr-1 text-slate-900' />
+                        <a href={`tel:${station.phone}`} className="hover:underline text-ellipsis overflow-hidden whitespace-nowrap">
+                          {formatPhoneNumber(station.phone)}
+                        </a>
+                      </p>
+
+                      <p className="text-gray-700 text-xs leading-relaxed truncate">
+                        <Mail size={12} className='inline-flex mr-1 text-slate-900' />
+                        <a href={`mailto:${station.email}`} className="hover:underline text-ellipsis overflow-hidden whitespace-nowrap">
+                          {station.email}
+                        </a>
+                      </p>
+
+                      <div className='border-t border-gray-300 mt-2 py-2'>
+                        <p className="text-gray-700 text-xs leading-relaxed truncate">
+                          <Clock size={12} className='inline-flex mr-1 text-slate-900 font-bold' />
+                          
+                          <span className='font-semibold'>Horários de funcionamento:</span>
+
+                          <span className='block mt-1 ml-2'>Seg. a Sáb.: {station.comercial_hours}</span>
+                          <span className='block mt-1 ml-2'>Dom. e feriados: {station.holidays_hours}</span>
+                        </p>
+                      </div>
+
+                      {/* <div className='border-t border-gray-300 mt-2 py-2'>
+                        <p className="text-gray-700 text-xs leading-relaxed truncate">
+                          <Cog size={12} className='inline-flex mr-1 text-slate-900 font-bold' />
+                          <span className='font-semibold'>Serviços:</span>
+
+                          <span className='block mt-1 ml-2'>Seg. a Sáb.: {station.comercial_hours}</span>
+                          <span className='block mt-1 ml-2'>Dom. e feriados: {station.holidays_hours}</span>
+                        </p>
+                      </div> */}
                     </div>
                     
                     <button 
-                      className="flex items-center gap-2 text-red-600 hover:text-red-700 transition-colors text-sm font-medium"
+                      className="flex items-center gap-2 text-red-600 hover:text-red-700 transition-colors text-sm font-medium mt-auto cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         openMapsWithRoute(station);

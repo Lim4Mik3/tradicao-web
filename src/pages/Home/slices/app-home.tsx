@@ -2,7 +2,9 @@ import App1 from '@/assets/Banners/Banner_App_01.png';
 import App2 from '@/assets/Banners/Banner_App_02.png';
 import App3 from '@/assets/Banners/Banner_App_03.png';
 import { Carousel } from '@/components/Carousel';
-import { Button } from '@/components/ui/button';
+
+import AppStore from '@/../public/app-store-icon.png';
+import GooglePlay from '@/../public/play-store-icon.png';
 
 export function AppHomeSection() {
   return (
@@ -19,13 +21,14 @@ export function AppHomeSection() {
         </p>
         <p className='text-[#1C1C1C]'>Tecnologia e comodidade, juntos.</p>
         <p className='text-[#1C1C1C]'>Baixe o aplicativo agora na sua loja preferida.</p>
-        <div>
-          <Button
-            variant="default"
-            className="uppercase bg-[#D24248] text-white p-6"
-          >
-            Obtenha o aplicativo
-          </Button>
+        <div className='flex items-center gap-4 mt-4'>
+          <a href="https://apps.apple.com/br/app/rede-tradi%C3%A7%C3%A3o/id1556703028" target="_blank" rel="noreferrer">
+            <img className="w-[115px] h-[35px]" src={AppStore} alt="App Store" />
+          </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.argosistemas.redetradicao&hl=pt_BR" target="_blank" rel="noreferrer">
+            <img className="w-[115px] h-[35px]" src={GooglePlay} alt="Google Play" />
+          </a>
         </div>
       </div>
 

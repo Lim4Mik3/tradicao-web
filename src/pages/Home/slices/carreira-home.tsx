@@ -16,9 +16,12 @@ export function CarreiraSection() {
           Abasteça seu talento e profissionalismo em um de nossos postos, veja
           nossas vagas abertas.
         </p>
-        <Button variant="link" className="text-[#850B10]">
-          Saiba mais <ArrowRight />
-        </Button>
+
+        <a target='_blank' href="https://painel.umentor.com.br/inteligente_novos/?con_cod=aca479200&pla=5">
+          <Button variant="link" className="text-[#850B10]">
+            Saiba mais <ArrowRight />
+          </Button>
+        </a>
       </Card>
     </section>
   );

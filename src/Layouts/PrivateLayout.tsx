@@ -78,7 +78,7 @@ export function PrivateLayout({ children, className }: Props) {
         </div>
         
         <div
-          className="py-10 px-1 h-full w-full max-w-[60vw] mx-auto overflow-hidden"
+          className="py-10 px-1 h-full w-full max-w-[1200px] mx-auto overflow-hidden"
         >
           {children}
         </div>

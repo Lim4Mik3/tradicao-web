@@ -1,4 +1,5 @@
 import { supabase } from "@/infra/supabase";
+import { normalizeString } from "@/utils/normalizeString";
 
 export namespace GetGasStation {
   export type Input = {
@@ -45,9 +46,14 @@ export namespace GetGasStation {
 export async function ListGasStation(
   input: GetGasStation.Input
 ): Promise<GetGasStation.Output> {
-  const { term, page = 1, limit = 100 } = input;
+  let { term, page = 1, limit = 100 } = input;
   const from = (page - 1) * limit;
   const to = from + limit - 1;
+
+  // Normaliza o termo para busca sem acentuação
+  if (term) {
+    term = normalizeString(term);
+  }
 
   let query = supabase
     .from("gas_stations")
@@ -56,10 +62,55 @@ export async function ListGasStation(
     .order("created_at", { ascending: false });
 
   if (term && term.length >= 3) {
-    // Busca por nome OU por partes do endereço (cidade, bairro, rua)
-    query = query.or(
-      `name.ilike.%${term}%,address->>city.ilike.%${term}%,address->>neighborhood.ilike.%${term}%,address->>route.ilike.%${term}%`
-    );
+    // Busca por nome OU por partes do endereço (cidade, bairro, rua) - frontend, ignorando acento
+    // Busca todos e filtra manualmente
+    const { data, error, count } = await supabase
+      .from("gas_stations")
+      .select("*", { count: "exact" });
+
+    if (error) {
+      throw new Error("Erro na busca de postos de gasolina");
+    }
+
+    // Normaliza termo para comparação
+    const normalizedTerm = term;
+    const filtered = (data || []).filter((station: any) => {
+      const fields = [
+        station.name,
+        station.address?.city,
+        station.address?.neighborhood,
+        station.address?.route,
+      ];
+      return fields.some(f => f && normalizeString(f).includes(normalizedTerm));
+    });
+
+    const stations = filtered.slice(from, to + 1).map((station: any) => ({
+      _id: station.id,
+      name: station.name,
+      email: station.email,
+      address: station.address,
+      filialNumber: station.filial_number,
+      apps: station.apps || [],
+      phone: station.phone || "",
+      services: station.services || [],
+      brands: station.brands || [],
+      comercial_hours: station.comercial_hours || "",
+      holidays_hours: station.holidays_hours || "",
+      conveniences: station.conveniences || [],
+      oilChanges: station.oil_changes || [],
+      location: {
+        type: "Point",
+        coordinates: station.address?.coordinates || [0, 0],
+      },
+      images: station.images || [],
+      createdAt: station.created_at,
+      updatedAt: station.updated_at,
+    }));
+
+    return {
+      page,
+      stations,
+    };
   }
 
   const { data, error, count } = await query;
@@ -75,8 +126,11 @@ export async function ListGasStation(
     address: station.address,
     filialNumber: station.filial_number,
     apps: station.apps || [],
+    phone: station.phone || "",
     services: station.services || [],
     brands: station.brands || [],
+    comercial_hours: station.comercial_hours || "",
+    holidays_hours: station.holidays_hours || "",
     conveniences: station.conveniences || [],
     oilChanges: station.oil_changes || [],
     location: {

@@ -1,9 +1,10 @@
 import { useGetGasStations } from '@/hooks/useGetGasStations';
 import { getLocationByIP } from '@/services/GetLocationByIp';
-import { GoogleMap, InfoWindowF, MarkerF, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, InfoWindowF, MarkerF, OverlayView, useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button } from '../Button';
+import { CircleX } from 'lucide-react';
 
 const mapOptions: google.maps.MapOptions = {
   streetViewControl: false,
@@ -66,6 +67,10 @@ const Maps = () => {
     );
   };
 
+  const handleDetailsClick = () => {
+    window.location.href = '/postos';
+  };
+
   const fitMapToMarkers = () => {
     if (!mapRef.current) return;
 
@@ -110,6 +115,50 @@ const Maps = () => {
     }
   }, [state.data?.stations, preciseLocation]);
 
+  const openMapsWithRoute = (station: any) => {
+    const [lng, lat] = station.location?.coordinates || [0, 0];
+    if (!lat || !lng) return;
+
+    const destination = `${lat},${lng}`;
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+
+    if (isMobile) {
+      if (isIOS) {
+        // Para iOS - tenta abrir Apple Maps primeiro, depois Google Maps
+        const appleMapsUrl = `maps://maps.google.com/maps?daddr=${destination}&amp;ll=`;
+        const googleMapsUrl = `comgooglemaps://?daddr=${destination}`;
+        const webFallback = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+        
+        // Tenta Apple Maps
+        window.location.href = appleMapsUrl;
+        
+        // Fallback após 500ms
+        setTimeout(() => {
+          window.location.href = googleMapsUrl;
+          setTimeout(() => {
+            window.open(webFallback, '_blank');
+          }, 500);
+        }, 500);
+      } else if (isAndroid) {
+        // Para Android - tenta Google Maps app primeiro
+        const googleMapsApp = `google.navigation:q=${destination}`;
+        const webFallback = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+        
+        window.location.href = googleMapsApp;
+        
+        // Fallback após 500ms
+        setTimeout(() => {
+          window.open(webFallback, '_blank');
+        }, 500);
+      }
+    } else {
+      // Desktop - abre Google Maps web
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
+    }
+  };
+
   if (loadError) return <div>Erro ao carregar o mapa</div>;
   if (!isLoaded) return <div>Carregando o mapa...</div>;
 
@@ -128,7 +177,7 @@ const Maps = () => {
         {state.data?.stations?.map((station) => (
           <MarkerF
             key={station.id}
-            position={{ lat: station.address.coordinates[1], lng: station.address.coordinates[0] }} // PostGIS format: [lng, lat]
+            position={{ lat: station.address.coordinates[1], lng: station.address.coordinates[0] }}
             icon={{
               url: '/bg-icon.png',
               scaledSize: new window.google.maps.Size(50, 50),
@@ -137,26 +186,44 @@ const Maps = () => {
             onClick={() => setSelectedStation(station)}
           >
             {selectedStation?.id === station.id && (
-              <InfoWindowF
-                position={{
-                  lat: station.address.coordinates[1], // PostGIS format: [lng, lat]
-                  lng: station.address.coordinates[0]
-                }}
-                onCloseClick={() => setSelectedStation(null)}
-                options={{ headerDisabled: true }}
+              <OverlayView
+                position={{ lat: selectedStation.address.coordinates[1], lng: selectedStation.address.coordinates[0] }}
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
               >
-                <div className='p-4'>
-                  <h3 className='text-xl text-zinc-900 tracking-wide font-semibold mb-4'>
-                    {station.name}
-                  </h3>
-                  <p className='text-xs text-zinc-700'>{station.address.formatted}</p>
+                <div className='flex relative overflow-hidden min-w-max flex-col rounded-lg'>
+                  <button type='button' className='absolute top-2 right-2 z-10 bg-black/20 rounded-full p-1 cursor-pointer shadow-md hover:bg-black/30 transition-colors' onClick={() => setSelectedStation(null)}>
+                    <CircleX />
+                  </button>
 
+                  <img 
+                    src={selectedStation.images[0]} 
+                    alt={selectedStation.name} 
+                    className='object-cover w-[260px] h-[150px]'
+                  />
+                  <div
+                    className='p-4 bg-white max-w-[260px] space-y-2'
+                  >
+                    <p className='text-sm text-gray-900 font-semibold'>{selectedStation.name}</p>
 
-                  <Button className='mt-10'>
-                    Ver detalhes
-                  </Button>
+                    <span className='text-xs text-gray-600'>
+                      {selectedStation.address.label}
+                    </span>
+
+                    <button 
+                      className="flex items-center gap-2 text-red-600 hover:text-red-700 transition-colors text-sm font-medium mt-2 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openMapsWithRoute(selectedStation);
+                      }}
+                    >
+                      <span>Como chegar</span>
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </InfoWindowF>
+              </OverlayView>
             )}
           </MarkerF>
         ))}

@@ -36,12 +36,12 @@ export function Footer() {
             >
               Contato
             </NavLink>
-            <NavLink
+            {/* <NavLink
               className="p-2 text-[#D24248] rounded-md transition"
               to="/login"
             >
               Backoffice
-            </NavLink>
+            </NavLink> */}
           </div>
         </div>
       </div>

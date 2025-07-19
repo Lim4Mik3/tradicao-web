@@ -6,8 +6,8 @@ import { Separator } from '../ui/separator';
 export function Header() {
   return (
     <header className="md:flex hidden bg-white flex-col z-40 w-full items-center justify-center">
-      <div className="flex h-24 max-w-[60vw] items-center justify-between w-full">
-        <a href="/">
+      <div className="flex h-24 max-w-[1200px] px-4 items-center justify-between w-full">
+        <a href="/" className='mr-4'>
           <img src={LogoPosto} alt="logo" className='max-h-14 h-full object-contain' />
         </a>
         <nav className="flex items-center space-x-4 lg:space-x-6">

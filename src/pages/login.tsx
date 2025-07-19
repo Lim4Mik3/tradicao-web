@@ -70,7 +70,7 @@ export function LoginPage() {
       <div className="relative w-full h-screen">
         <img
           src={Banner}
-          className="w-full object-cover h-screen object-center"
+          className="hidden md:flex w-full object-cover h-screen object-center"
         />
       {/* Gradiente sobreposto */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent pointer-events-none" />

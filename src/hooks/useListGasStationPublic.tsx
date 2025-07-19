@@ -1,6 +1,7 @@
 import { ListGasStation } from "@/services/ListGasStation";
 import { SearchNearbyGasStations } from "@/services/SearchNearbyGasStations";
 import { debounce } from "@/utils/debounce";
+import { normalizeString } from "@/utils/normalizeString";
 import { useQuery } from "@tanstack/react-query";
 
 interface UseGasStationsPublicParams {
@@ -29,7 +30,17 @@ export const useListGasStationPublic = ({
         radiusKm,
         limit: 100,
       });
-      
+
+      if (!result.stations || result.stations.length === 0) {
+        // Se não encontrou nada por proximidade, busca geral
+        const allResult = await ListGasStation({
+          term: undefined,
+          page: 1,
+          limit: 100,
+        });
+        return allResult;
+      }
+
       // Converter formato para compatibilidade
       return {
         page: 1,
@@ -42,6 +53,7 @@ export const useListGasStationPublic = ({
           apps: station.apps || [],
           services: station.services || [],
           brands: station.brands || [],
+          phone: station.phone,
           conveniences: station.conveniences || [],
           oilChanges: station.oilChanges || [],
           location: {
@@ -57,8 +69,9 @@ export const useListGasStationPublic = ({
     }
     
     // Busca por texto normal
+    let normalizedTerm = params.term ? normalizeString(params.term) : undefined;
     const result = await ListGasStation({
-      term: params.term,
+      term: normalizedTerm,
       page: 1,
       limit: 100,
     });
